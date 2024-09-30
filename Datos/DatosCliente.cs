@@ -8,5 +8,5 @@ namespace Datos
 {
     public class DatosCliente
     {
-    }//test
+    }
 }

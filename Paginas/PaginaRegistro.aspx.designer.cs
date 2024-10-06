@@ -7,11 +7,11 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace TuProyecto
+namespace Proyecto1AdminBD.Paginas
 {
 
 
-    public partial class PaginaCliente
+    public partial class PaginaRegistro
     {
     }
 }

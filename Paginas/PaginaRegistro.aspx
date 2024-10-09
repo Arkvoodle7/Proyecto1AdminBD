@@ -5,100 +5,78 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Crear Cuenta</h3>
-                                </div>
-                                <div class="card-body">
-                                    <form id="registroForm">
-                                        <!-- Selección del tipo de usuario -->
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="rol" onchange="mostrarCamposPorRol()">
-                                                <option value="" selected disabled>Seleccionar tipo de usuario</option>
-                                                <option value="cliente">Cliente</option>
-                                                <option value="proveedor">Oferente de servicios</option>
-                                                <option value="transportista">Transportista</option>
-                                            </select>
-                                            <label for="rol">Tipo de Usuario</label>
-                                        </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Crear Cuenta</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Mensaje de error o confirmación -->
+                        <asp:Label ID="lblMensaje" runat="server" ForeColor="Red"></asp:Label>
 
-                                        <!-- Campos comunes -->
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputNombre" type="text" placeholder="Ingresa tu nombre" />
-                                            <label for="inputNombre">Nombre</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputApellido" type="text" placeholder="Ingresa tu apellido" />
-                                            <label for="inputApellido">Apellido</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputEmail" type="email" placeholder="correo@ejemplo.com" />
-                                            <label for="inputEmail">Correo Electrónico</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputPassword" type="password" placeholder="Crea una contraseña" />
-                                            <label for="inputPassword">Contraseña</label>
-                                        </div>
+                        <!-- Tipo de Usuario -->
+                        <div class="form-group mb-3">
+                            <asp:DropDownList ID="ddlTipoUsuario" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlTipoUsuario_SelectedIndexChanged">
+                                <asp:ListItem Text="Seleccionar tipo de usuario" Value="" />
+                                <asp:ListItem Text="Cliente" Value="cliente" />
+                                <asp:ListItem Text="Proveedor" Value="proveedor" />
+                                <asp:ListItem Text="Transportista" Value="transportista" />
+                            </asp:DropDownList>
+                        </div>
 
-                                        <!-- Campos específicos por rol -->
-                                        <div id="camposCliente" style="display:none;">
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputDireccion" type="text" placeholder="Ingresa tu dirección" />
-                                                <label for="inputDireccion">Dirección</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputTelefono" type="text" placeholder="Teléfono" />
-                                                <label for="inputTelefono">Teléfono</label>
-                                            </div>
-                                        </div>
+                        <!-- Nombre -->
+                        <div class="form-group mb-3">
+                            <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" placeholder="Nombre" />
+                        </div>
 
-                                        <div id="camposTransportista" style="display:none;">
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputTipoTransporte" type="text" placeholder="Tipo de Transporte" />
-                                                <label for="inputTipoTransporte">Tipo de Transporte</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputContactoTransp" type="text" placeholder="Teléfono/Correo" />
-                                                <label for="inputContactoTransp">Contacto</label>
-                                            </div>
-                                        </div>
+                        <!-- Apellido -->
+                        <div class="form-group mb-3">
+                            <asp:TextBox ID="txtApellido" runat="server" CssClass="form-control" placeholder="Apellido" />
+                        </div>
 
-                                        <div id="camposProveedor" style="display:none;">
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputNombreEmpresa" type="text" placeholder="Nombre de la Empresa" />
-                                                <label for="inputNombreEmpresa">Nombre de la Empresa</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputDireccionEmpresa" type="text" placeholder="Dirección de la Empresa" />
-                                                <label for="inputDireccionEmpresa">Dirección</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputContactoEmpresa" type="text" placeholder="Teléfono/Correo" />
-                                                <label for="inputContactoEmpresa">Contacto</label>
-                                            </div>
-                                        </div>
+                        <!-- Correo Electrónico -->
+                        <div class="form-group mb-3">
+                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Correo Electrónico" TextMode="Email" />
+                        </div>
 
-                                        <div class="mt-4 mb-0">
-                                            <div class="d-grid">
-                                                <button class="btn btn-primary btn-block" type="submit">Crear Cuenta</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="PaginaLogin.aspx">¿Ya tienes una cuenta? Inicia sesión</a></div>
-                                </div>
-                            </div>
+                        <!-- Contraseña -->
+                        <div class="form-group mb-3">
+                            <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" placeholder="Contraseña" TextMode="Password" />
+                        </div>
+
+                        <!-- Campos específicos para Cliente -->
+                        <div id="clienteFields" runat="server" visible="false">
+                            <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control mb-3" placeholder="Dirección" />
+                            <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control mb-3" placeholder="Teléfono" />
+                        </div>
+
+                        <!-- Campos específicos para Proveedor -->
+                        <div id="proveedorFields" runat="server" visible="false">
+                            <asp:TextBox ID="txtNombreEmpresa" runat="server" CssClass="form-control mb-3" placeholder="Nombre de Empresa" />
+                            <asp:TextBox ID="txtDireccionProveedor" runat="server" CssClass="form-control mb-3" placeholder="Dirección de Empresa" />
+                            <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control mb-3" placeholder="Contacto" />
+                        </div>
+
+                        <!-- Campos específicos para Transportista -->
+                        <div id="transportistaFields" runat="server" visible="false">
+                            <asp:TextBox ID="txtTipoTransporte" runat="server" CssClass="form-control mb-3" placeholder="Tipo de Transporte" />
+                            <asp:TextBox ID="txtContactoTransporte" runat="server" CssClass="form-control mb-3" placeholder="Contacto" />
+                        </div>
+
+                        <!-- Botón Registrar -->
+                        <div class="d-grid">
+                            <asp:Button ID="btnRegistrar" runat="server" CssClass="btn btn-primary" Text="Crear Cuenta" OnClick="btnRegistrar_Click" />
+                        </div>
+
+                        <!-- Link para iniciar sesión -->
+                        <div class="text-center mt-4">
+                            <a href="PaginaLogin.aspx">¿Ya tienes una cuenta? Inicia sesión</a>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
 

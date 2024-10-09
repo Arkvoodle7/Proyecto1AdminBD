@@ -13,6 +13,9 @@
                         <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-primary mt-3" Text="Iniciar Sesión" OnClick="btnLogin_Click" />
                     </div>
                 </div>
+                <div class="text-center mt-4">
+                    <a href="PaginaRegistro.aspx">¿Aún no tienes cuenta? Crea una aquí</a>
+                </div>
             </div>
         </div>
     </div>

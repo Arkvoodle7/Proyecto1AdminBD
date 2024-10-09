@@ -26,8 +26,7 @@
                     <div class="mb-3">
                         <label for="tipoTransporte" class="form-label">Tipo de Transporte</label>
                         <asp:TextBox ID="tipoTransporte" runat="server"></asp:TextBox>
-                    </div>
-                    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click" />
+                    </div>                   
                     <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" OnClick="btnActualizar_Click" />
                     <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" OnClick="btnEliminar_Click" />
                     <asp:Label ID="lblMensaje" runat="server" ForeColor="Red" Visible="False"></asp:Label>                

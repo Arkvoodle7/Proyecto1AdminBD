@@ -7,29 +7,31 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid px-4">
         <h1 class="mt-4">Transportistas</h1>
-        <h3 class="mt-4"></h3>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-truck me-1"></i>
                 Datos Personales
             </div>
             <div class="card-body">
-                <form>
+                <!-- Reemplazamos el formulario HTML por un asp:Panel -->
+                <asp:Panel ID="PanelTransportista" runat="server">
                     <div class="mb-3">
                         <label for="nombreTransportista" class="form-label">Nombre Completo</label>
-                        <input type="text" class="form-control" id="nombreTransportista" placeholder="Carlos Ramírez">
+                        <asp:TextBox ID="nombreTransportista" runat="server"></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label for="contacto" class="form-label">Contacto</label>
-                        <input type="text" class="form-control" id="contacto" placeholder="Teléfono/Correo">
+                        <asp:TextBox ID="contacto" runat="server"></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label for="tipoTransporte" class="form-label">Tipo de Transporte</label>
-                        <input type="text" class="form-control" id="tipoTransporte" placeholder="Motocicleta/Camión">
+                        <asp:TextBox ID="tipoTransporte" runat="server"></asp:TextBox>
                     </div>
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                    <button type="submit" class="btn btn-primary">Eliminar</button>
-                </form>
+                    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click" />
+                    <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" OnClick="btnActualizar_Click" />
+                    <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" OnClick="btnEliminar_Click" />
+                    <asp:Label ID="lblMensaje" runat="server" ForeColor="Red" Visible="False"></asp:Label>                
+                </asp:Panel>
             </div>
         </div>
 
@@ -57,3 +59,5 @@
         </div>
     </div>
 </asp:Content>
+
+

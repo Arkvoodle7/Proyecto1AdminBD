@@ -13,10 +13,10 @@
 <body class="sb-nav-fixed">
     <!-- Navbar -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
+        <!-- Navbar Brand -->
         <a class="navbar-brand ps-3" href="#">Sistema de Envíos</a>
 
-        <!-- Aquí se añade una clase 'ml-auto' para alinear el ícono del usuario a la derecha -->
+        <!-- Usuario con icono a la derecha -->
         <div class="d-flex ms-auto">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
@@ -69,20 +69,22 @@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                        <div class="small">Sesión actual:</div>
-                        Administrador
+                    <div class="small">Sesión actual:</div>
+                    Administrador
                 </div>
             </nav>
         </div>
 
         <!-- Main Content -->
         <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-                </div>
-            </main>
-            
+            <form id="form1" runat="server">
+                <main>
+                    <div class="container-fluid px-4">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                    </div>
+                </main>
+            </form>
+
             <!-- Footer -->
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">

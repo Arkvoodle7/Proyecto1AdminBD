@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="css\styles.css" />
     <Content Include="js\scripts.js" />
+    <Content Include="Paginas\PaginaEnvios.aspx" />
     <Content Include="Paginas\PaginaCliente.aspx" />
     <Content Include="Paginas\PaginaEmpresa.aspx" />
     <Content Include="Paginas\PaginaLogin.aspx" />
@@ -78,6 +79,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Paginas\PaginaEnvios.aspx.cs">
+      <DependentUpon>PaginaEnvios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaEnvios.aspx.designer.cs">
+      <DependentUpon>PaginaEnvios.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Paginas\Pagina.Master.cs">
       <DependentUpon>Pagina.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -65,6 +65,10 @@
                                     <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                                     Transportistas
                                 </a>
+                                 <a class="nav-link" href="PaginaEnvios.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-shipping-fast"></i></div>
+                                    Envíos
+                                </a>
                             </asp:PlaceHolder>
 
                             <!-- Opciones cuando no ha iniciado sesión -->

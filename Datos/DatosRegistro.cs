@@ -31,7 +31,7 @@ namespace Datos
             }
         }
 
-        public void AgregarProveedor(string nombre, string apellido, string email, string password, string nombreEmpresa, string direccion, string contacto)
+        public void AgregarProveedor(string nombre, string apellido, string email, string password, string rol, string nombreEmpresa, string direccion, string contacto)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -41,6 +41,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Apellido", apellido);
                 cmd.Parameters.AddWithValue("@Email", email);
                 cmd.Parameters.AddWithValue("@Password", password);
+                cmd.Parameters.AddWithValue("@Rol", rol);
                 cmd.Parameters.AddWithValue("@NombreEmpresa", nombreEmpresa);
                 cmd.Parameters.AddWithValue("@Direccion", direccion);
                 cmd.Parameters.AddWithValue("@Contacto", contacto);

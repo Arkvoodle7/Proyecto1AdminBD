@@ -132,16 +132,15 @@ namespace Datos
             }
         }
 
-        public Productos ObtenerProducto(int IdProducto)
+        public List<string> ObtenerProducto(int IdProducto)
         {
-            Productos pr = new Productos();
-            
+            List<string> pr = new List<string>();
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdProducto", IdProducto);
-
 
                 try
                 {
@@ -149,28 +148,26 @@ namespace Datos
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        pr.Id = Convert.ToInt32(reader["IdUsuario"]);
-                        pr.IdProveedor = Convert.ToInt32(reader["IdUsuario"]);
-                        pr.Nombre = reader["Rol"].ToString();
-                        pr.Categoria = reader["Rol"].ToString();
-                        pr.Precio = Convert.ToDecimal(reader["IdUsuario"]);
-                        pr.TiempoEntrega = Convert.ToInt32(reader["IdUsuario"]);
-                        
+                        pr.Add(reader["id_producto"].ToString());
+                        pr.Add(reader["id_proveedor"].ToString());
+                        pr.Add(reader["nombre"].ToString());
+                        pr.Add(reader["categoria"].ToString());
+                        pr.Add(reader["precio"].ToString());
+                        pr.Add(reader["tiempo_entrega"].ToString());
                     }
-                    return pr;
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error al encontrar un producto" + ex.Message);
+                    throw new Exception("Error al encontrar el producto: " + ex.Message);
                 }
             }
+
+            return pr;
         }
 
-
-
-        public List<Productos> ObtenerProductosLista(string categoria)
+        public List<List<string>> ObtenerProductosLista(string categoria)
         {
-            List<Productos> listaPr = new List<Productos>();
+            List<List<string>> productosLista = new List<List<string>>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -178,31 +175,32 @@ namespace Datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
 
+
                 try
                 {
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Productos pr = new Productos();
+                        List<string> pr = new List<string>();
 
-                        pr.Id = Convert.ToInt32(reader["id_producto"]); 
-                        pr.IdProveedor = Convert.ToInt32(reader["id_proveedor"]); 
-                        pr.Nombre = reader["nombre"].ToString(); 
-                        pr.Categoria = reader["categoria"].ToString(); 
-                        pr.Precio = Convert.ToDecimal(reader["precio"]); 
-                        pr.TiempoEntrega = Convert.ToInt32(reader["tiempo_entrega"]); 
+                        pr.Add(reader["id_producto"].ToString());
+                        pr.Add(reader["id_proveedor"].ToString());
+                        pr.Add(reader["nombre"].ToString());
+                        pr.Add(reader["categoria"].ToString());
+                        pr.Add(reader["precio"].ToString());
+                        pr.Add(reader["tiempo_entrega"].ToString());
 
-                        listaPr.Add(pr);
+
+                        productosLista.Add(pr);
                     }
+                    return productosLista;
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error al encontrar productos por categoría: " + ex.Message);
+                    throw new Exception("Error al encontrar productos: " + ex.Message);
                 }
             }
-
-            return listaPr;
         }
 
 
@@ -273,21 +271,7 @@ namespace Datos
                 }
             }
         }
-
-
-
     }
-
-
-    public class Productos
-    {
-        public int Id { get; set; }
-        public int IdProveedor { get; set; }
-        public string Nombre { get; set; }
-        public string Categoria { get; set; }
-        public decimal Precio { get; set; }
-        public int TiempoEntrega { get; set; }
-    }
-    
 }
+
 

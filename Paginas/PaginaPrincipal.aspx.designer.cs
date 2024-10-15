@@ -15,13 +15,13 @@ namespace Proyecto1AdminBD.Paginas
     {
 
         /// <summary>
-        /// Control btnRopa.
+        /// Control btnComida.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRopa;
+        protected global::System.Web.UI.WebControls.Button btnComida;
 
         /// <summary>
         /// Control btnZapatos.
@@ -33,13 +33,13 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.Button btnZapatos;
 
         /// <summary>
-        /// Control btnComida.
+        /// Control btnRopa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnComida;
+        protected global::System.Web.UI.WebControls.Button btnRopa;
 
         /// <summary>
         /// Control btnAgregarCarrito.

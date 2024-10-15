@@ -34,7 +34,7 @@ namespace Datos
                         return (null, 0); // Si no hay coincidencia
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Manejo de errores
                     return (null, 0);

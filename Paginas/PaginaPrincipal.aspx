@@ -8,11 +8,11 @@
     <div class="container-fluid px-4">
         <h1 class="mt-4">Página Principal</h1>
         <h3 class="mt-4">
-            <asp:Button ID="btnRopa" runat="server" BackColor="White" Height="33px" OnClick="btnRopa_Click" Text="Ropa" Width="172px" />
-            <asp:Button ID="btnZapatos" runat="server" BackColor="White" Height="33px" OnClick="btnZapatos_Click" Text="Zapatos" Width="172px" />
-            <asp:Button ID="btnComida" runat="server" BackColor="White" Height="33px" OnClick="btnComida_Click" Text="Comida" Width="172px" />
-            <asp:Button ID="btnAgregarCarrito" runat="server" OnClick="btnAgregarCarrito_Click" Text="Agregar al carrito" />
+<asp:Button ID="btnComida" runat="server" BackColor="White" Height="33px" OnClick="btnComida_Click" Text="Comida" Width="172px" />
+<asp:Button ID="btnZapatos" runat="server" BackColor="White" Height="33px" OnClick="btnZapatos_Click" Text="Zapatos" Width="172px" />
+<asp:Button ID="btnRopa" runat="server" BackColor="White" Height="33px" OnClick="btnRopa_Click" Text="Ropa" Width="172px" />
         </h3>
+           <!-- <asp:Button ID="btnAgregarCarrito" runat="server" OnClick="btnAgregarCarrito_Click" Text="Agregar al carrito" />  -->
 
         <div class="card-body">
             <table id="ProductosTable" runat="server" class="table table-striped">

@@ -51,20 +51,22 @@ namespace Proyecto1AdminBD.Paginas
             }
         }
 
-        protected void btnComida(object sender, EventArgs e)
+        protected void btnComida_Click(object sender, EventArgs e)
         {
             CargarProductos("Comida");
         }
 
-        protected void btnZapatos(object sender, EventArgs e)
+        protected void btnZapatos_Click(object sender, EventArgs e)
         {
             CargarProductos("Zapatos");
         }
 
-        protected void btnRopa(object sender, EventArgs e)
+        protected void btnRopa_Click(object sender, EventArgs e)
         {
             CargarProductos("Ropa");
         }
+
+
 
         protected void RowCommand(object sender, CommandEventArgs e)
         {

@@ -90,5 +90,20 @@ namespace Proyecto1AdminBD.Paginas
                 empresa.InsertCarrito(int.Parse(Cedula), int.Parse(idProducto));
             }
         }
+
+        protected void btnGuardar_Click(object sender, EventArgs e)
+        {
+            empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+        }
+
+        protected void btnActualizar_Click(object sender, EventArgs e)
+        {
+            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            empresa.DeleteProducto(Convert.ToInt32(txtCodigo.Text));
+        }
     }
 }

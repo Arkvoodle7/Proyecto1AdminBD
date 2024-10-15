@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Runtime.ConstrainedExecution;
 
 namespace Datos
 {
@@ -87,7 +88,7 @@ namespace Datos
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SP_InsertProducto", conn);
+                SqlCommand cmd = new SqlCommand("SP_UptadeProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@IdProducto", idProducto);
@@ -250,28 +251,69 @@ namespace Datos
             }
         }
 
-        public void InsertCarrito(int IdPedido, int IdProducto)
+        public int InsertCarrito(int cedula, int IdProducto)
         {
+            int resultado;
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SP_InsertCarrito", conn);
+                SqlCommand cmd = new SqlCommand("SP_ObtenerIdPedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@IdCliente", IdPedido);
-                cmd.Parameters.AddWithValue("@IdProducto", IdProducto);
-
+                cmd.Parameters.AddWithValue("@cedula", cedula);
 
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    resultado = cmd.ExecuteNonQuery(); 
+
+                    if (resultado == 1)
+                    {
+                        SqlCommand car = new SqlCommand("SP_InsertCarrito", conn);
+                        car.CommandType = CommandType.StoredProcedure;
+                        car.Parameters.AddWithValue("@cedula", cedula);
+                        car.Parameters.AddWithValue("@IdProducto", IdProducto);
+
+
+                        try
+                        {
+                            conn.Open();
+                            car.ExecuteNonQuery();
+                        }
+                        catch (SqlException ex)
+                        {
+                            throw new Exception("Error al insertar pedido: " + ex.Message);
+                        }
+                    }
+                    else if (resultado == 2)
+                    {
+                        SqlCommand car2 = new SqlCommand("SP_CreatePedido", conn);
+                        car2.CommandType = CommandType.StoredProcedure;
+                        car2.Parameters.AddWithValue("@cedula", cedula);
+                        car2.Parameters.AddWithValue("@IdProducto", IdProducto);
+
+
+                        try
+                        {
+                            conn.Open();
+                            car2.ExecuteNonQuery();
+                        }
+                        catch (SqlException ex)
+                        {
+                            throw new Exception("Error al insertar pedido: " + ex.Message);
+                        }
+                    }
                 }
                 catch (SqlException ex)
                 {
-                    throw new Exception("Error al insertar pedido: " + ex.Message);
+                    throw new Exception("Error al obtener el pedido: " + ex.Message);
                 }
             }
+
+            return resultado;
         }
+
     }
 }
+
 
 

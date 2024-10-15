@@ -69,13 +69,13 @@ namespace Negocios
             Empresa.DeleteProducto(idProducto);
         }
 
-        public void InsertCarrito(int IdPedido, int IdProducto)
+        public int InsertCarrito(int cedula, int IdProducto)
         {
-            if (IdPedido < 0 || IdProducto < 0)
+            if (cedula < 0 || IdProducto < 0)
             {
                 throw new ArgumentException("El valor debe de ser mayor a 0");
             }
-            Empresa.InsertCarrito(IdPedido, IdProducto);
+            return Empresa.InsertCarrito(cedula, IdProducto);
         }
 
         public void InsertPedido(int idCliente, int idProducto, int idTransportista, DateTime fechaPedido, string estado)

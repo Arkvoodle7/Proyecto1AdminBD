@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Gestión de Empresas
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid px-4">
         <h1 class="mt-4">Empresas</h1>
@@ -14,22 +13,20 @@
                 Información de la Empresa
             </div>
             <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="nombreEmpresa" class="form-label">Nombre de la Empresa</label>
-                        <input type="text" class="form-control" id="nombreEmpresa" placeholder="Empresa ABC">
-                    </div>
-                    <div class="mb-3">
-                        <label for="emailEmpresa" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="emailEmpresa" placeholder="empresa@ejemplo.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="ubicacion" class="form-label">Ubicación</label>
-                        <textarea class="form-control" id="ubicacion" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                    <button type="submit" class="btn btn-primary">Eliminar</button>
-                </form>
+                <div class="mb-3">
+                    <label for="nombreEmpresa" class="form-label">Nombre de la Empresa</label>
+                    <asp:TextBox ID="nombreEmpresa" runat="server" CssClass="form-control" Placeholder="Empresa ABC"></asp:TextBox>
+                </div>
+                <div class="mb-3">
+                    <label for="emailEmpresa" class="form-label">Correo Electrónico</label>
+                    <asp:TextBox ID="emailEmpresa" runat="server" CssClass="form-control" Placeholder="empresa@ejemplo.com"></asp:TextBox>
+                </div>
+                <div class="mb-3">
+                    <label for="ubicacion" class="form-label">Ubicación</label>
+                    <asp:TextBox ID="ubicacion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3"></asp:TextBox>
+                </div>
+                <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-primary" OnClick="btnActualizar_Click" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnEliminar_Click" />
             </div>
         </div>
 
@@ -39,17 +36,19 @@
                 Productos Registrados
             </div>
             <div class="card-body">
-                <table class="table table-striped">
+                <table id="ProductosTable" runat="server" class="table table-striped">
                     <thead>
                         <tr>
+                            <th>ID</th>
+                            <th>Provedor</th>
                             <th>Producto</th>
                             <th>Categoría</th>
                             <th>Precio</th>
-                            <th>Disponibilidad</th>
+                            <th>Tiempo de entrega</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Datos dinámicos aquí -->
+                        <!-- Las filas se agregan aquí -->
                     </tbody>
                 </table>
             </div>

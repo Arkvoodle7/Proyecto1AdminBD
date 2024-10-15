@@ -15,31 +15,49 @@ namespace Proyecto1AdminBD.Paginas
     {
 
         /// <summary>
-        /// Control nombreEmpresa.
+        /// Control lblNombreE.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox nombreEmpresa;
+        protected global::System.Web.UI.WebControls.Label lblNombreE;
 
         /// <summary>
-        /// Control emailEmpresa.
+        /// Control lblDireccion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox emailEmpresa;
+        protected global::System.Web.UI.WebControls.Label lblDireccion;
 
         /// <summary>
-        /// Control ubicacion.
+        /// Control lblContacto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ubicacion;
+        protected global::System.Web.UI.WebControls.Label lblContacto;
+
+        /// <summary>
+        /// Control lblHorario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblHorario;
+
+        /// <summary>
+        /// Control lblUbicacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUbicacion;
 
         /// <summary>
         /// Control btnActualizar.

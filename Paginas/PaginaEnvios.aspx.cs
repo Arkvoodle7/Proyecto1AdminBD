@@ -16,8 +16,8 @@ namespace Proyecto1AdminBD.Paginas
         {
             if (!IsPostBack)
             {
-          
-                CargarPedidos(); 
+                lblMensaje.Visible = false;  // Ocultar el mensaje al cargar la página
+                CargarPedidos();
             }
         }
 

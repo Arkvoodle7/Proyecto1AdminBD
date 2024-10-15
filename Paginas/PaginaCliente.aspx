@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Empresas" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaEmpresa.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaCliente" %>
+﻿<%@ Page Title="Clientes" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaCliente.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaCliente" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Gestión de Clientes
@@ -6,53 +6,34 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Clientes</h1>
+        <h1 class="mt-4">Gestión de Clientes</h1>
         <h3 class="mt-4"></h3>
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Información Personal
-            </div>
-            <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre Completo</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Juan Pérez">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="direccion" class="form-label">Dirección</label>
-                        <textarea class="form-control" id="direccion" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                    <button type="submit" class="btn btn-primary">Eliminar</button>
-                </form>
-            </div>
-        </div>
 
         <div class="card mb-4">
             <div class="card-header">
-                <i class="fas fa-shopping-cart me-1"></i>
-                Historial de Compras
+                <i class="fas fa-user me-1"></i>
+                Información Personal
             </div>
             <div class="card-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Datos dinámicos aquí -->
-                    </tbody>
-                </table>
+                <asp:Panel ID="PanelCliente" runat="server">
+                    <div class="mb-3">
+                        <label for="lblIdCliente" class="form-label">ID del Cliente</label>
+                        <asp:Label ID="lblIdCliente" runat="server" Text="" CssClass="form-control" ReadOnly="true" style="max-width: 200px;"></asp:Label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Telefono</label>
+                        <asp:TextBox ID="telefono" runat="server" CssClass="form-control" style="max-width: 300px;"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <asp:TextBox ID="direccion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" style="max-width: 300px;"></asp:TextBox>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-primary" OnClick="btnActualizar_Click" />
+                        <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-danger" OnClick="btnEliminar_Click" />
+                    </div>
+                    <asp:Label ID="lblMensaje" runat="server" ForeColor="Red" Visible="False" CssClass="mt-3"></asp:Label>
+                </asp:Panel>
             </div>
         </div>
     </div>

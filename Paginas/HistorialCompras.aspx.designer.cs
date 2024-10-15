@@ -11,25 +11,25 @@ namespace Proyecto1AdminBD.Paginas
 {
 
 
-    public partial class PaginaPrincipal
+    public partial class HistorialCompras
     {
 
         /// <summary>
-        /// Control rptCategorias.
+        /// Control gvHistorialCompras.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCategorias;
+        protected global::System.Web.UI.WebControls.GridView gvHistorialCompras;
 
         /// <summary>
-        /// Control lvProductos.
+        /// Control lblMensaje.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvProductos;
+        protected global::System.Web.UI.WebControls.Label lblMensaje;
     }
 }

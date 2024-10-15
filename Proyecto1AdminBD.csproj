@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="css\styles.css" />
     <Content Include="js\scripts.js" />
+    <Content Include="Paginas\HistorialCompras.aspx" />
     <Content Include="Paginas\PaginaEnvios.aspx" />
     <Content Include="Paginas\PaginaCliente.aspx" />
     <Content Include="Paginas\PaginaEmpresa.aspx" />
@@ -79,6 +80,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Paginas\HistorialCompras.aspx.cs">
+      <DependentUpon>HistorialCompras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\HistorialCompras.aspx.designer.cs">
+      <DependentUpon>HistorialCompras.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Paginas\PaginaEnvios.aspx.cs">
       <DependentUpon>PaginaEnvios.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

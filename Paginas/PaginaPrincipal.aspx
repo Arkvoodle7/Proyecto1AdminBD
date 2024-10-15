@@ -1,110 +1,52 @@
-﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaPrincipal.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaPrincipal" %>
+﻿<%@ Page Title="Productos" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaPrincipal.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaPrincipal" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Página Principal
+    Productos
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Página Principal</h1>
-        <h3 class="mt-4"></h3>
-
-        <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-primary text-white mb-4">
-                    <div class="card-body">Primary Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        <h1 class="mt-4">Productos</h1>
+        
+        <!-- Categorías -->
+        <div class="row mb-4">
+            <asp:Repeater ID="rptCategorias" runat="server">
+                <ItemTemplate>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card bg-info text-white">
+                            <div class="card-body"><%# Eval("categoria") %></div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <asp:LinkButton ID="lnkCategoria" runat="server" CommandArgument='<%# Eval("categoria") %>' OnClick="CategoriaSeleccionada" CssClass="small text-white stretched-link">Ver Productos</asp:LinkButton>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-warning text-white mb-4">
-                    <div class="card-body">Warning Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Success Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-danger text-white mb-4">
-                    <div class="card-body">Danger Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
+                </ItemTemplate>
+            </asp:Repeater>
         </div>
 
+        <!-- Lista de Productos -->
         <div class="row">
-            <div class="col-xl-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-chart-area me-1"></i>
-                        Area Chart Example
+            <asp:ListView ID="lvProductos" runat="server">
+                <LayoutTemplate>
+                    <div class="row">
+                        <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
                     </div>
-                    <div class="card-body">
-                        <canvas id="myAreaChart" width="100%" height="40"></canvas>
+                </LayoutTemplate>
+                <ItemTemplate>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><%# Eval("nombre") %></h5>
+                                <p class="card-text">
+                                    Precio: <%# Eval("precio", "{0:C}") %><br />
+                                    Tiempo de entrega: <%# Eval("tiempo_entrega") %> días<br />
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-xl-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-chart-bar me-1"></i>
-                        Bar Chart Example
-                    </div>
-                    <div class="card-body">
-                        <canvas id="myBarChart" width="100%" height="40"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                DataTable Example
-            </div>
-            <div class="card-body">
-                <table id="datatablesSimple" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <!-- Aquí puedes agregar contenido dinámico para la tabla -->
-                    </tbody>
-                </table>
-            </div>
+                </ItemTemplate>
+            </asp:ListView>
         </div>
     </div>
 </asp:Content>

@@ -31,6 +31,17 @@ namespace Negocios
             return Empresa.ObtenerProductosLista(categoria);
         }
 
+
+        public List<List<string>> ObtenerProductosProvedor(int Provedor)
+        {
+            if (Provedor < 0)
+            {
+                throw new ArgumentException("El id de la empresa no puede ser negativo o nullo.");
+            }
+
+            return Empresa.ObtenerProductosProvedor(Provedor);
+        }
+
         public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega)
         {
             if (idProvedor <= 0 || tiempoEntrega < 0 || precio <= 0)
@@ -69,13 +80,13 @@ namespace Negocios
             Empresa.DeleteProducto(idProducto);
         }
 
-        public int InsertCarrito(int cedula, int IdProducto)
+        public void InsertCarrito(int cedula, int IdProducto)
         {
             if (cedula < 0 || IdProducto < 0)
             {
                 throw new ArgumentException("El valor debe de ser mayor a 0");
             }
-            return Empresa.InsertCarrito(cedula, IdProducto);
+            Empresa.InsertCarrito(cedula, IdProducto);
         }
 
         public void InsertPedido(int idCliente, int idProducto, int idTransportista, DateTime fechaPedido, string estado)

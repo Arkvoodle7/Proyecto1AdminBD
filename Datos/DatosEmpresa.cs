@@ -205,6 +205,45 @@ namespace Datos
         }
 
 
+        public List<List<string>> ObtenerProductosProvedor(int provedor)
+        {
+            List<List<string>> productosProvedor = new List<List<string>>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Provedor", provedor);
+
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        List<string> pr = new List<string>();
+
+                        pr.Add(reader["id_producto"].ToString());
+                        pr.Add(reader["id_proveedor"].ToString());
+                        pr.Add(reader["nombre"].ToString());
+                        pr.Add(reader["categoria"].ToString());
+                        pr.Add(reader["precio"].ToString());
+                        pr.Add(reader["tiempo_entrega"].ToString());
+
+
+                        productosProvedor.Add(pr);
+                    }
+                    return productosProvedor;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al encontrar productos: " + ex.Message);
+                }
+            }
+        }
+
+
         public void InsertPedido(int idCliente, int idProducto, int idTransportista, DateTime fechaPedido, string estado)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -308,7 +347,6 @@ namespace Datos
                     throw new Exception("Error al obtener el pedido: " + ex.Message);
                 }
             }
-
             return resultado;
         }
 

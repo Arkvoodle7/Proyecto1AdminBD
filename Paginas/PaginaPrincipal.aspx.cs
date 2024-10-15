@@ -75,8 +75,8 @@ namespace Proyecto1AdminBD.Paginas
                 string idProducto = data[0];
                 string Cedula = data[1]; 
 
-                // Insertar el producto en el carrito
-                empresa.InsertCarrito(idPedido, int.Parse(idProducto));
+                
+                empresa.InsertCarrito(int.Parse(Cedula), int.Parse(idProducto));
             }
         }
     }

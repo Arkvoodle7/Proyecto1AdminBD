@@ -14,17 +14,26 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="nombreEmpresa" class="form-label">Nombre de la Empresa</label>
-                    <asp:TextBox ID="nombreEmpresa" runat="server" CssClass="form-control" Placeholder="Empresa ABC"></asp:TextBox>
+                    <label for="lblNombreE" class="form-label">Nombre Empresa:</label>
+                    <asp:Label ID="lblNombreE" runat="server" CssClass="form-control">Empresa ABC</asp:Label>
                 </div>
                 <div class="mb-3">
-                    <label for="emailEmpresa" class="form-label">Correo Electrónico</label>
-                    <asp:TextBox ID="emailEmpresa" runat="server" CssClass="form-control" Placeholder="empresa@ejemplo.com"></asp:TextBox>
+                    <label for="lblDireccion" class="form-label">Dirección:</label>
+                    <asp:Label ID="lblDireccion" runat="server" CssClass="form-control">Calle Ejemplo 123</asp:Label>
                 </div>
                 <div class="mb-3">
-                    <label for="ubicacion" class="form-label">Ubicación</label>
-                    <asp:TextBox ID="ubicacion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3"></asp:TextBox>
+                    <label for="lblContacto" class="form-label">Contacto:</label>
+                    <asp:Label ID="lblContacto" runat="server" CssClass="form-control">contacto@ejemplo.com</asp:Label>
                 </div>
+                <div class="mb-3">
+                    <label for="lblHorario" class="form-label">Horario:</label>
+                    <asp:Label ID="lblHorario" runat="server" CssClass="form-control">Lunes a Viernes 9am - 5pm</asp:Label>
+                </div>
+                <div class="mb-3">
+                    <label for="lblUbicacion" class="form-label">Ubicación:</label>
+                    <asp:Label ID="lblUbicacion" runat="server" CssClass="form-control">Ciudad Ejemplo</asp:Label>
+                </div>
+
                 <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-primary" OnClick="btnActualizar_Click" />
                 <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnEliminar_Click" />
             </div>
@@ -40,7 +49,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Provedor</th>
+                            <th>Proveedor</th>
                             <th>Producto</th>
                             <th>Categoría</th>
                             <th>Precio</th>

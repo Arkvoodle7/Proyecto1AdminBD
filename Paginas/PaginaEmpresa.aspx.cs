@@ -15,6 +15,7 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            CargaEmpresa();
             CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
         }
 
@@ -22,6 +23,28 @@ namespace Proyecto1AdminBD.Paginas
         {
             List<List<string>> productos = empresa.ObtenerProductosProvedor(cedula);
             LlenarTabla(productos);
+        }
+
+        private void CargaEmpresa()
+        {
+            if (Session["IdUsuario"] != null)
+            {
+                List<string> provedor = empresa.ObtenerProvedor((Convert.ToInt32(Session["IdUsuario"])));
+                lblContacto.Text = provedor[1];
+                lblDireccion.Text = provedor[2];
+                lblHorario.Text = provedor[3];
+                lblNombreE.Text = provedor[4];
+                lblUbicacion.Text = provedor[5];
+            }
+            else
+            {
+                lblContacto.Text = "Usuario no registrado";
+                lblDireccion.Text = "Usuario no registrado";
+                lblHorario.Text = "Usuario no registrado";
+                lblNombreE.Text = "Usuario no registrado";
+                lblUbicacion.Text = "Usuario no registrado";
+            }
+
         }
 
 
@@ -50,6 +73,21 @@ namespace Proyecto1AdminBD.Paginas
                 row.Cells.Add(accion);
 
                 ProductosTable.Rows.Add(row);
+            }
+        }
+
+
+        protected void RowCommand(object sender, CommandEventArgs e)
+        {
+            if (e.CommandName == "SelecionarProducto")
+            {
+
+                string[] data = e.CommandArgument.ToString().Split(',');
+                string idProducto = data[0];
+                string Cedula = data[1];
+
+
+                empresa.InsertCarrito(int.Parse(Cedula), int.Parse(idProducto));
             }
         }
     }

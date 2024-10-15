@@ -21,7 +21,7 @@ namespace Datos
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SP_SelectProvedor", conn);
+                SqlCommand cmd = new SqlCommand("SP_SelectProvedo", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id); 
 
@@ -32,13 +32,12 @@ namespace Datos
                     {
                         if (reader.Read())
                         {
-                            Provedor.Add(Convert.ToString(reader["id_usuario"])); 
-                            Provedor.Add(reader["nombre"].ToString());            
-                            Provedor.Add(reader["apellido"].ToString());         
-                            Provedor.Add(reader["email"].ToString());             
+                            Provedor.Add(Convert.ToString(reader["id_proveedor"])); 
+                            Provedor.Add(reader["contacto"].ToString());            
+                            Provedor.Add(reader["direccion"].ToString());         
+                            Provedor.Add(reader["horario"].ToString());             
                             Provedor.Add(reader["nombre_empresa"].ToString());    
-                            Provedor.Add(reader["contacto"].ToString());          
-                            Provedor.Add(reader["direccion"].ToString());       
+                            Provedor.Add(reader["ubicacion"].ToString());            
                         }
                     }
                 }

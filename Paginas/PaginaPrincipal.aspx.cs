@@ -37,16 +37,18 @@ namespace Proyecto1AdminBD.Paginas
 
                 var accion = new System.Web.UI.HtmlControls.HtmlTableCell();
 
-
-                LinkButton btnAccion = new LinkButton
+                if (Session["RolUsuario"] != null && Convert.ToString(Session["RolUsuario"]) == "cliente")
                 {
-                    Text = "Agregar",
-                    CommandArgument = producto[0] + "," + Session["IdUsuario"],
-                    CommandName = "AgregarCarrito"
-                };
-                accion.Controls.Add(btnAccion);
-                row.Cells.Add(accion);
-
+                    LinkButton btnAccion = new LinkButton
+                    {
+                        Text = "Agregar",
+                        CommandArgument = producto[0] + "," + Session["IdUsuario"],
+                        CommandName = "AgregarCarrito"
+                    };
+                    accion.Controls.Add(btnAccion);
+                    row.Cells.Add(accion);
+                    
+                }
                 ProductosTable.Rows.Add(row);
             }
         }

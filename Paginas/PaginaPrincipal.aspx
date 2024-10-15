@@ -12,7 +12,7 @@
 <asp:Button ID="btnZapatos" runat="server" BackColor="White" Height="33px" OnClick="btnZapatos_Click" Text="Zapatos" Width="172px" />
 <asp:Button ID="btnRopa" runat="server" BackColor="White" Height="33px" OnClick="btnRopa_Click" Text="Ropa" Width="172px" />
         </h3>
-           <!-- <asp:Button ID="btnAgregarCarrito" runat="server" OnClick="btnAgregarCarrito_Click" Text="Agregar al carrito" />  -->
+          
 
         <div class="card-body">
             <table id="ProductosTable" runat="server" class="table table-striped">

@@ -16,9 +16,9 @@ namespace Negocios
             datosRegistro.AgregarCliente(nombre, apellido, email, password, direccion, telefono);
         }
 
-        public void RegistrarProveedor(string nombre, string apellido, string email, string password, string nombreEmpresa, string direccion, string contacto)
+        public void RegistrarProveedor(string nombre, string apellido, string email, string password, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
         {
-            datosRegistro.AgregarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto);
+            datosRegistro.AgregarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion);
         }
 
         public void RegistrarTransportista(string nombre, string apellido, string email, string password, string tipoTransporte, string contacto)

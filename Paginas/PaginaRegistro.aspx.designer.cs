@@ -132,6 +132,24 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.TextBox txtContacto;
 
         /// <summary>
+        /// Control txtHorario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHorario;
+
+        /// <summary>
+        /// Control txtUbicacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUbicacion;
+
+        /// <summary>
         /// Control transportistaFields.
         /// </summary>
         /// <remarks>

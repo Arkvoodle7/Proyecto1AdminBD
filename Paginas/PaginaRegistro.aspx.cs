@@ -36,7 +36,9 @@ namespace Proyecto1AdminBD.Paginas
                 string nombreEmpresa = txtNombreEmpresa.Text;
                 string direccion = txtDireccionProveedor.Text;
                 string contacto = txtContacto.Text;
-                negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto);
+                string horario = txtHorario.Text;
+                string ubicacion = txtUbicacion.Text;
+                negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion);
             }
             else if (tipoUsuario == "transportista")
             {

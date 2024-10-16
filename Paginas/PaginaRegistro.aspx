@@ -57,6 +57,8 @@
                             <asp:TextBox ID="txtNombreEmpresa" runat="server" CssClass="form-control mb-3" placeholder="Nombre de Empresa" />
                             <asp:TextBox ID="txtDireccionProveedor" runat="server" CssClass="form-control mb-3" placeholder="Dirección de Empresa" />
                             <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control mb-3" placeholder="Contacto" />
+                            <asp:TextBox ID="txtHorario" runat="server" CssClass="form-control mb-3" placeholder="Horario" />
+                            <asp:TextBox ID="txtUbicacion" runat="server" CssClass="form-control mb-3" placeholder="Ubicación" />
                         </div>
 
                         <!-- Campos específicos para Transportista -->

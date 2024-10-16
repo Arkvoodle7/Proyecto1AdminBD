@@ -33,14 +33,14 @@
                     </div>
                     <div class="col-md-6">
                         <label for="lblHorario" class="form-label">Horario:</label>
-                        <asp:Label ID="lblHorario" runat="server" CssClass="form-control">Lunes a Viernes 9am - 5pm</asp:Label>
+                        <asp:Label ID="lblHorario" runat="server" CssClass="form-control">Horario</asp:Label>
                     </div>
                 </div>
 
                 <!-- Tercera fila con Ubicación -->
-                <div class="mb-3">
+                <div class="col-md-6">
                     <label for="lblUbicacion" class="form-label">Ubicación:</label>
-                    <asp:Label ID="lblUbicacion" runat="server" CssClass="form-control">Ciudad Ejemplo</asp:Label>
+                    <asp:Label ID="lblUbicacion" runat="server" CssClass="form-control">Ubicacion</asp:Label>
                 </div>
 
 

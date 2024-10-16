@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Runtime.ConstrainedExecution;
+using System.Diagnostics.Contracts;
 
 namespace Datos
 {
     public class DatosEmpresa
     {
-        
+
         string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
 
         public List<string> ObtenerProvedor(int id)
@@ -23,7 +24,7 @@ namespace Datos
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProvedo", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", id); 
+                cmd.Parameters.AddWithValue("@id", id);
 
                 try
                 {
@@ -32,12 +33,12 @@ namespace Datos
                     {
                         if (reader.Read())
                         {
-                            Provedor.Add(Convert.ToString(reader["id_proveedor"])); 
-                            Provedor.Add(reader["contacto"].ToString());            
-                            Provedor.Add(reader["direccion"].ToString());         
-                            Provedor.Add(reader["horario"].ToString());             
-                            Provedor.Add(reader["nombre_empresa"].ToString());    
-                            Provedor.Add(reader["ubicacion"].ToString());            
+                            Provedor.Add(Convert.ToString(reader["id_proveedor"]));
+                            Provedor.Add(reader["contacto"].ToString());
+                            Provedor.Add(reader["direccion"].ToString());
+                            Provedor.Add(reader["horario"].ToString());
+                            Provedor.Add(reader["nombre_empresa"].ToString());
+                            Provedor.Add(reader["ubicacion"].ToString());
                         }
                     }
                 }
@@ -305,7 +306,7 @@ namespace Datos
                 try
                 {
                     conn.Open();
-                    resultado = cmd.ExecuteNonQuery(); 
+                    resultado = cmd.ExecuteNonQuery();
 
                     if (resultado == 1)
                     {
@@ -352,8 +353,31 @@ namespace Datos
             return resultado;
         }
 
+        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_UpdateProveedor", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdProveedor", idProveedor);
+                cmd.Parameters.AddWithValue("@NombreEmpresa", nombreEmpresa);
+                cmd.Parameters.AddWithValue("@Direccion", direccion);
+                cmd.Parameters.AddWithValue("@Contacto", contacto);
+                cmd.Parameters.AddWithValue("@Horario", horario);
+                cmd.Parameters.AddWithValue("@Ubicacion", ubicacion);
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Error al actualizar el provedor" + ex.Message);
+                }
+            }
+        }
+
     }
 }
-
-
-

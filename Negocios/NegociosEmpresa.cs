@@ -121,5 +121,23 @@ namespace Negocios
 
             return Empresa.ObtenerProducto(id);
         }
+
+
+        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        {
+            if (idProveedor <= 0)
+            {
+                throw new ArgumentException("Solo valores enteros positivos");
+            }
+
+            if (string.IsNullOrWhiteSpace(nombreEmpresa) || string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(contacto) || string.IsNullOrWhiteSpace(horario) || string.IsNullOrWhiteSpace(ubicacion))
+            {
+                throw new ArgumentException("No se pueden dejar en blanco los espacios");
+            }
+
+            Empresa.UpdateProvedor(idProveedor, nombreEmpresa, direccion, contacto, horario, ubicacion);
+        }
+
     }
+
 }

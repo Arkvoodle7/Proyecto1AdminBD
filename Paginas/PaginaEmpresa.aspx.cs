@@ -66,7 +66,7 @@ namespace Proyecto1AdminBD.Paginas
                 LinkButton btnAccion = new LinkButton
                 {
                     Text = "Seleccionar",
-                    CommandArgument = producto[0] + ","+ producto[1] + "," + producto[3] + "," + producto[4],
+                    CommandArgument = producto[0] + ","+ producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5],
                     CommandName = "SelecionarProducto"
                 };
                 accion.Controls.Add(btnAccion);
@@ -84,29 +84,37 @@ namespace Proyecto1AdminBD.Paginas
 
                 string[] data = e.CommandArgument.ToString().Split(',');
                 string idProducto = data[0];
-                string Cedula = data[1];
+                string provedor = data[1];
+                string producto = data[2];
+                string categoria = data[3];
+                string precio = data[4];
+                string tiempo = data[5];
+
 
                 txtCodigo.Text = idProducto;
-                txtNombre.Text = idProducto;
-                txtPrecio.Text = idProducto;
-                txtTiempo.Text = idProducto;
-                
+                txtNombre.Text = producto;
+                txtPrecio.Text = precio;
+                txtTiempo.Text = tiempo;
+                ddlCategoria.Text = categoria;
             }
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
         }
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
             empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             empresa.DeleteProducto(Convert.ToInt32(txtCodigo.Text));
+            CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
         }
     }
 }

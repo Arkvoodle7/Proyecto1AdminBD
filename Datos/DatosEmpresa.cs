@@ -22,7 +22,7 @@ namespace Datos
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
+                SqlCommand cmd = new SqlCommand("SP_SelectProvedo", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
 

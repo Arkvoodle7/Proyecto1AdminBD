@@ -15,49 +15,58 @@ namespace Proyecto1AdminBD.Paginas
     {
 
         /// <summary>
-        /// Control lblNombreE.
+        /// Control txtEmpresa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNombreE;
+        protected global::System.Web.UI.WebControls.TextBox txtEmpresa;
 
         /// <summary>
-        /// Control lblDireccion.
+        /// Control txtDireccion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDireccion;
+        protected global::System.Web.UI.WebControls.TextBox txtDireccion;
 
         /// <summary>
-        /// Control lblContacto.
+        /// Control txtContacto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblContacto;
+        protected global::System.Web.UI.WebControls.TextBox txtContacto;
 
         /// <summary>
-        /// Control lblHorario.
+        /// Control txtHorario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHorario;
+        protected global::System.Web.UI.WebControls.TextBox txtHorario;
 
         /// <summary>
-        /// Control lblUbicacion.
+        /// Control btnActualizaV.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUbicacion;
+        protected global::System.Web.UI.WebControls.Button btnActualizaV;
+
+        /// <summary>
+        /// Control txtUbicacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUbicacion;
 
         /// <summary>
         /// Control txtCodigo.

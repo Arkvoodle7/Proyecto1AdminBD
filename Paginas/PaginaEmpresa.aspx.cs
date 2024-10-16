@@ -30,19 +30,19 @@ namespace Proyecto1AdminBD.Paginas
             if (Session["IdUsuario"] != null)
             {
                 List<string> provedor = empresa.ObtenerProvedor((Convert.ToInt32(Session["IdUsuario"])));
-                lblContacto.Text = provedor[1];
-                lblDireccion.Text = provedor[2];
-                lblHorario.Text = provedor[3];
-                lblNombreE.Text = provedor[4];
-                lblUbicacion.Text = provedor[5];
+                txtContacto.Text = provedor[1];
+                txtDireccion.Text = provedor[2];
+                txtHorario.Text = provedor[3];
+                txtEmpresa.Text = provedor[4];
+                txtUbicacion.Text = provedor[5];
             }
             else
             {
-                lblContacto.Text = "Usuario no registrado";
-                lblDireccion.Text = "Usuario no registrado";
-                lblHorario.Text = "Usuario no registrado";
-                lblNombreE.Text = "Usuario no registrado";
-                lblUbicacion.Text = "Usuario no registrado";
+                txtCodigo.Text = "Usuario no registrado";
+                txtContacto.Text = "Usuario no registrado";
+                txtHorario.Text = "Usuario no registrado";
+                txtEmpresa.Text = "Usuario no registrado";
+                txtUbicacion.Text = "Usuario no registrado";
             }
 
         }
@@ -115,6 +115,18 @@ namespace Proyecto1AdminBD.Paginas
         {
             empresa.DeleteProducto(Convert.ToInt32(txtCodigo.Text));
             CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
+        }
+
+        protected void btnActualizaV_Click(object sender, EventArgs e)
+        {
+            int idP = Convert.ToInt32(txtCodigo.Text);
+            string nombreEmpresa = txtNombre.Text;
+            string dire = txtDireccion.Text;
+            string conta = txtContacto.Text;
+            string horar = txtHorario.Text;
+            string ubi = txtUbicacion.Text;
+
+            empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi)
         }
     }
 }

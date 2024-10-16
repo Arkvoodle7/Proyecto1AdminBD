@@ -15,6 +15,15 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                CargaEmpresa();
+                CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
+            }
+        }
+
+        private void Recarga()
+        {
             CargaEmpresa();
             CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
         }
@@ -81,52 +90,54 @@ namespace Proyecto1AdminBD.Paginas
         {
             if (e.CommandName == "SelecionarProducto")
             {
-
                 string[] data = e.CommandArgument.ToString().Split(',');
-                string idProducto = data[0];
-                string provedor = data[1];
-                string producto = data[2];
-                string categoria = data[3];
-                string precio = data[4];
-                string tiempo = data[5];
+                if (data.Length == 6)
+                {
+                    string idProducto = data[0];
+                    string provedor = data[1];
+                    string producto = data[2];
+                    string categoria = data[3];
+                    string precio = data[4];
+                    string tiempo = data[5];
 
-
-                txtCodigo.Text = idProducto;
-                txtNombre.Text = producto;
-                txtPrecio.Text = precio;
-                txtTiempo.Text = tiempo;
-                ddlCategoria.Text = categoria;
+                    txtCodigo.Text = idProducto;
+                    txtNombre.Text = producto;
+                    txtPrecio.Text = precio;
+                    txtTiempo.Text = tiempo;
+                    ddlCategoria.SelectedValue = categoria; 
+                }
             }
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
-            CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
+            Recarga();
         }
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
             empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
-            CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
+            Recarga();
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             empresa.DeleteProducto(Convert.ToInt32(txtCodigo.Text));
-            CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
+            Recarga();
         }
 
         protected void btnActualizaV_Click(object sender, EventArgs e)
         {
-            int idP = Convert.ToInt32(txtCodigo.Text);
+            int idP = Convert.ToInt32(Session["IdUsuario"]);
             string nombreEmpresa = txtNombre.Text;
             string dire = txtDireccion.Text;
             string conta = txtContacto.Text;
             string horar = txtHorario.Text;
             string ubi = txtUbicacion.Text;
 
-            empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi)
+            empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi);
+            Recarga();
         }
     }
 }

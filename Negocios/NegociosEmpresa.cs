@@ -49,7 +49,7 @@ namespace Negocios
                 throw new ArgumentException("Solo valores enteros positivos");
             }
 
-            if (string.IsNullOrWhiteSpace(categoria) || string.IsNullOrWhiteSpace(nombre))
+            if (string.IsNullOrWhiteSpace(categoria))
             {
                 throw new ArgumentException("El nombre y la categoría del producto no puede ir vacios.");
             }
@@ -130,10 +130,6 @@ namespace Negocios
                 throw new ArgumentException("Solo valores enteros positivos");
             }
 
-            if (string.IsNullOrWhiteSpace(nombreEmpresa) || string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(contacto) || string.IsNullOrWhiteSpace(horario) || string.IsNullOrWhiteSpace(ubicacion))
-            {
-                throw new ArgumentException("No se pueden dejar en blanco los espacios");
-            }
 
             Empresa.UpdateProvedor(idProveedor, nombreEmpresa, direccion, contacto, horario, ubicacion);
         }

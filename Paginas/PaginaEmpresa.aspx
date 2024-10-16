@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <!-- Segunda fila con Contacto y Horario -->
+                <!-- Segunda fila con Contacto y Horario . -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="lblContacto" class="form-label">Contacto:</label>

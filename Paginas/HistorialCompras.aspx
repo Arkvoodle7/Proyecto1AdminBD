@@ -11,14 +11,14 @@
             <div class="card-body">
                 <asp:GridView ID="gvHistorialCompras" runat="server" AutoGenerateColumns="False" CssClass="table table-striped">
                     <Columns>
-                        <asp:BoundField DataField="IdHistorial" HeaderText="Historial" /> 
                         <asp:BoundField DataField="IdPedido" HeaderText="Pedido" />
-                        <asp:BoundField DataField="FechaEntrega" HeaderText="Fecha de Entrega" DataFormatString="{0:yyyy-MM-dd}" />
-                        <asp:BoundField DataField="Observaciones" HeaderText="Observaciones" />
+                        <asp:BoundField DataField="FechaPedido" HeaderText="Fecha de Pedido" DataFormatString="{0:yyyy-MM-dd}" />
+                        <asp:BoundField DataField="Estado" HeaderText="Estado" />
+                        <asp:BoundField DataField="CostoTotal" HeaderText="Costo Total" DataFormatString="{0:C2}" />
                     </Columns>
                 </asp:GridView>
             </div>
-            <asp:Label ID="lblMensaje" runat="server" Text="Label"></asp:Label>
+            <asp:Label ID="lblMensaje" runat="server" Text="" CssClass="text-danger" Visible="false"></asp:Label>
         </div>
     </div>
 </asp:Content>

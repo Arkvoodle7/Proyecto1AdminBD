@@ -61,33 +61,68 @@ namespace Negocios
 
             datos.EliminarCliente(id);
         }
-        public List<HistorialCompraDto> ObtenerHistorialPorCliente(int idCliente)
+        public List<PedidoDto> ObtenerHistorialPorCliente(int idCliente)
         {
-            // Obtener la lista de historial de la capa de datos
-            var listaHistorialDatos = datos.ObtenerHistorialCompras(idCliente);
+            // Obtener la lista de pedidos entregados desde la capa de datos
+            var listaPedidosDatos = datos.ObtenerPedidosEntregados(idCliente);
 
-            // Convertir la lista de datos a lista de negocios
-            List<HistorialCompraDto> listaHistorialNegocios = new List<HistorialCompraDto>();
-            foreach (var historial in listaHistorialDatos)
+            // Convertir la lista de datos a una lista de DTO para la capa de negocios
+            List<PedidoDto> listaPedidosNegocios = new List<PedidoDto>();
+            foreach (var pedido in listaPedidosDatos)
             {
-                listaHistorialNegocios.Add(new HistorialCompraDto
+                listaPedidosNegocios.Add(new PedidoDto
                 {
-                    IdHistorial = historial.IdHistorial,
-                    IdPedido = historial.IdPedido,
-                    FechaEntrega = historial.FechaEntrega,
-                    Observaciones = historial.Observaciones
+                    IdPedido = pedido.IdPedido,
+                    FechaPedido = pedido.FechaPedido,
+                    Estado = pedido.Estado,
+                    CostoTotal = pedido.CostoTotal
                 });
             }
 
-            return listaHistorialNegocios;
+            return listaPedidosNegocios;
         }
+        public List<PedidoConDetallesDto> ObtenerPedidosEnCurso(int idCliente)
+        {
+            // Llama al método de la capa de datos para obtener los pedidos con detalles
+            var listaPedidosDatos = datos.ObtenerPedidosConDetalles(idCliente);
+
+            List<PedidoConDetallesDto> listaPedidosNegocios = new List<PedidoConDetallesDto>();
+
+            foreach (var pedido in listaPedidosDatos)
+            {
+                listaPedidosNegocios.Add(new PedidoConDetallesDto
+                {
+                    IdPedido = pedido.IdPedido,
+                    FechaPedido = pedido.FechaPedido,
+                    Estado = pedido.Estado,
+                    CostoTotal = pedido.CostoTotal,
+                    Transportista = pedido.Transportista,
+                    TiempoEntrega = pedido.TiempoEntrega, // Se asegura que se incluye
+                    ContactoTransportista = pedido.ContactoTransportista
+                });
+            }
+
+            return listaPedidosNegocios;
+        }
+
+
     }
-    public class HistorialCompraDto
+    public class PedidoConDetallesDto
     {
-        public int IdHistorial { get; set; }
         public int IdPedido { get; set; }
-        public DateTime FechaEntrega { get; set; }
-        public string Observaciones { get; set; }
+        public DateTime FechaPedido { get; set; }
+        public string Estado { get; set; }
+        public decimal CostoTotal { get; set; }
+        public string Transportista { get; set; }
+        public int TiempoEntrega { get; set; }
+        public string ContactoTransportista { get; set; }
+    }
+    public class PedidoDto
+    {
+        public int IdPedido { get; set; }
+        public DateTime FechaPedido { get; set; }
+        public string Estado { get; set; }
+        public decimal CostoTotal { get; set; }
     }
 
     public class Cliente

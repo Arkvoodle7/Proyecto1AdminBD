@@ -53,6 +53,10 @@
                                     <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
                                     Historial de Compras
                                 </a>
+                                 <a class="nav-link" href="PaginaSeguimiento.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div> <!-- Solo el ícono de ubicación -->
+                                    Seguimiento de Compras
+                                </a>
                             </asp:PlaceHolder>
 
                             <asp:PlaceHolder ID="OpcionesProveedores" runat="server" Visible="false">

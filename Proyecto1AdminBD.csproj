@@ -70,12 +70,15 @@
     <Content Include="css\styles.css" />
     <Content Include="js\scripts.js" />
     <Content Include="Paginas\HistorialCompras.aspx" />
+    <Content Include="Paginas\PaginaCompra.aspx" />
+    <Content Include="Paginas\PaginaContacto.aspx" />
     <Content Include="Paginas\PaginaEnvios.aspx" />
     <Content Include="Paginas\PaginaCliente.aspx" />
     <Content Include="Paginas\PaginaEmpresa.aspx" />
     <Content Include="Paginas\PaginaLogin.aspx" />
     <Content Include="Paginas\PaginaPrincipal.aspx" />
     <Content Include="Paginas\PaginaRegistro.aspx" />
+    <Content Include="Paginas\PaginaSeguimiento.aspx" />
     <Content Include="Paginas\PaginaTransportista.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -86,6 +89,20 @@
     </Compile>
     <Compile Include="Paginas\HistorialCompras.aspx.designer.cs">
       <DependentUpon>HistorialCompras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaCompra.aspx.cs">
+      <DependentUpon>PaginaCompra.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaCompra.aspx.designer.cs">
+      <DependentUpon>PaginaCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaContacto.aspx.cs">
+      <DependentUpon>PaginaContacto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaContacto.aspx.designer.cs">
+      <DependentUpon>PaginaContacto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Paginas\PaginaEnvios.aspx.cs">
       <DependentUpon>PaginaEnvios.aspx</DependentUpon>
@@ -135,6 +152,13 @@
     </Compile>
     <Compile Include="Paginas\PaginaRegistro.aspx.designer.cs">
       <DependentUpon>PaginaRegistro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaSeguimiento.aspx.cs">
+      <DependentUpon>PaginaSeguimiento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaSeguimiento.aspx.designer.cs">
+      <DependentUpon>PaginaSeguimiento.aspx</DependentUpon>
     </Compile>
     <Compile Include="Paginas\PaginaTransportista.aspx.cs">
       <DependentUpon>PaginaTransportista.aspx</DependentUpon>

@@ -1,5 +1,5 @@
-﻿ using System;
-using Negocios;
+﻿using Negocios;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +8,9 @@ using System.Web.UI.WebControls;
 
 namespace Proyecto1AdminBD.Paginas
 {
-    public partial class HistorialCompras : System.Web.UI.Page
+    public partial class PaginaSeguimiento : System.Web.UI.Page
     {
-        NegociosCliente negociosHistorial = new NegociosCliente();
+        NegociosCliente negociosPedidos = new NegociosCliente();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,7 +21,7 @@ namespace Proyecto1AdminBD.Paginas
                 if (Session["IdUsuario"] != null)
                 {
                     int idCliente = (int)Session["IdUsuario"];
-                    CargarHistorialCompras(idCliente);
+                    CargarSeguimientoPedidos(idCliente);
                 }
                 else
                 {
@@ -30,25 +30,30 @@ namespace Proyecto1AdminBD.Paginas
                 }
             }
         }
-        private void CargarHistorialCompras(int idCliente)
+        private void CargarSeguimientoPedidos(int idCliente)
         {
             try
             {
-                var historialCompras = negociosHistorial.ObtenerHistorialPorCliente(idCliente);
+                // Llamar al método que obtiene los pedidos en curso
+                var pedidos = negociosPedidos.ObtenerPedidosEnCurso(idCliente);
 
-                if (historialCompras.Count > 0)
+                // Verificar si hay pedidos
+                if (pedidos.Count > 0)
                 {
-                    gvHistorialCompras.DataSource = historialCompras;
-                    gvHistorialCompras.DataBind();
+                    // Asignar la lista de pedidos al GridView y enlazar los datos
+                    gvSeguimientoPedidos.DataSource = pedidos;
+                    gvSeguimientoPedidos.DataBind();
                 }
                 else
                 {
-                    lblMensaje.Text = "No se encontraron compras anteriores.";
+                    // Mostrar un mensaje si no hay pedidos pendientes
+                    lblMensaje.Text = "No se encontraron pedidos pendientes o en camino.";
                     lblMensaje.Visible = true;
                 }
             }
             catch (Exception ex)
             {
+                // Manejo de errores, mostrar un mensaje
                 lblMensaje.Text = "Error: " + ex.Message;
                 lblMensaje.Visible = true;
             }

@@ -71,14 +71,13 @@ namespace Datos
                 cmd.ExecuteNonQuery();
             }
         }
-        public List<HistorialCompra> ObtenerHistorialCompras(int idCliente)
+        public List<Pedido> ObtenerPedidosEntregados(int idCliente)
         {
-            List<HistorialCompra> listaHistorial = new List<HistorialCompra>();
+            List<Pedido> listaPedidos = new List<Pedido>();
 
-            // Configurar la conexión a la base de datos
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("sp_ObtenerHistorialComprasPorCliente", conn);
+                SqlCommand cmd = new SqlCommand("sp_ObtenerPedidosEntregadosPorCliente", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdCliente", idCliente);
 
@@ -87,20 +86,62 @@ namespace Datos
 
                 while (reader.Read())
                 {
-                    HistorialCompra historial = new HistorialCompra
+                    Pedido pedido = new Pedido
                     {
-                        IdHistorial = (int)reader["id_historial"],
                         IdPedido = (int)reader["id_pedido"],
-                        FechaEntrega = (DateTime)reader["fecha_entrega"],
-                        Observaciones = reader["observaciones"].ToString()
+                        FechaPedido = (DateTime)reader["fecha_pedido"],
+                        Estado = reader["estado"].ToString(),
+                        CostoTotal = (decimal)reader["costo_total"]
                     };
 
-                    listaHistorial.Add(historial);
+                    listaPedidos.Add(pedido);
                 }
             }
 
-            return listaHistorial;
+            return listaPedidos;
         }
+        public List<PedidoConDetallesDto> ObtenerPedidosConDetalles(int idCliente)
+        {
+            List<PedidoConDetallesDto> listaPedidos = new List<PedidoConDetallesDto>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerPedidosConDetalles", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IdCliente", idCliente);
+
+                conn.Open();
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaPedidos.Add(new PedidoConDetallesDto
+                        {
+                            IdPedido = reader.GetInt32(reader.GetOrdinal("IdPedido")),
+                            FechaPedido = reader.GetDateTime(reader.GetOrdinal("FechaPedido")),
+                            Estado = reader.GetString(reader.GetOrdinal("Estado")),
+                            CostoTotal = reader.GetDecimal(reader.GetOrdinal("CostoTotal")),
+                            Transportista = reader.GetString(reader.GetOrdinal("Transportista")),
+                            ContactoTransportista = reader.GetString(reader.GetOrdinal("ContactoTransportista")),
+                           
+                        });
+                    }
+                }
+            }
+
+            return listaPedidos;
+        }
+    }
+    public class PedidoConDetallesDto
+    {
+        public int IdPedido { get; set; }
+        public DateTime FechaPedido { get; set; }
+        public string Estado { get; set; }
+        public decimal CostoTotal { get; set; }
+        public string Transportista { get; set; }
+        public int TiempoEntrega { get; set; }
+        public string ContactoTransportista { get; set; }
     }
     public class Cliente
     {
@@ -108,11 +149,11 @@ namespace Datos
         public string Telefono { get; set; }     // email
         public string Direccion { get; set; } // direccion
     }
-    public class HistorialCompra
+    public class PedidoDto
     {
-        public int IdHistorial { get; set; }
         public int IdPedido { get; set; }
-        public DateTime FechaEntrega { get; set; }
-        public string Observaciones { get; set; }
+        public DateTime FechaPedido { get; set; }
+        public string Estado { get; set; }
+        public decimal CostoTotal { get; set; }
     }
 }

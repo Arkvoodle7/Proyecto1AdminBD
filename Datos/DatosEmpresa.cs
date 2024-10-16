@@ -219,20 +219,23 @@ namespace Datos
                 {
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        List<string> pr = new List<string>();
+                        while (reader.Read())
+                        {
+                            List<string> pr = new List<string>();
 
-                        pr.Add(reader["id_producto"].ToString());
-                        pr.Add(reader["id_proveedor"].ToString());
-                        pr.Add(reader["nombre"].ToString());
-                        pr.Add(reader["categoria"].ToString());
-                        pr.Add(reader["precio"].ToString());
-                        pr.Add(reader["tiempo_entrega"].ToString());
+                            pr.Add(reader["id_producto"].ToString());
+                            pr.Add(reader["id_proveedor"].ToString());
+                            pr.Add(reader["nombre"].ToString());
+                            pr.Add(reader["categoria"].ToString());
+                            pr.Add(reader["precio"].ToString());
+                            pr.Add(reader["tiempo_entrega"].ToString());
 
-
-                        productosProvedor.Add(pr);
+                            productosProvedor.Add(pr);
+                        }
                     }
+
                     return productosProvedor;
                 }
                 catch (Exception ex)

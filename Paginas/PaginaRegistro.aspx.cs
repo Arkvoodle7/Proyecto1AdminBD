@@ -73,5 +73,9 @@ namespace Proyecto1AdminBD.Paginas
             }
         }
 
+        protected void txtTipoTransporte_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

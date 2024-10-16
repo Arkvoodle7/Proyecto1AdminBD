@@ -66,7 +66,7 @@ namespace Proyecto1AdminBD.Paginas
                 LinkButton btnAccion = new LinkButton
                 {
                     Text = "Seleccionar",
-                    CommandArgument = producto[0],
+                    CommandArgument = producto[0] + ","+ producto[1] + "," + producto[3] + "," + producto[4],
                     CommandName = "SelecionarProducto"
                 };
                 accion.Controls.Add(btnAccion);
@@ -86,8 +86,11 @@ namespace Proyecto1AdminBD.Paginas
                 string idProducto = data[0];
                 string Cedula = data[1];
 
-
-                empresa.InsertCarrito(int.Parse(Cedula), int.Parse(idProducto));
+                txtCodigo.Text = idProducto;
+                txtNombre.Text = idProducto;
+                txtPrecio.Text = idProducto;
+                txtTiempo.Text = idProducto;
+                
             }
         }
 

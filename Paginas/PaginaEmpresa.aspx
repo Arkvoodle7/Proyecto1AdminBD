@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <!-- Tercera fila con Ubicación -->
+                <!-- Tercera fila con Ubicacion y boton -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="lblUbicacion" class="form-label">Ubicacion:</label>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <!-- Primera fila con Nombre Producto y Categoría -->
+                <!-- Primera fila con Nombre Producto y Categoria -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="lblCodigo" class="form-label">Código Producto:</label>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-                <!-- Segunda fila con Categoría, Precio y Tiempo de entrega -->
+                <!-- Segunda fila con Categoria, Precio y Tiempo de entrega -->
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="lblCategoria" class="form-label">Categoría:</label>

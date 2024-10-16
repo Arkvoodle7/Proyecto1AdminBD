@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatosCliente.cs" />
+    <Compile Include="DatosCompra.cs" />
+    <Compile Include="DatosContacto.cs" />
     <Compile Include="DatosEmpresa.cs" />
     <Compile Include="DatosLogin.cs" />
     <Compile Include="DatosPrincipal.cs" />

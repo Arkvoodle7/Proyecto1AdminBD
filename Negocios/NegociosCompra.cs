@@ -83,4 +83,16 @@ namespace Negocios
         public int TiempoEntrega { get; set; }
     }
 
+    public class CarritoItem
+    {
+        public int IdProducto { get; set; }
+        public string Nombre { get; set; }
+        public decimal Precio { get; set; }
+        public int Cantidad { get; set; }
+        public decimal Subtotal => Precio * Cantidad;
+        public decimal Impuestos => Subtotal * 0.13m;
+        public decimal Total => Subtotal + Impuestos;
+    }
+
+
 }

@@ -20,7 +20,8 @@
                 </div>
                 
                 <div class="d-flex justify-content-between mt-4"> <!-- Alinear botones -->
-                    <asp:Button ID="btnRealizarCompra" runat="server" Text="Realizar Compra" CssClass="btn btn-primary me-2" OnClick="btnRealizarCompra_Click" />
+                    <asp:Button ID="btnAgregarAlCarrito" runat="server" Text="Agregar al Carrito" CssClass="btn btn-secondary" OnClick="btnAgregarAlCarrito_Click" />
+                    <asp:Button ID="btnIrAlCarrito" runat="server" Text="Ir al Carrito" CssClass="btn btn-secondary" OnClick="btnIrAlCarrito_Click" />
                     <asp:Button ID="Salir" runat="server" Text="Salir" CssClass="btn btn-secondary" OnClick="Salir_Click" />
                 </div>
 

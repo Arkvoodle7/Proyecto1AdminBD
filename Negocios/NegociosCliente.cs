@@ -120,9 +120,9 @@ namespace Negocios
     public class PedidoDto
     {
         public int IdPedido { get; set; }
-        public DateTime FechaPedido { get; set; }
+        public DateTime? FechaPedido { get; set; }
         public string Estado { get; set; }
-        public decimal CostoTotal { get; set; }
+        public decimal? CostoTotal { get; set; }
     }
 
     public class Cliente

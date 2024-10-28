@@ -22,13 +22,20 @@ namespace Proyecto1AdminBD.Paginas
         {
             List<CarritoItem> carrito = Session["Carrito"] as List<CarritoItem> ?? new List<CarritoItem>();
 
-            decimal subtotal = carrito.Sum(item => item.Subtotal);
-            decimal impuestos = subtotal * 0.13m;
-            decimal total = subtotal + impuestos;
+            if (carrito.Any())
+            {
+                NegociosCompra compraNegocios = new NegociosCompra();
+                carrito = compraNegocios.CalcularTotalesCarrito(carrito);
+                Session["Carrito"] = carrito; // Actualizar la sesión con los valores calculados
 
-            gvCarrito.DataSource = carrito;
-            gvCarrito.DataBind();
-
+                gvCarrito.DataSource = carrito;
+                gvCarrito.DataBind();
+            }
+            else
+            {
+                gvCarrito.DataSource = null;
+                gvCarrito.DataBind();
+            }
         }
 
         protected void btnFinalizarCompra_Click(object sender, EventArgs e)
@@ -69,5 +76,6 @@ namespace Proyecto1AdminBD.Paginas
                 e.Row.Font.Bold = true;
             }
         }
+
     }
 }

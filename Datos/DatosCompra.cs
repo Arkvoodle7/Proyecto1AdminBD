@@ -113,6 +113,70 @@ namespace Datos
 
             return producto;
         }
+
+        public List<CarritoItem> CalcularTotalesCarrito(List<CarritoItem> carritoItems)
+        {
+            List<CarritoItem> resultado = new List<CarritoItem>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_CalcularTotalesCarrito", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Crear DataTable para el parámetro table-valued
+                    DataTable cartItemsTable = new DataTable();
+                    cartItemsTable.Columns.Add("id_producto", typeof(int));
+                    cartItemsTable.Columns.Add("cantidad", typeof(int));
+
+                    foreach (var item in carritoItems)
+                    {
+                        cartItemsTable.Rows.Add(item.IdProducto, item.Cantidad);
+                    }
+
+                    SqlParameter param = cmd.Parameters.AddWithValue("@CartItems", cartItemsTable);
+                    param.SqlDbType = SqlDbType.Structured;
+                    param.TypeName = "CartItemType"; // Nombre del tipo de tabla definido por el usuario
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        CarritoItem item = new CarritoItem
+                        {
+                            IdProducto = reader.GetInt32(reader.GetOrdinal("id_producto")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Precio = reader.GetDecimal(reader.GetOrdinal("precio")),
+                            Cantidad = reader.GetInt32(reader.GetOrdinal("cantidad")),
+                            Subtotal = reader.GetDecimal(reader.GetOrdinal("Subtotal")),
+                            Impuestos = reader.GetDecimal(reader.GetOrdinal("Impuestos")),
+                            Total = reader.GetDecimal(reader.GetOrdinal("Total"))
+                        };
+                        resultado.Add(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al calcular los totales del carrito: " + ex.Message);
+                }
+            }
+
+            return resultado;
+        }
+
+        // Clase CarritoItem en la capa de Datos
+        public class CarritoItem
+        {
+            public int IdProducto { get; set; }
+            public string Nombre { get; set; }
+            public decimal Precio { get; set; }
+            public int Cantidad { get; set; }
+            public decimal Subtotal { get; set; }
+            public decimal Impuestos { get; set; }
+            public decimal Total { get; set; }
+        }
+
     }
 
     // Clase Producto que modela la entidad Producto

@@ -40,9 +40,9 @@ namespace Datos
         }
 
         // Método para crear una orden de compra
-        public string CrearOrdenDeCompra(int idCliente, int idProducto, int cantidad, DateTime fechaPedido)
+        public int CrearOrdenDeCompra(int idCliente, DateTime fechaPedido)
         {
-            string resultado;
+            int idPedido = 0;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -53,26 +53,55 @@ namespace Datos
 
                     // Agregar parámetros necesarios
                     cmd.Parameters.AddWithValue("@id_cliente", idCliente);
-                    cmd.Parameters.AddWithValue("@id_producto", idProducto);
-                    cmd.Parameters.AddWithValue("@cantidad", cantidad);
-                    cmd.Parameters.AddWithValue("@id_transportista", DBNull.Value); // Inicialmente nulo
+                    cmd.Parameters.AddWithValue("@fecha_pedido", fechaPedido);
                     cmd.Parameters.AddWithValue("@estado", "Pendiente"); // Estado inicial de la compra
-                    cmd.Parameters.AddWithValue("@fecha_pedido", fechaPedido); // Fecha del pedido
-                    cmd.Parameters.AddWithValue("@costo_total", 0); // Inicializar el costo total (se calculará en el SP)
+                    cmd.Parameters.AddWithValue("@id_transportista", DBNull.Value); // Inicialmente nulo
 
                     conn.Open();
-                    int filasAfectadas = cmd.ExecuteNonQuery();
-
-                    resultado = filasAfectadas > 0 ? "Compra realizada con éxito." : "Error al realizar la compra.";
+                    // Ejecutar y obtener el id_pedido generado
+                    idPedido = Convert.ToInt32(cmd.ExecuteScalar());
                 }
                 catch (Exception ex)
                 {
-                    // Manejar la excepción o registrar el error según sea necesario
                     throw new Exception("Error al crear la orden de compra: " + ex.Message);
                 }
             }
 
-            return resultado;
+            return idPedido;
+        }
+
+        // Método para crear los detalles del pedido
+        public void CrearDetallePedido(int idPedido, List<CarritoItem> carritoItems)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    foreach (var item in carritoItems)
+                    {
+                        // Insertar cada detalle en la tabla DetallePedido
+                        SqlCommand cmd = new SqlCommand("INSERT INTO DetallePedido (id_pedido, id_producto, cantidad, precio_unitario) VALUES (@id_pedido, @id_producto, @cantidad, @precio_unitario)", conn);
+                        cmd.Parameters.AddWithValue("@id_pedido", idPedido);
+                        cmd.Parameters.AddWithValue("@id_producto", item.IdProducto);
+                        cmd.Parameters.AddWithValue("@cantidad", item.Cantidad);
+                        cmd.Parameters.AddWithValue("@precio_unitario", item.Precio);
+
+                        cmd.ExecuteNonQuery();
+
+                        // Actualizar el stock del producto
+                        SqlCommand cmdUpdateStock = new SqlCommand("UPDATE Productos SET StockDisponible = StockDisponible - @cantidad WHERE id_producto = @id_producto", conn);
+                        cmdUpdateStock.Parameters.AddWithValue("@cantidad", item.Cantidad);
+                        cmdUpdateStock.Parameters.AddWithValue("@id_producto", item.IdProducto);
+
+                        cmdUpdateStock.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al crear los detalles del pedido: " + ex.Message);
+                }
+            }
         }
 
 

@@ -12,17 +12,17 @@ namespace Negocios
         DatosCliente datos = new DatosCliente();
 
         // Obtener Cliente por Id
-        public Negocios.Cliente ObtenerClientePorId(int id)
+        public Cliente ObtenerClientePorId(int id)
         {
-            var datosCliente = datos.ObtenerClientePorId(id);
+            Datos.Cliente datosCliente = datos.ObtenerClientePorId(id);
             return ConvertirADatosCliente(datosCliente);
         }
 
-        private Negocios.Cliente ConvertirADatosCliente(Datos.Cliente datosCliente)
+        private Cliente ConvertirADatosCliente(Datos.Cliente datosCliente)
         {
             if (datosCliente == null) return null;
 
-            return new Negocios.Cliente
+            return new Cliente
             {
                 Id = datosCliente.Id,
                 Telefono = datosCliente.Telefono,
@@ -63,10 +63,8 @@ namespace Negocios
         }
         public List<PedidoDto> ObtenerHistorialPorCliente(int idCliente)
         {
-            // Obtener la lista de pedidos entregados desde la capa de datos
             var listaPedidosDatos = datos.ObtenerPedidosEntregados(idCliente);
 
-            // Convertir la lista de datos a una lista de DTO para la capa de negocios
             List<PedidoDto> listaPedidosNegocios = new List<PedidoDto>();
             foreach (var pedido in listaPedidosDatos)
             {
@@ -75,15 +73,17 @@ namespace Negocios
                     IdPedido = pedido.IdPedido,
                     FechaPedido = pedido.FechaPedido,
                     Estado = pedido.Estado,
-                    CostoTotal = pedido.CostoTotal
+                    Subtotal = pedido.Subtotal,
+                    Impuestos = pedido.Impuestos,
+                    Total = pedido.Total
                 });
             }
 
             return listaPedidosNegocios;
         }
+
         public List<PedidoConDetallesDto> ObtenerPedidosEnCurso(int idCliente)
         {
-            // Llama al método de la capa de datos para obtener los pedidos con detalles
             var listaPedidosDatos = datos.ObtenerPedidosConDetalles(idCliente);
 
             List<PedidoConDetallesDto> listaPedidosNegocios = new List<PedidoConDetallesDto>();
@@ -95,9 +95,11 @@ namespace Negocios
                     IdPedido = pedido.IdPedido,
                     FechaPedido = pedido.FechaPedido,
                     Estado = pedido.Estado,
-                    CostoTotal = pedido.CostoTotal,
+                    Subtotal = pedido.Subtotal,
+                    Impuestos = pedido.Impuestos,
+                    Total = pedido.Total,
                     Transportista = pedido.Transportista,
-                    TiempoEntrega = pedido.TiempoEntrega, // Se asegura que se incluye
+                    TiempoEntrega = pedido.TiempoEntrega,
                     ContactoTransportista = pedido.ContactoTransportista
                 });
             }
@@ -105,25 +107,31 @@ namespace Negocios
             return listaPedidosNegocios;
         }
 
+        public class PedidoDto
+        {
+            public int IdPedido { get; set; }
+            public DateTime FechaPedido { get; set; }
+            public string Estado { get; set; }
+            public decimal Subtotal { get; set; }
+            public decimal Impuestos { get; set; }
+            public decimal Total { get; set; }
+        }
 
+        public class PedidoConDetallesDto
+        {
+            public int IdPedido { get; set; }
+            public DateTime FechaPedido { get; set; }
+            public string Estado { get; set; }
+            public decimal Subtotal { get; set; }
+            public decimal Impuestos { get; set; }
+            public decimal Total { get; set; }
+            public string Transportista { get; set; }
+            public int TiempoEntrega { get; set; }
+            public string ContactoTransportista { get; set; }
+        }
     }
-    public class PedidoConDetallesDto
-    {
-        public int IdPedido { get; set; }
-        public DateTime FechaPedido { get; set; }
-        public string Estado { get; set; }
-        public decimal CostoTotal { get; set; }
-        public string Transportista { get; set; }
-        public int TiempoEntrega { get; set; }
-        public string ContactoTransportista { get; set; }
-    }
-    public class PedidoDto
-    {
-        public int IdPedido { get; set; }
-        public DateTime? FechaPedido { get; set; }
-        public string Estado { get; set; }
-        public decimal? CostoTotal { get; set; }
-    }
+
+
 
     public class Cliente
     {

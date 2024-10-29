@@ -50,15 +50,14 @@ namespace Proyecto1AdminBD.Paginas
             }
 
             NegociosCompra compraNegocios = new NegociosCompra();
-            lblMensajeCompra.Text = "";
+            string mensaje = compraNegocios.RealizarCompra(idCliente, carrito);
+            lblMensajeCompra.Text = mensaje;
 
-            foreach (var item in carrito)
+            if (mensaje == "Compra realizada con éxito.")
             {
-                string mensaje = compraNegocios.RealizarCompra(idCliente, item.IdProducto, item.Cantidad);
-                lblMensajeCompra.Text += $"{item.Nombre}: {mensaje}<br />";
+                Session["Carrito"] = null; // Vaciar el carrito después de la compra
+                CargarCarrito(); // Actualizar el carrito en la página
             }
-
-            Session["Carrito"] = null; // Vaciar el carrito después de la compra
         }
 
         protected void gvCarrito_RowDataBound(object sender, GridViewRowEventArgs e)

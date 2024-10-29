@@ -33,30 +33,45 @@ namespace Negocios
             return productoNegocios;
         }
 
-        public string RealizarCompra(int idCliente, int idProducto, int cantidad)
+        public string RealizarCompra(int idCliente, List<CarritoItem> carritoItems)
         {
-            // Verificar disponibilidad de stock
-            var stockDisponible = datosCompra.VerificarStock(idProducto);
-            if (stockDisponible < cantidad)
+            // Validar que el carrito no esté vacío
+            if (carritoItems == null || !carritoItems.Any())
             {
-                return "No hay suficiente stock disponible.";
+                return "El carrito está vacío.";
+            }
+
+            // Verificar disponibilidad de stock para cada producto
+            foreach (var item in carritoItems)
+            {
+                var stockDisponible = datosCompra.VerificarStock(item.IdProducto);
+                if (stockDisponible < item.Cantidad)
+                {
+                    return $"No hay suficiente stock disponible para el producto {item.Nombre}.";
+                }
             }
 
             // Obtener la fecha actual
             DateTime fechaPedido = DateTime.Now;
 
-            // Crear la orden de compra
-            var resultado = datosCompra.CrearOrdenDeCompra(idCliente, idProducto, cantidad, fechaPedido);
+            // Crear la orden de compra y obtener el id_pedido
+            int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido);
 
-            // Corregir comparación
-            if (resultado == "Compra realizada con éxito.")
+            List<DatosCompra.CarritoItem> datosCarritoItems = carritoItems.Select(item => new DatosCompra.CarritoItem
             {
-                return resultado;
-            }
-            else
-            {
-                return "Error al realizar la compra.";
-            }
+                IdProducto = item.IdProducto,
+                Nombre = item.Nombre,
+                Precio = item.Precio,
+                Cantidad = item.Cantidad,
+                Subtotal = item.Subtotal,
+                Impuestos = item.Impuestos,
+                Total = item.Total
+            }).ToList();
+
+            // Crear los detalles del pedido
+            datosCompra.CrearDetallePedido(idPedido, datosCarritoItems);
+
+            return "Compra realizada con éxito.";
         }
 
         // Método de mapeo entre Producto de Datos y Producto de Negocios

@@ -13,10 +13,8 @@
                     <Columns>
                         <asp:BoundField DataField="IdPedido" HeaderText="Pedido" /> 
                         <asp:BoundField DataField="IdCliente" HeaderText="Cliente" />
-                        <asp:BoundField DataField="IdProducto" HeaderText="Producto" />
                         <asp:BoundField DataField="FechaPedido" HeaderText="Fecha de Pedido" />
                         <asp:BoundField DataField="Estado" HeaderText="Estado" />
-                        <asp:BoundField DataField="CostoTotal" HeaderText="Costo Total" />
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <asp:Button ID="btnAsignarTransportista" runat="server" Text="Tomar Pedido" CommandName="AsignarTransportista" CommandArgument='<%# Eval("IdPedido") %>' CssClass="btn btn-primary" />

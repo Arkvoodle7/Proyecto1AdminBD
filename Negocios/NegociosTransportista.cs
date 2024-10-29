@@ -77,10 +77,8 @@ namespace Negocios
 
         public List<Pedido> ObtenerTodosLosPedidos()
         {
-            // Obtener la lista de pedidos desde la capa de datos
             var listaPedidosDatos = datos.ObtenerTodosLosPedidos();
 
-            // Convertir la lista de datos a lista de negocios
             List<Pedido> listaPedidosNegocios = new List<Pedido>();
             foreach (var pedido in listaPedidosDatos)
             {
@@ -89,6 +87,7 @@ namespace Negocios
                     IdPedido = pedido.IdPedido,
                     IdCliente = pedido.IdCliente,
                     IdProducto = pedido.IdProducto,
+                    IdTransportista = pedido.IdTransportista,
                     FechaPedido = pedido.FechaPedido,
                     Estado = pedido.Estado,
                     CostoTotal = pedido.CostoTotal
@@ -98,16 +97,20 @@ namespace Negocios
             return listaPedidosNegocios;
         }
 
+
+
     }
     public class Pedido
     {
-        public int IdPedido { get; set; }        // id_pedido
-        public int IdCliente { get; set; }       // id_cliente
-        public int IdProducto { get; set; }      // id_producto
-        public DateTime FechaPedido { get; set; } // fecha_pedido
-        public string Estado { get; set; }       // estado
-        public decimal CostoTotal { get; set; }  // costo_total
+        public int IdPedido { get; set; }
+        public int? IdCliente { get; set; }
+        public int? IdProducto { get; set; }
+        public int? IdTransportista { get; set; }
+        public DateTime? FechaPedido { get; set; }
+        public string Estado { get; set; }
+        public decimal? CostoTotal { get; set; }
     }
+
 
     public class Transportista
     {

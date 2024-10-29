@@ -70,6 +70,7 @@
     <Content Include="css\styles.css" />
     <Content Include="js\scripts.js" />
     <Content Include="Paginas\HistorialCompras.aspx" />
+    <Content Include="Paginas\PaginaCarrito.aspx" />
     <Content Include="Paginas\PaginaCompra.aspx" />
     <Content Include="Paginas\PaginaContacto.aspx" />
     <Content Include="Paginas\PaginaEnvios.aspx" />
@@ -89,6 +90,13 @@
     </Compile>
     <Compile Include="Paginas\HistorialCompras.aspx.designer.cs">
       <DependentUpon>HistorialCompras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaCarrito.aspx.cs">
+      <DependentUpon>PaginaCarrito.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaCarrito.aspx.designer.cs">
+      <DependentUpon>PaginaCarrito.aspx</DependentUpon>
     </Compile>
     <Compile Include="Paginas\PaginaCompra.aspx.cs">
       <DependentUpon>PaginaCompra.aspx</DependentUpon>

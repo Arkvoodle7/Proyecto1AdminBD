@@ -91,7 +91,9 @@ namespace Datos
                         IdPedido = (int)reader["id_pedido"],
                         FechaPedido = (DateTime)reader["fecha_pedido"],
                         Estado = reader["estado"].ToString(),
-                        CostoTotal = (decimal)reader["costo_total"]
+                        Subtotal = (decimal)reader["Subtotal"],
+                        Impuestos = (decimal)reader["Impuestos"],
+                        Total = (decimal)reader["Total"]
                     };
 
                     listaPedidos.Add(pedido);
@@ -100,6 +102,7 @@ namespace Datos
 
             return listaPedidos;
         }
+
         public List<PedidoConDetallesDto> ObtenerPedidosConDetalles(int idCliente)
         {
             List<PedidoConDetallesDto> listaPedidos = new List<PedidoConDetallesDto>();
@@ -121,10 +124,12 @@ namespace Datos
                             IdPedido = reader.GetInt32(reader.GetOrdinal("IdPedido")),
                             FechaPedido = reader.GetDateTime(reader.GetOrdinal("FechaPedido")),
                             Estado = reader.GetString(reader.GetOrdinal("Estado")),
-                            CostoTotal = reader.GetDecimal(reader.GetOrdinal("CostoTotal")),
-                            Transportista = reader.GetString(reader.GetOrdinal("Transportista")),
-                            ContactoTransportista = reader.GetString(reader.GetOrdinal("ContactoTransportista")),
-                           
+                            Subtotal = reader.GetDecimal(reader.GetOrdinal("Subtotal")),
+                            Impuestos = reader.GetDecimal(reader.GetOrdinal("Impuestos")),
+                            Total = reader.GetDecimal(reader.GetOrdinal("Total")),
+                            Transportista = reader.IsDBNull(reader.GetOrdinal("Transportista")) ? null : reader.GetString(reader.GetOrdinal("Transportista")),
+                            ContactoTransportista = reader.IsDBNull(reader.GetOrdinal("ContactoTransportista")) ? null : reader.GetString(reader.GetOrdinal("ContactoTransportista")),
+                            TiempoEntrega = reader.GetInt32(reader.GetOrdinal("TiempoEntrega"))
                         });
                     }
                 }
@@ -132,28 +137,37 @@ namespace Datos
 
             return listaPedidos;
         }
+
+
+        public class Pedido
+        {
+            public int IdPedido { get; set; }
+            public DateTime FechaPedido { get; set; }
+            public string Estado { get; set; }
+            public decimal Subtotal { get; set; }
+            public decimal Impuestos { get; set; }
+            public decimal Total { get; set; }
+        }
+
+        public class PedidoConDetallesDto
+        {
+            public int IdPedido { get; set; }
+            public DateTime FechaPedido { get; set; }
+            public string Estado { get; set; }
+            public decimal Subtotal { get; set; }
+            public decimal Impuestos { get; set; }
+            public decimal Total { get; set; }
+            public string Transportista { get; set; }
+            public int TiempoEntrega { get; set; }
+            public string ContactoTransportista { get; set; }
+        }
+
     }
-    public class PedidoConDetallesDto
-    {
-        public int IdPedido { get; set; }
-        public DateTime FechaPedido { get; set; }
-        public string Estado { get; set; }
-        public decimal CostoTotal { get; set; }
-        public string Transportista { get; set; }
-        public int TiempoEntrega { get; set; }
-        public string ContactoTransportista { get; set; }
-    }
+
     public class Cliente
     {
-        public int Id { get; set; }           // id_cliente
-        public string Telefono { get; set; }     // email
-        public string Direccion { get; set; } // direccion
-    }
-    public class PedidoDto
-    {
-        public int IdPedido { get; set; }
-        public DateTime FechaPedido { get; set; }
-        public string Estado { get; set; }
-        public decimal CostoTotal { get; set; }
+        public int Id { get; set; }
+        public string Telefono { get; set; }
+        public string Direccion { get; set; }
     }
 }

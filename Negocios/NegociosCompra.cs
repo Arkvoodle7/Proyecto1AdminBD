@@ -33,33 +33,46 @@ namespace Negocios
             return productoNegocios;
         }
 
-        public string RealizarCompra(int idCliente, int idProducto, int cantidad)
+        public string RealizarCompra(int idCliente, List<CarritoItem> carritoItems)
         {
-            // Verificar disponibilidad de stock
-            var stockDisponible = datosCompra.VerificarStock(idProducto);
-            if (stockDisponible < cantidad)
+            // Validar que el carrito no esté vacío
+            if (carritoItems == null || !carritoItems.Any())
             {
-                return "No hay suficiente stock disponible.";
+                return "El carrito está vacío.";
+            }
+
+            // Verificar disponibilidad de stock para cada producto
+            foreach (var item in carritoItems)
+            {
+                var stockDisponible = datosCompra.VerificarStock(item.IdProducto);
+                if (stockDisponible < item.Cantidad)
+                {
+                    return $"No hay suficiente stock disponible para el producto {item.Nombre}.";
+                }
             }
 
             // Obtener la fecha actual
             DateTime fechaPedido = DateTime.Now;
 
-            // Crear la orden de compra
-            var resultado = datosCompra.CrearOrdenDeCompra(idCliente, idProducto, cantidad, fechaPedido);
+            // Crear la orden de compra y obtener el id_pedido
+            int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido);
 
-            // Corregir comparación
-            if (resultado == "Compra realizada con éxito.")
+            List<DatosCompra.CarritoItem> datosCarritoItems = carritoItems.Select(item => new DatosCompra.CarritoItem
             {
-                return resultado;
-            }
-            else
-            {
-                return "Error al realizar la compra.";
-            }
+                IdProducto = item.IdProducto,
+                Nombre = item.Nombre,
+                Precio = item.Precio,
+                Cantidad = item.Cantidad,
+                Subtotal = item.Subtotal,
+                Impuestos = item.Impuestos,
+                Total = item.Total
+            }).ToList();
+
+            // Crear los detalles del pedido
+            datosCompra.CrearDetallePedido(idPedido, datosCarritoItems);
+
+            return "Compra realizada con éxito.";
         }
-
-
 
         // Método de mapeo entre Producto de Datos y Producto de Negocios
         private Producto MapearProducto(Datos.Producto productoDatos)
@@ -72,6 +85,34 @@ namespace Negocios
                 TiempoEntrega = productoDatos.TiempoEntrega
             };
         }
+
+        public List<CarritoItem> CalcularTotalesCarrito(List<CarritoItem> carritoItems)
+        {
+            // Mapear CarritoItem de Negocios a Datos
+            List<DatosCompra.CarritoItem> datosCarritoItems = carritoItems.Select(item => new DatosCompra.CarritoItem
+            {
+                IdProducto = item.IdProducto,
+                Cantidad = item.Cantidad
+            }).ToList();
+
+            // Llamar al método de la capa de Datos
+            List<DatosCompra.CarritoItem> datosResultado = datosCompra.CalcularTotalesCarrito(datosCarritoItems);
+
+            // Mapear los resultados de Datos a Negocios
+            List<CarritoItem> resultado = datosResultado.Select(item => new CarritoItem
+            {
+                IdProducto = item.IdProducto,
+                Nombre = item.Nombre,
+                Precio = item.Precio,
+                Cantidad = item.Cantidad,
+                Subtotal = item.Subtotal,
+                Impuestos = item.Impuestos,
+                Total = item.Total
+            }).ToList();
+
+            return resultado;
+        }
+
     }
 
     // Clase Producto en la capa de Negocios
@@ -83,4 +124,15 @@ namespace Negocios
         public int TiempoEntrega { get; set; }
     }
 
+    // Actualizar la clase CarritoItem en la capa de Negocios
+    public class CarritoItem
+    {
+        public int IdProducto { get; set; }
+        public string Nombre { get; set; }
+        public decimal Precio { get; set; }
+        public int Cantidad { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal Impuestos { get; set; }
+        public decimal Total { get; set; }
+    }
 }

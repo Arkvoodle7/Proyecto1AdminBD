@@ -14,7 +14,9 @@
                         <asp:BoundField DataField="IdPedido" HeaderText="Pedido" />
                         <asp:BoundField DataField="FechaPedido" HeaderText="Fecha de Pedido" DataFormatString="{0:yyyy-MM-dd}" />
                         <asp:BoundField DataField="Estado" HeaderText="Estado" />
-                        <asp:BoundField DataField="CostoTotal" HeaderText="Costo Total" DataFormatString="{0:C2}" />
+                        <asp:BoundField DataField="Subtotal" HeaderText="Subtotal" DataFormatString="{0:C2}" />
+                        <asp:BoundField DataField="Impuestos" HeaderText="Impuestos" DataFormatString="{0:C2}" />
+                        <asp:BoundField DataField="Total" HeaderText="Total" DataFormatString="{0:C2}" />
                     </Columns>
                 </asp:GridView>
             </div>

@@ -116,13 +116,13 @@ namespace Datos
                     {
                         Pedido pedido = new Pedido
                         {
-                            IdPedido = reader.GetInt32(0),                      // id_pedido
-                            IdCliente = reader.GetInt32(1),                     // id_cliente
-                            IdProducto = reader.GetInt32(2),                    // id_producto
-                                                                                // Si no necesitas id_transportista, no lo incluyas
-                            FechaPedido = reader.GetDateTime(4),                 // fecha_pedido (5ta columna)
-                            Estado = reader.GetString(5),                        // estado (6ta columna)
-                            CostoTotal = reader.GetDecimal(6)                    // costo_total (7ma columna)
+                            IdPedido = reader.GetInt32(0), // id_pedido (nunca es nulo si es PK)
+                            IdCliente = reader.IsDBNull(1) ? (int?)null : reader.GetInt32(1), // id_cliente
+                            IdProducto = reader.IsDBNull(2) ? (int?)null : reader.GetInt32(2), // id_producto
+                            IdTransportista = reader.IsDBNull(3) ? (int?)null : reader.GetInt32(3), // id_transportista
+                            FechaPedido = reader.IsDBNull(4) ? (DateTime?)null : reader.GetDateTime(4), // fecha_pedido
+                            Estado = reader.IsDBNull(5) ? null : reader.GetString(5), // estado
+                            CostoTotal = reader.IsDBNull(6) ? (decimal?)null : reader.GetDecimal(6) // costo_total
                         };
                         pedidos.Add(pedido);
                     }
@@ -131,16 +131,19 @@ namespace Datos
             return pedidos;
         }
 
+
     }
     public class Pedido
     {
-        public int IdPedido { get; set; }        // id_pedido
-        public int IdCliente { get; set; }       // id_cliente
-        public int IdProducto { get; set; }      // id_producto
-        public DateTime FechaPedido { get; set; } // fecha_pedido
-        public string Estado { get; set; }       // estado
-        public decimal CostoTotal { get; set; }  // costo_total
+        public int IdPedido { get; set; }
+        public int? IdCliente { get; set; }
+        public int? IdProducto { get; set; }
+        public int? IdTransportista { get; set; }
+        public DateTime? FechaPedido { get; set; }
+        public string Estado { get; set; }
+        public decimal? CostoTotal { get; set; }
     }
+
 
     public class Transportista
     {

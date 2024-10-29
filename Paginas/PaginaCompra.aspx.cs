@@ -31,23 +31,46 @@ namespace Proyecto1AdminBD.Paginas
             }
         }
 
-        protected void btnRealizarCompra_Click(object sender, EventArgs e)
+        protected void btnAgregarAlCarrito_Click(object sender, EventArgs e)
         {
-
             if (int.TryParse(txtCantidad.Text, out int cantidad) && cantidad > 0)
             {
-                int idCliente = Convert.ToInt32(Session["IdUsuario"]);
                 int idProducto = Convert.ToInt32(Request.QueryString["productoId"]);
+                Producto producto = compraNegocios.ObtenerProductoPorId(idProducto);
 
-                string mensaje = compraNegocios.RealizarCompra(idCliente, idProducto, cantidad);
+                List<CarritoItem> carrito = Session["Carrito"] as List<CarritoItem> ?? new List<CarritoItem>();
 
-                lblMensajeCompra.Text = mensaje;
+                var itemExistente = carrito.FirstOrDefault(p => p.IdProducto == idProducto);
+                if (itemExistente != null)
+                {
+                    itemExistente.Cantidad += cantidad;
+                }
+                else
+                {
+                    carrito.Add(new CarritoItem
+                    {
+                        IdProducto = producto.IdProducto,
+                        Nombre = producto.Nombre,
+                        Precio = producto.Precio,
+                        Cantidad = cantidad
+                    });
+                }
+
+                Session["Carrito"] = carrito;
+                lblMensajeCompra.Text = "Producto agregado al carrito.";
             }
             else
             {
                 lblMensajeCompra.Text = "Por favor, ingrese una cantidad válida.";
             }
         }
+
+        protected void btnIrAlCarrito_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("PaginaCarrito.aspx");
+        }
+
+
         private void CargarDetallesProducto(int productoId)
         {
             try

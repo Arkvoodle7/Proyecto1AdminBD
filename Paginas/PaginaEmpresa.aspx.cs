@@ -104,7 +104,10 @@ namespace Proyecto1AdminBD.Paginas
                     txtNombre.Text = producto;
                     txtPrecio.Text = precio;
                     txtTiempo.Text = tiempo;
-                    ddlCategoria.SelectedValue = categoria; 
+                    ddlCategoria.SelectedValue = categoria;
+
+                    btnEliminar.Visible = true;
+                    btnEliminar.Visible = true;
                 }
             }
         }
@@ -112,18 +115,26 @@ namespace Proyecto1AdminBD.Paginas
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            txtCodigo.Text = string.Empty;
+            txtNombre.Text = string.Empty;
+            txtPrecio.Text = string.Empty;
+            txtTiempo.Text = string.Empty;
             Recarga();
         }
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
             empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            btnEliminar.Visible = false;
+            btnEliminar.Visible = false;
             Recarga();
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             empresa.DeleteProducto(Convert.ToInt32(txtCodigo.Text));
+            btnEliminar.Visible = false;
+            btnEliminar.Visible = false;
             Recarga();
         }
 

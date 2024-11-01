@@ -25,30 +25,44 @@ namespace Proyecto1AdminBD.Paginas
 
             NegociosRegistro negociosRegistro = new NegociosRegistro();
 
-            if (tipoUsuario == "cliente")
+            try
             {
-                string direccion = txtDireccion.Text;
-                string telefono = txtTelefono.Text;
-                negociosRegistro.RegistrarCliente(nombre, apellido, email, password, direccion, telefono);
-            }
-            else if (tipoUsuario == "proveedor")
-            {
-                string nombreEmpresa = txtNombreEmpresa.Text;
-                string direccion = txtDireccionProveedor.Text;
-                string contacto = txtContacto.Text;
-                string horario = txtHorario.Text;
-                string ubicacion = txtUbicacion.Text;
-                negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion);
-            }
-            else if (tipoUsuario == "transportista")
-            {
-                string tipoTransporte = txtTipoTransporte.Text;
-                string contacto = txtContactoTransporte.Text;
-                negociosRegistro.RegistrarTransportista(nombre, apellido, email, password, tipoTransporte, contacto);
-            }
+                if (tipoUsuario == "cliente")
+                {
+                    string direccion = txtDireccion.Text;
+                    string telefono = txtTelefono.Text;
+                    string fechanac= txtFechaNacimiento.Text;   
+                    negociosRegistro.ValidarCamposCliente(nombre, apellido, email, password, direccion, telefono);
+                    negociosRegistro.RegistrarCliente(nombre, apellido, email, password, direccion, telefono, fechanac);
+                }
+                else if (tipoUsuario == "proveedor")
+                {
+                    string nombreEmpresa = txtNombreEmpresa.Text;
+                    string direccion = txtDireccionProveedor.Text;
+                    string contacto = txtContacto.Text;
+                    string horario = txtHorario.Text;
+                    string ubicacion = txtUbicacion.Text;
+                    string fechanac = txtFechaNacimiento.Text;
+                    negociosRegistro.ValidarCamposProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion);
+                    negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion, fechanac);
+                }
+                else if (tipoUsuario == "transportista")
+                {
+                    string tipoTransporte = txtTipoTransporte.Text;
+                    string contacto = txtContactoTransporte.Text;
+                    string fechanac= txtFechaNacimiento.Text;
+                    negociosRegistro.ValidarCamposTransportista(nombre, apellido, email, password, tipoTransporte, contacto);
+                    negociosRegistro.RegistrarTransportista(nombre, apellido, email, password, tipoTransporte, contacto, fechanac);
+                }
 
-            // Mostrar mensaje de éxito
-            lblMensaje.Text = "Usuario registrado con éxito!";
+                // Mostrar mensaje de éxito
+                lblMensaje.Text = "Usuario registrado con éxito!";
+            }
+            catch (Exception ex)
+            {
+                // Mostrar mensaje de error
+                lblMensaje.Text = ex.Message; 
+            }
         }
 
         protected void ddlTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)

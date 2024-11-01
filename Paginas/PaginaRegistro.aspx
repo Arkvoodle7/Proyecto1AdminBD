@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Registro" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaRegistro.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaRegistro" %>
+﻿<%@ Page Title="Registro" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaRegistro.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaRegistro" %> 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Registro de Usuarios
@@ -44,6 +44,11 @@
                         <!-- Contraseña -->
                         <div class="form-group mb-3">
                             <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" placeholder="Contraseña" TextMode="Password" />
+                        </div>
+
+                         <!-- FechaNacimiento -->
+                        <div class="form-group mb-3">
+                         <asp:TextBox ID="txtFechaNacimiento" runat="server" CssClass="form-control" placeholder="Fecha de Nacimiento" TextMode="Date" />
                         </div>
 
                         <!-- Campos específicos para Cliente -->

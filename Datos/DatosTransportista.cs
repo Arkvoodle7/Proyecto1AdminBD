@@ -46,7 +46,8 @@ namespace Datos
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("UPDATE Transportistas SET tipo_transporte = @tipo_transporte, contacto = @contacto WHERE id_transportista = @id_transportista", conn);
+                SqlCommand cmd = new SqlCommand("sp_UpdateTransportista", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@id_transportista", id);
                 cmd.Parameters.AddWithValue("@tipo_transporte", tipoTransporte);
@@ -62,9 +63,12 @@ namespace Datos
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM Transportistas WHERE id_transportista = @id_transportista", conn);
-                cmd.Parameters.AddWithValue("@id_transportista", id);
+                SqlCommand cmd = new SqlCommand("sp_DeleteTransportista", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.Parameters.AddWithValue("@id_transportista", id);
+                
+                
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
@@ -86,16 +90,10 @@ namespace Datos
                 }
                 catch (SqlException ex)
                 {
-                    // Lanza una excepción personalizada si el error proviene del trigger
-                    if (ex.Number == 50000) // Número del error específico lanzado desde el trigger
-                    {
-                        throw new Exception("El transportista ya tiene un envío activo.");
-                    }
-                    else
-                    {
-                        throw; // Relanza la excepción para que sea manejada en la capa superior
-                    }
+                    Console.WriteLine($"Error Number: {ex.Number}, Message: {ex.Message}");
+                    throw; // Lanza la excepción para ser manejada en la capa superior
                 }
+
             }
         }
 

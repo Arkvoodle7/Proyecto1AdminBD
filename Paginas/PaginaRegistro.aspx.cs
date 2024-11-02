@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.SqlServer.Types;
 using Negocios;
 
 namespace Proyecto1AdminBD.Paginas
@@ -31,26 +32,37 @@ namespace Proyecto1AdminBD.Paginas
                 {
                     string direccion = txtDireccion.Text;
                     string telefono = txtTelefono.Text;
-                    string fechanac= txtFechaNacimiento.Text;   
+                    string fechanac= txtFechaNacimiento.Text;
+
+                    string coordenadas = $"POINT({txtGeography.Text})"; 
+                    SqlGeography geography = SqlGeography.STGeomFromText(new System.Data.SqlTypes.SqlChars(coordenadas), 4326);
+
+
                     negociosRegistro.ValidarCamposCliente(nombre, apellido, email, password, direccion, telefono);
-                    negociosRegistro.RegistrarCliente(nombre, apellido, email, password, direccion, telefono, fechanac);
+                    negociosRegistro.RegistrarCliente(nombre, apellido, email, password, direccion, telefono, fechanac, geography);
                 }
                 else if (tipoUsuario == "proveedor")
                 {
+           
                     string nombreEmpresa = txtNombreEmpresa.Text;
                     string direccion = txtDireccionProveedor.Text;
                     string contacto = txtContacto.Text;
                     string horario = txtHorario.Text;
-                    string ubicacion = txtUbicacion.Text;
+
                     string fechanac = txtFechaNacimiento.Text;
-                    negociosRegistro.ValidarCamposProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion);
-                    negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion, fechanac);
+
+                    string coordenadas = $"POINT({txtGeoProve.Text})"; 
+                    SqlGeography geography = SqlGeography.STGeomFromText(new System.Data.SqlTypes.SqlChars(coordenadas), 4326);
+
+                    negociosRegistro.ValidarCamposProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario);
+                    negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, fechanac, geography);
                 }
                 else if (tipoUsuario == "transportista")
                 {
                     string tipoTransporte = txtTipoTransporte.Text;
                     string contacto = txtContactoTransporte.Text;
                     string fechanac= txtFechaNacimiento.Text;
+
                     negociosRegistro.ValidarCamposTransportista(nombre, apellido, email, password, tipoTransporte, contacto);
                     negociosRegistro.RegistrarTransportista(nombre, apellido, email, password, tipoTransporte, contacto, fechanac);
                 }
@@ -87,6 +99,10 @@ namespace Proyecto1AdminBD.Paginas
             {
                 transportistaFields.Visible = true;
             }
+        }
+        private string ConvertToGeography(string coordenadas)
+        {
+            return $"POINT({coordenadas})";
         }
 
     }

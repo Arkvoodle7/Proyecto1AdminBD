@@ -105,6 +105,15 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.TextBox txtTelefono;
 
         /// <summary>
+        /// Control txtGeography.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGeography;
+
+        /// <summary>
         /// Control proveedorFields.
         /// </summary>
         /// <remarks>
@@ -150,13 +159,13 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.TextBox txtHorario;
 
         /// <summary>
-        /// Control txtUbicacion.
+        /// Control txtGeoProve.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUbicacion;
+        protected global::System.Web.UI.WebControls.TextBox txtGeoProve;
 
         /// <summary>
         /// Control transportistaFields.

@@ -55,6 +55,7 @@
                         <div id="clienteFields" runat="server" visible="false">
                             <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control mb-3" placeholder="Dirección" />
                             <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control mb-3" placeholder="Teléfono" />
+                            <asp:TextBox ID="txtGeography" runat="server" CssClass="form-control mb-3" placeholder="Geografía (coordenadas o dirección)" />
                         </div>
 
                         <!-- Campos específicos para Proveedor -->
@@ -63,7 +64,7 @@
                             <asp:TextBox ID="txtDireccionProveedor" runat="server" CssClass="form-control mb-3" placeholder="Dirección de Empresa" />
                             <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control mb-3" placeholder="Contacto" />
                             <asp:TextBox ID="txtHorario" runat="server" CssClass="form-control mb-3" placeholder="Horario" />
-                            <asp:TextBox ID="txtUbicacion" runat="server" CssClass="form-control mb-3" placeholder="Ubicación" />
+                            <asp:TextBox ID="txtGeoProve" runat="server" CssClass="form-control mb-3" placeholder="Geografía (coordenadas o dirección)" />
                         </div>
 
                         <!-- Campos específicos para Transportista -->

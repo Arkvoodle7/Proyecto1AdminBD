@@ -1,7 +1,9 @@
 ﻿using Datos;
+using Microsoft.SqlServer.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,12 +13,12 @@ namespace Negocios
     public class NegociosRegistro
     {
         DatosRegistro datosRegistro = new DatosRegistro();
-
-        public void RegistrarCliente(string nombre, string apellido, string email, string password, string direccion, string telefono, string fechanac)
+        public void RegistrarCliente(string nombre, string apellido, string email, string password, string direccion, string telefono, string fechanac, SqlGeography ubicacion)
         {
             try
             {
-                datosRegistro.AgregarCliente(nombre, apellido, email, password, direccion, telefono, fechanac);
+               
+                datosRegistro.AgregarCliente(nombre, apellido, email, password, direccion, telefono, fechanac, ubicacion);
             }
             catch (Exception ex)
             {
@@ -24,11 +26,11 @@ namespace Negocios
             }
         }
 
-        public void RegistrarProveedor(string nombre, string apellido, string email, string password, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion, string fechanac)
+        public void RegistrarProveedor(string nombre, string apellido, string email, string password, string nombreEmpresa, string direccion, string contacto, string horario, string fechanac, SqlGeography ubicacion )
         {
             try
             {
-                datosRegistro.AgregarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion, fechanac);
+                datosRegistro.AgregarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, fechanac, ubicacion);
             }
             catch (Exception ex)
             {
@@ -62,7 +64,7 @@ namespace Negocios
         }
 
         // Método para validar campos del proveedor
-        public void ValidarCamposProveedor(string nombre, string apellido, string email, string password, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        public void ValidarCamposProveedor(string nombre, string apellido, string email, string password, string nombreEmpresa, string direccion, string contacto, string horario)
         {
             // Se pueden agregar validaciones similares a las del cliente
             if (string.IsNullOrWhiteSpace(nombre)) throw new ArgumentException("El nombre no puede estar vacío.");
@@ -73,7 +75,6 @@ namespace Negocios
             if (string.IsNullOrWhiteSpace(direccion)) throw new ArgumentException("La dirección no puede estar vacía.");
             if (string.IsNullOrWhiteSpace(contacto)) throw new ArgumentException("El contacto no puede estar vacío.");
             if (string.IsNullOrWhiteSpace(horario)) throw new ArgumentException("El horario no puede estar vacío.");
-            if (string.IsNullOrWhiteSpace(ubicacion)) throw new ArgumentException("La ubicación no puede estar vacía.");
         }
 
         // Método para validar campos del transportista

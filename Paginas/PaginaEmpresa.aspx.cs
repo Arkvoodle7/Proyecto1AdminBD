@@ -43,7 +43,6 @@ namespace Proyecto1AdminBD.Paginas
                 txtDireccion.Text = provedor[2];
                 txtHorario.Text = provedor[3];
                 txtEmpresa.Text = provedor[4];
-                txtUbicacion.Text = provedor[5];
             }
             else
             {
@@ -51,7 +50,6 @@ namespace Proyecto1AdminBD.Paginas
                 txtContacto.Text = "Usuario no registrado";
                 txtHorario.Text = "Usuario no registrado";
                 txtEmpresa.Text = "Usuario no registrado";
-                txtUbicacion.Text = "Usuario no registrado";
             }
 
         }

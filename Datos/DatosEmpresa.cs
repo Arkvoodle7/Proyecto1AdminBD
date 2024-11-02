@@ -38,7 +38,6 @@ namespace Datos
                             Provedor.Add(reader["direccion"].ToString());
                             Provedor.Add(reader["horario"].ToString());
                             Provedor.Add(reader["nombre_empresa"].ToString());
-                            Provedor.Add(reader["ubicacion"].ToString());
                         }
                     }
                 }
@@ -365,7 +364,6 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Direccion", direccion);
                 cmd.Parameters.AddWithValue("@Contacto", contacto);
                 cmd.Parameters.AddWithValue("@Horario", horario);
-                cmd.Parameters.AddWithValue("@Ubicacion", ubicacion);
 
                 try
                 {

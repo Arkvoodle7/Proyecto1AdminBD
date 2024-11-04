@@ -194,6 +194,75 @@ namespace Datos
             return resultado;
         }
 
+        //Metodo para el calculo del precio por kilometro
+        public void CalcularCostoEnvio(int idPedido)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdPedido", idPedido);
+
+                // Salida o respuesta
+                SqlParameter outputParam = new SqlParameter("@CostoTotal", SqlDbType.Decimal)
+                {
+                    Direction = ParameterDirection.Output,
+                    Precision = 10,
+                    Scale = 2
+                };
+                cmd.Parameters.Add(outputParam);
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    
+                    decimal costoTotal = (decimal)outputParam.Value;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Error al calcular el costo del envio: " + ex.Message);
+                }
+            }
+
+        }
+        public List<PedidoDatos> ObtenerPedidosPendientes(int idCliente)
+            {
+                List<PedidoDatos> listaPedidos = new List<PedidoDatos>();
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("SP_PedidosPendientes", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", idCliente);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        PedidoDatos pedido = new PedidoDatos
+                        {
+                            IdPedido = (int)reader["id_pedido"],
+                            FechaPedido = (DateTime)reader["fecha_pedido"],
+                            Estado = reader["estado"].ToString(),
+                            Subtotal = (decimal)reader["Subtotal"],
+                            Impuestos = (decimal)reader["Impuestos"],
+                            Total = (decimal)reader["Total"]
+                        };
+
+                        listaPedidos.Add(pedido);
+                    }
+                }
+
+                return listaPedidos;
+            }
+     
+
+        
+
         // Clase CarritoItem en la capa de Datos
         public class CarritoItem
         {
@@ -215,5 +284,18 @@ namespace Datos
         public string Nombre { get; set; }
         public decimal Precio { get; set; }
         public int TiempoEntrega { get; set; }
+    }
+
+    public class PedidoDatos
+    {
+        public int IdPedido { get; set; }
+        public DateTime FechaPedido { get; set; }
+        public string Estado { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal Impuestos { get; set; }
+        public decimal Total { get; set; }
+        public string Transportista { get; set; }
+        public int TiempoEntrega { get; set; }
+        public string ContactoTransportista { get; set; }
     }
 }

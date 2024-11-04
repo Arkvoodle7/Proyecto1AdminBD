@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.SqlServer.Types;
 using Negocios;
 
 namespace Proyecto1AdminBD.Paginas
@@ -25,30 +26,55 @@ namespace Proyecto1AdminBD.Paginas
 
             NegociosRegistro negociosRegistro = new NegociosRegistro();
 
-            if (tipoUsuario == "cliente")
+            try
             {
-                string direccion = txtDireccion.Text;
-                string telefono = txtTelefono.Text;
-                negociosRegistro.RegistrarCliente(nombre, apellido, email, password, direccion, telefono);
-            }
-            else if (tipoUsuario == "proveedor")
-            {
-                string nombreEmpresa = txtNombreEmpresa.Text;
-                string direccion = txtDireccionProveedor.Text;
-                string contacto = txtContacto.Text;
-                string horario = txtHorario.Text;
-                string ubicacion = txtUbicacion.Text;
-                negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, ubicacion);
-            }
-            else if (tipoUsuario == "transportista")
-            {
-                string tipoTransporte = txtTipoTransporte.Text;
-                string contacto = txtContactoTransporte.Text;
-                negociosRegistro.RegistrarTransportista(nombre, apellido, email, password, tipoTransporte, contacto);
-            }
+                if (tipoUsuario == "cliente")
+                {
+                    string direccion = txtDireccion.Text;
+                    string telefono = txtTelefono.Text;
+                    string fechanac= txtFechaNacimiento.Text;
 
-            // Mostrar mensaje de éxito
-            lblMensaje.Text = "Usuario registrado con éxito!";
+                    string coordenadas = $"POINT({txtGeography.Text})"; 
+                    SqlGeography geography = SqlGeography.STGeomFromText(new System.Data.SqlTypes.SqlChars(coordenadas), 4326);
+
+
+                    negociosRegistro.ValidarCamposCliente(nombre, apellido, email, password, direccion, telefono);
+                    negociosRegistro.RegistrarCliente(nombre, apellido, email, password, direccion, telefono, fechanac, geography);
+                }
+                else if (tipoUsuario == "proveedor")
+                {
+           
+                    string nombreEmpresa = txtNombreEmpresa.Text;
+                    string direccion = txtDireccionProveedor.Text;
+                    string contacto = txtContacto.Text;
+                    string horario = txtHorario.Text;
+
+                    string fechanac = txtFechaNacimiento.Text;
+
+                    string coordenadas = $"POINT({txtGeoProve.Text})"; 
+                    SqlGeography geography = SqlGeography.STGeomFromText(new System.Data.SqlTypes.SqlChars(coordenadas), 4326);
+
+                    negociosRegistro.ValidarCamposProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario);
+                    negociosRegistro.RegistrarProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario, fechanac, geography);
+                }
+                else if (tipoUsuario == "transportista")
+                {
+                    string tipoTransporte = txtTipoTransporte.Text;
+                    string contacto = txtContactoTransporte.Text;
+                    string fechanac= txtFechaNacimiento.Text;
+
+                    negociosRegistro.ValidarCamposTransportista(nombre, apellido, email, password, tipoTransporte, contacto);
+                    negociosRegistro.RegistrarTransportista(nombre, apellido, email, password, tipoTransporte, contacto, fechanac);
+                }
+
+                // Mostrar mensaje de éxito
+                lblMensaje.Text = "Usuario registrado con éxito!";
+            }
+            catch (Exception ex)
+            {
+                // Mostrar mensaje de error
+                lblMensaje.Text = ex.Message; 
+            }
         }
 
         protected void ddlTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
@@ -73,6 +99,10 @@ namespace Proyecto1AdminBD.Paginas
             {
                 transportistaFields.Visible = true;
             }
+        }
+        private string ConvertToGeography(string coordenadas)
+        {
+            return $"POINT({coordenadas})";
         }
 
     }

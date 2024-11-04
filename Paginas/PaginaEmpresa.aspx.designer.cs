@@ -51,15 +51,6 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.TextBox txtHorario;
 
         /// <summary>
-        /// Control btnActualizaV.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActualizaV;
-
-        /// <summary>
         /// Control txtUbicacion.
         /// </summary>
         /// <remarks>
@@ -67,6 +58,15 @@ namespace Proyecto1AdminBD.Paginas
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUbicacion;
+
+        /// <summary>
+        /// Control btnActualizaV.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActualizaV;
 
         /// <summary>
         /// Control txtCodigo.
@@ -114,6 +114,15 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.TextBox txtTiempo;
 
         /// <summary>
+        /// Control txtstock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtstock;
+
+        /// <summary>
         /// Control btnGuardar.
         /// </summary>
         /// <remarks>
@@ -141,12 +150,12 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.Button btnEliminar;
 
         /// <summary>
-        /// Control ProductosTable.
+        /// Control ProductosGridView.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable ProductosTable;
+        protected global::System.Web.UI.WebControls.GridView ProductosGridView;
     }
 }

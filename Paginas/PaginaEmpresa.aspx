@@ -1,7 +1,7 @@
-﻿<%@ Page Title="Empresas" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaEmpresa.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaEmpresa" %>
+﻿<%@ Page Title="Empresas" Language="C#" AutoEventWireup="true" CodeBehind="PaginaEmpresa.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaEmpresa" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Gestión de Empresas
+    Empresas
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -15,52 +15,77 @@
                 Información de la Empresa
             </div>
             <div class="card-body">
-                <!-- Primera fila con Nombre Empresa y Direccin -->
                 <div class="row mb-3">
                     <div class="col-md-6">
-                         <label for="lblEmpresa" class="form-label">Empresa:</label>
+                        <label for="lblEmpresa" class="form-label">Empresa:</label>
                         <asp:TextBox ID="txtEmpresa" runat="server" CssClass="form-control" Placeholder="Ingrese la empresa:"></asp:TextBox>
                     </div>
                     <div class="col-md-6">
-                        <label for="lblDireccion" class="form-label">Direccion:</label>
-                        <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" Placeholder="Ingrese la direccion:"></asp:TextBox>
+                        <label for="lblDireccion" class="form-label">Dirección:</label>
+                        <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" Placeholder="Ingrese la dirección:"></asp:TextBox>
                     </div>
                 </div>
+                <div class="card-body">
+                    <!-- Primera fila con Nombre Empresa y Dirección -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                             <label for="lblEmpresa" class="form-label">Empresa:</label>
+                            <asp:TextBox ID="txtEmpresa" runat="server" CssClass="form-control" Placeholder="Ingrese la empresa:"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lblDireccion" class="form-label">Dirección:</label>
+                            <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" Placeholder="Ingrese la dirección:"></asp:TextBox>
+                        </div>
+                    </div>
 
-                <!-- Segunda fila con Contacto y Horario . -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="lblContacto" class="form-label">Contacto:</label>
                         <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control" Placeholder="Ingrese el contacto:"></asp:TextBox>
                     </div>
-                    <div class="col-md-6">
-                        <label for="lblHorario" class="form-label">Horario:</label>
-                        <asp:TextBox ID="txtHorario" runat="server" CssClass="form-control" Placeholder="Ingrese el horario:"></asp:TextBox>
+
+                    <!-- Tercera fila con Ubicación y botón -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="lblUbicacion" class="form-label">Ubicación:</label>
+                            <asp:TextBox ID="txtUbicacion" runat="server" CssClass="form-control" Placeholder="Ingrese la ubicación:"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <asp:Button ID="btnActualizaV" runat="server" OnClick="btnActualizaV_Click" Text="Actualizar datos" Width="172px" />
+                        </div>
+                        
                     </div>
                 </div>
+            </div>
 
-                <!-- Tercera fila con Ubicacion y boton -->
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="lblUbicacion" class="form-label">Ubicacion:</label>
+                        <label for="lblUbicacion" class="form-label">Ubicación:</label>
+                        <asp:TextBox ID="txtUbicacion" runat="server" CssClass="form-control" Placeholder="Ingrese la ubicación:"></asp:TextBox>
+                    </div>
+                    <div class="col-md-6">
                         <asp:Button ID="btnActualizaV" runat="server" OnClick="btnActualizaV_Click" Text="Actualizar datos" Width="172px" />
-                        <asp:TextBox ID="txtUbicacion" runat="server" CssClass="form-control" Placeholder="Ingrese la ubicacion:"></asp:TextBox>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Primera fila con Nombre Producto y Categoria -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-boxes me-1"></i>
+                Registrar Productos
+            </div>
+            <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="lblCodigo" class="form-label">Código Producto:</label>
-                        <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" Placeholder="Ingrese código del producto:"></asp:TextBox>
+                        <asp:TextBox ID="txtCodigo" runat="server" CssClass="form-control" Placeholder="Ingrese código del producto:" ReadOnly="true"></asp:TextBox>
                     </div>
                     <div class="col-md-6">
                         <label for="lblNombre" class="form-label">Nombre Producto:</label>
                         <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" Placeholder="Ingrese nombre del producto"></asp:TextBox>
                     </div>
-                </div>
 
-                <!-- Segunda fila con Categoria, Precio y Tiempo de entrega -->
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="lblCategoria" class="form-label">Categoría:</label>
@@ -70,24 +95,35 @@
                             <asp:ListItem Value="zapatos">Zapatos</asp:ListItem>
                         </asp:DropDownList>
                     </div>
-                    <div class="col-md-4">
-                        <label for="lblPrecio" class="form-label">Precio:</label>
-                        <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" Placeholder="Ingrese el precio"></asp:TextBox>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="lblTiempo" class="form-label">Tiempo de Entrega:</label>
+                            <asp:TextBox ID="txtTiempo" runat="server" CssClass="form-control" Placeholder="Ingrese tiempo en días"></asp:TextBox>
+                        </div>
                     </div>
+                </div>
+
+                <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="lblTiempo" class="form-label">Tiempo de Entrega:</label>
                         <asp:TextBox ID="txtTiempo" runat="server" CssClass="form-control" Placeholder="Ingrese tiempo en días"></asp:TextBox>
                     </div>
+                    <div class="col-md-4">
+                        <label for="lblstock" class="form-label">Stock Disponible:</label>
+                        <asp:TextBox ID="txtstock" runat="server" CssClass="form-control" Placeholder="Ingrese el stock"></asp:TextBox>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Botones -->
                 <div class="mb-3">
                     <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-                    <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-primary" OnClick="btnActualizar_Click" />
-                    <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnEliminar_Click" />
+                    <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-primary" OnClick="btnActualizar_Click" Visible="false" />
+                    <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnEliminar_Click" Visible="false" />
                 </div>
             </div>
         </div>
+    </form>
 
         <div class="card mb-4">
             <div class="card-header">
@@ -95,21 +131,17 @@
                 Productos Registrados
             </div>
             <div class="card-body">
-                <table id="ProductosTable" runat="server" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Proveedor</th>
-                            <th>Producto</th>
-                            <th>Categoría</th>
-                            <th>Precio</th>
-                            <th>Tiempo de entrega</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Las filas se agregan aquí -->
-                    </tbody>
-                </table>
+                <asp:GridView ID="ProductosGridView" runat="server" CssClass="table table-striped" AutoGenerateColumns="false" OnSelectedIndexChanged="ProductosGridView_SelectedIndexChanged" AutoPostBack="true">
+                    <Columns>
+                        <asp:CommandField ShowSelectButton="true" SelectText="Seleccionar" />
+                        <asp:BoundField DataField="IdProducto" HeaderText="ID" />
+                        <asp:BoundField DataField="Nombre" HeaderText="Producto" />
+                        <asp:BoundField DataField="Categoria" HeaderText="Categoría" />
+                        <asp:BoundField DataField="Precio" HeaderText="Precio" />
+                        <asp:BoundField DataField="TiempoEntrega" HeaderText="Tiempo de entrega" DataFormatString="{0} días" />
+                        <asp:BoundField DataField="Stock" HeaderText="Stock" />
+                    </Columns>
+                </asp:GridView>
             </div>
         </div>
     </div>

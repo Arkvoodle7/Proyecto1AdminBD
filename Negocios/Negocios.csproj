@@ -58,6 +58,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Datos\Datos.csproj">
       <Project>{0f006040-1704-403a-968e-34cec112ef96}</Project>
       <Name>Datos</Name>

@@ -11,7 +11,7 @@ namespace Proyecto1AdminBD.Paginas
 {
 
 
-    public partial class Envios
+    public partial class Formulario_web11
     {
 
         /// <summary>

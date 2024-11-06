@@ -54,10 +54,14 @@ namespace Negocios
             // Obtener la fecha actual
             DateTime fechaPedido = DateTime.Now;
 
-            // Crear la orden de compra y obtener el id_pedido
-            int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido);
+            // Obtener el id_producto del primer artículo del carrito para almacenar en Pedidos
+            int idProductoPrincipal = carritoItems.First().IdProducto;
 
-            List<DatosCompra.CarritoItem> datosCarritoItems = carritoItems.Select(item => new DatosCompra.CarritoItem
+            // Crear la orden de compra y obtener el id_pedido
+            int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido, idProductoPrincipal);
+
+            // Mapear los CarritoItem de Negocios a Datos
+            List<DatosCompra.CarritoItem> carritoItemsDatos = carritoItems.Select(item => new DatosCompra.CarritoItem
             {
                 IdProducto = item.IdProducto,
                 Nombre = item.Nombre,
@@ -69,10 +73,12 @@ namespace Negocios
             }).ToList();
 
             // Crear los detalles del pedido
-            datosCompra.CrearDetallePedido(idPedido, datosCarritoItems);
+            datosCompra.CrearDetallePedido(idPedido, carritoItemsDatos);
 
             return "Compra realizada con éxito.";
         }
+
+
 
         // Método de mapeo entre Producto de Datos y Producto de Negocios
         private Producto MapearProducto(Datos.Producto productoDatos)

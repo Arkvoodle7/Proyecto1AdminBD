@@ -40,7 +40,7 @@ namespace Datos
         }
 
         // Método para crear una orden de compra
-        public int CrearOrdenDeCompra(int idCliente, DateTime fechaPedido)
+        public int CrearOrdenDeCompra(int idCliente, DateTime fechaPedido, int idProductoPrincipal)
         {
             int idPedido = 0;
 
@@ -56,6 +56,7 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@fecha_pedido", fechaPedido);
                     cmd.Parameters.AddWithValue("@estado", "Pendiente"); // Estado inicial de la compra
                     cmd.Parameters.AddWithValue("@id_transportista", DBNull.Value); // Inicialmente nulo
+                    cmd.Parameters.AddWithValue("@id_producto", idProductoPrincipal); // Producto principal
 
                     conn.Open();
                     // Ejecutar y obtener el id_pedido generado
@@ -69,6 +70,7 @@ namespace Datos
 
             return idPedido;
         }
+
 
         // Método para crear los detalles del pedido
         public void CrearDetallePedido(int idPedido, List<CarritoItem> carritoItems)
@@ -203,10 +205,10 @@ namespace Datos
                 SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@comand", 1);
+                // Eliminar el parámetro @comand, ya que el procedimiento almacenado no lo necesita
                 cmd.Parameters.AddWithValue("@IdPedido", idPedido);
 
-                // Salida
+                // Parámetro de salida
                 SqlParameter outputParam = new SqlParameter("@Distancia", SqlDbType.Decimal)
                 {
                     Direction = ParameterDirection.Output,
@@ -220,19 +222,17 @@ namespace Datos
                     conn.Open();
                     cmd.ExecuteNonQuery();
 
-
                     distancia = (decimal)outputParam.Value;
-
                     return distancia;
-
 
                 }
                 catch (SqlException ex)
                 {
-                    throw new Exception("Error al calcular la distancia del envio: " + ex.Message);
+                    throw new Exception("Error al calcular la distancia del envío: " + ex.Message);
                 }
             }
         }
+
 
         public decimal CalcularDistancia(int idPedido)
         {
@@ -242,7 +242,6 @@ namespace Datos
                 SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@comand", 2);
                 cmd.Parameters.AddWithValue("@IdPedido", idPedido);
 
                 // Salida

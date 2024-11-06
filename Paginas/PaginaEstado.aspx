@@ -14,7 +14,7 @@
                         <asp:BoundField DataField="IdCliente" HeaderText="Cliente" />
                         <asp:BoundField DataField="FechaPedido" HeaderText="Fecha de Pedido" />
                         <asp:BoundField DataField="Estado" HeaderText="Estado" />
-                        <asp:CommandField ShowSelectButton="true" SelectText="Cancerlar" />
+                        <asp:CommandField ShowSelectButton="true" SelectText="Cancelar" />
                     </Columns>
               </asp:GridView>
             </div>

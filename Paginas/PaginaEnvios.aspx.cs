@@ -27,58 +27,53 @@ namespace Proyecto1AdminBD.Paginas
         {
             if (e.CommandName == "AsignarTransportista")
             {
-                // Obtén el ID del pedido desde el CommandArgument
                 int idPedido = Convert.ToInt32(e.CommandArgument);
 
-                // Obtén el ID del transportista desde la sesión
                 if (Session["IdUsuario"] != null)
                 {
                     int idTransportista = (int)Session["IdUsuario"];
 
                     try
                     {
-                        decimal resp = negociosCompra.CalcularDistancia(idTransportista);
-                        if (resp >= 0)
+                        decimal costoEnvio = negociosCompra.CalcularDistancia(idPedido);
+
+                        // Verificamos si el costo de envío es válido
+                        if (costoEnvio >= 0)
                         {
-                            // Asignar el transportista al pedido
+                            // Asignar el transportista solo si la distancia está dentro de cobertura
                             negocioPedidos.AsignarTransportista(idPedido, idTransportista);
 
-                            // Mostrar un mensaje de éxito
-                            lblMensaje.Text = "Transportista asignado con éxito.";
-                            lblMensaje.ForeColor = System.Drawing.Color.Green; // Cambia el color del mensaje
+                            // Mostrar mensaje de éxito
+                            lblMensaje.Text = "Transportista asignado con éxito. Costo de envío: " + costoEnvio.ToString("C");
+                            lblMensaje.ForeColor = System.Drawing.Color.Green;
                         }
                         else
                         {
-                            lblMensaje.Text = "La distancia no puede ser mayor a 12 km";
-                            lblMensaje.ForeColor = System.Drawing.Color.Red; // Cambia el color del mensaje
+                            // Mostrar mensaje si la distancia está fuera de cobertura
+                            lblMensaje.Text = "La distancia está fuera de cobertura. No se puede asignar el transportista.";
+                            lblMensaje.ForeColor = System.Drawing.Color.Red;
                         }
-
                     }
                     catch (Exception ex)
                     {
-                        // Mostrar el mensaje de error
-                        lblMensaje.Text = ex.Message; // Muestra el mensaje de error que viene de la capa de negocio
-                        lblMensaje.ForeColor = System.Drawing.Color.Red; // Cambia el color del mensaje
+                        lblMensaje.Text = ex.Message;
+                        lblMensaje.ForeColor = System.Drawing.Color.Red;
                     }
                     finally
                     {
-                        // Asegúrate de que el mensaje sea visible
                         lblMensaje.Visible = true;
-
-                        // Re-cargar el GridView
-                        CargarPedidos(); // Asegúrate de implementar este método
+                        CargarPedidos();
                     }
                 }
                 else
                 {
-                    // Manejar el caso en el que no haya un transportista asignado en la sesión
                     lblMensaje.Text = "No se ha seleccionado un transportista.";
-                    lblMensaje.ForeColor = System.Drawing.Color.Red; // Cambia el color del mensaje
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
                     lblMensaje.Visible = true;
                 }
             }
-
         }
+
 
 
         private void CargarPedidos()

@@ -2,8 +2,6 @@
 using Datos;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocios
 {
@@ -13,13 +11,11 @@ namespace Negocios
 
         public Producto ObtenerProductoPorId(int idProducto)
         {
-            // Validación adicional
             if (idProducto <= 0)
             {
                 throw new ArgumentException("El ID del producto debe ser un número positivo.");
             }
 
-            // Obtener el producto de la capa de Datos
             Datos.Producto productoDatos = datosCompra.ObtenerProductoPorId(idProducto);
 
             if (productoDatos == null)
@@ -27,21 +23,16 @@ namespace Negocios
                 throw new Exception("Producto no encontrado.");
             }
 
-            // Convertir el producto de Datos a Negocios
-            Producto productoNegocios = MapearProducto(productoDatos);
-
-            return productoNegocios;
+            return MapearProducto(productoDatos);
         }
 
         public string RealizarCompra(int idCliente, List<CarritoItem> carritoItems)
         {
-            // Validar que el carrito no esté vacío
             if (carritoItems == null || !carritoItems.Any())
             {
                 return "El carrito está vacío.";
             }
 
-            // Verificar disponibilidad de stock para cada producto
             foreach (var item in carritoItems)
             {
                 var stockDisponible = datosCompra.VerificarStock(item.IdProducto);
@@ -51,16 +42,11 @@ namespace Negocios
                 }
             }
 
-            // Obtener la fecha actual
+            decimal costoTotal = carritoItems.Sum(item => item.Precio * item.Cantidad);
             DateTime fechaPedido = DateTime.Now;
-
-            // Obtener el id_producto del primer artículo del carrito para almacenar en Pedidos
             int idProductoPrincipal = carritoItems.First().IdProducto;
+            int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido, idProductoPrincipal, costoTotal);
 
-            // Crear la orden de compra y obtener el id_pedido
-            int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido, idProductoPrincipal);
-
-            // Mapear los CarritoItem de Negocios a Datos
             List<DatosCompra.CarritoItem> carritoItemsDatos = carritoItems.Select(item => new DatosCompra.CarritoItem
             {
                 IdProducto = item.IdProducto,
@@ -72,15 +58,11 @@ namespace Negocios
                 Total = item.Total
             }).ToList();
 
-            // Crear los detalles del pedido
             datosCompra.CrearDetallePedido(idPedido, carritoItemsDatos);
 
             return "Compra realizada con éxito.";
         }
 
-
-
-        // Método de mapeo entre Producto de Datos y Producto de Negocios
         private Producto MapearProducto(Datos.Producto productoDatos)
         {
             return new Producto
@@ -94,18 +76,15 @@ namespace Negocios
 
         public List<CarritoItem> CalcularTotalesCarrito(List<CarritoItem> carritoItems)
         {
-            // Mapear CarritoItem de Negocios a Datos
             List<DatosCompra.CarritoItem> datosCarritoItems = carritoItems.Select(item => new DatosCompra.CarritoItem
             {
                 IdProducto = item.IdProducto,
                 Cantidad = item.Cantidad
             }).ToList();
 
-            // Llamar al método de la capa de Datos
             List<DatosCompra.CarritoItem> datosResultado = datosCompra.CalcularTotalesCarrito(datosCarritoItems);
 
-            // Mapear los resultados de Datos a Negocios
-            List<CarritoItem> resultado = datosResultado.Select(item => new CarritoItem
+            return datosResultado.Select(item => new CarritoItem
             {
                 IdProducto = item.IdProducto,
                 Nombre = item.Nombre,
@@ -115,17 +94,16 @@ namespace Negocios
                 Impuestos = item.Impuestos,
                 Total = item.Total
             }).ToList();
-
-            return resultado;
         }
 
         public decimal CambiarEntregado(int idPedido)
         {
-            decimal res;
-            res = datosCompra.CalcularCostoEnvio(idPedido);
-            if (res >= 0 && res <= 12)
+            decimal costoTotal;
+            decimal resultado = datosCompra.CalcularCostoEnvio(idPedido, out costoTotal);
+
+            if (costoTotal >= 0 && costoTotal <= 12)
             {
-                return res;
+                return resultado;
             }
             else
             {
@@ -133,47 +111,52 @@ namespace Negocios
             }
         }
 
+
+
         public decimal CalcularDistancia(int idPedido)
         {
-            decimal res;
-            res = datosCompra.CalcularDistancia(idPedido);
-            if (res >= 0 && res <= 12)
+            decimal costoTotal;
+            try
             {
-                return res;
+                costoTotal = datosCompra.CalcularCostoEnvio(idPedido, out decimal distancia);
+
+                // Si la distancia está fuera del rango permitido, devolvemos un costo de envío de -1
+                if (distancia > 12)
+                {
+                    return -1; // Indicando que está fuera de cobertura
+                }
+
+                // Si la distancia es válida, devolvemos el costo total
+                return costoTotal;
+
             }
-            else
+            catch (Exception ex)
             {
-                return -1;
+                throw new Exception("Error al calcular el costo de envío: " + ex.Message);
             }
         }
+
+
 
         public List<PedidoDet> ObtenerPendientes(int idCliente)
         {
             var listaPedidosDatos = datosCompra.ObtenerPedidosPendientes(idCliente);
 
-            List<PedidoDet> listaPedidosNegocios = new List<PedidoDet>();
-
-            foreach (var pedido in listaPedidosDatos)
+            return listaPedidosDatos.Select(pedido => new PedidoDet
             {
-                listaPedidosNegocios.Add(new PedidoDet
-                {
-                    IdPedido = pedido.IdPedido,
-                    FechaPedido = pedido.FechaPedido,
-                    Estado = pedido.Estado,
-                    Subtotal = pedido.Subtotal,
-                    Impuestos = pedido.Impuestos,
-                    Total = pedido.Total,
-                    Transportista = pedido.Transportista,
-                    TiempoEntrega = pedido.TiempoEntrega,
-                    ContactoTransportista = pedido.ContactoTransportista
-                });
-            }
-
-            return listaPedidosNegocios;
+                IdPedido = pedido.IdPedido,
+                FechaPedido = pedido.FechaPedido,
+                Estado = pedido.Estado,
+                Subtotal = pedido.Subtotal,
+                Impuestos = pedido.Impuestos,
+                Total = pedido.Total,
+                Transportista = pedido.Transportista,
+                TiempoEntrega = pedido.TiempoEntrega,
+                ContactoTransportista = pedido.ContactoTransportista
+            }).ToList();
         }
-
     }
-    //Detalles en negocios
+
     public class PedidoDet
     {
         public int IdPedido { get; set; }
@@ -186,7 +169,7 @@ namespace Negocios
         public int TiempoEntrega { get; set; }
         public string ContactoTransportista { get; set; }
     }
-    // Clase Producto en la capa de Negocios
+
     public class Producto
     {
         public int IdProducto { get; set; }
@@ -195,7 +178,6 @@ namespace Negocios
         public int TiempoEntrega { get; set; }
     }
 
-    // Actualizar la clase CarritoItem en la capa de Negocios
     public class CarritoItem
     {
         public int IdProducto { get; set; }

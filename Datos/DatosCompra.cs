@@ -40,7 +40,7 @@ namespace Datos
         }
 
         // Método para crear una orden de compra
-        public int CrearOrdenDeCompra(int idCliente, DateTime fechaPedido, int idProductoPrincipal)
+        public int CrearOrdenDeCompra(int idCliente, DateTime fechaPedido, int idProductoPrincipal, decimal costoTotal)
         {
             int idPedido = 0;
 
@@ -54,9 +54,10 @@ namespace Datos
                     // Agregar parámetros necesarios
                     cmd.Parameters.AddWithValue("@id_cliente", idCliente);
                     cmd.Parameters.AddWithValue("@fecha_pedido", fechaPedido);
-                    cmd.Parameters.AddWithValue("@estado", "Pendiente"); // Estado inicial de la compra
-                    cmd.Parameters.AddWithValue("@id_transportista", DBNull.Value); // Inicialmente nulo
-                    cmd.Parameters.AddWithValue("@id_producto", idProductoPrincipal); // Producto principal
+                    cmd.Parameters.AddWithValue("@estado", "Pendiente");
+                    cmd.Parameters.AddWithValue("@id_transportista", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@id_producto", idProductoPrincipal);
+                    cmd.Parameters.AddWithValue("@costo_total", costoTotal); // Nuevo parámetro
 
                     conn.Open();
                     // Ejecutar y obtener el id_pedido generado
@@ -72,6 +73,7 @@ namespace Datos
         }
 
 
+
         // Método para crear los detalles del pedido
         public void CrearDetallePedido(int idPedido, List<CarritoItem> carritoItems)
         {
@@ -82,8 +84,9 @@ namespace Datos
                     conn.Open();
                     foreach (var item in carritoItems)
                     {
-                        // Insertar cada detalle en la tabla DetallePedido
-                        SqlCommand cmd = new SqlCommand("INSERT INTO DetallePedido (id_pedido, id_producto, cantidad, precio_unitario) VALUES (@id_pedido, @id_producto, @cantidad, @precio_unitario)", conn);
+                        // Llamar al procedimiento almacenado SP_CrearDetallePedido para insertar el detalle del pedido
+                        SqlCommand cmd = new SqlCommand("SP_CrearDetallePedido", conn);
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id_pedido", idPedido);
                         cmd.Parameters.AddWithValue("@id_producto", item.IdProducto);
                         cmd.Parameters.AddWithValue("@cantidad", item.Cantidad);
@@ -91,10 +94,11 @@ namespace Datos
 
                         cmd.ExecuteNonQuery();
 
-                        // Actualizar el stock del producto
-                        SqlCommand cmdUpdateStock = new SqlCommand("UPDATE Productos SET StockDisponible = StockDisponible - @cantidad WHERE id_producto = @id_producto", conn);
-                        cmdUpdateStock.Parameters.AddWithValue("@cantidad", item.Cantidad);
+                        // Llamar al procedimiento almacenado SP_ActualizarStockProducto para actualizar el stock del producto
+                        SqlCommand cmdUpdateStock = new SqlCommand("SP_ActualizarStockProducto", conn);
+                        cmdUpdateStock.CommandType = CommandType.StoredProcedure;
                         cmdUpdateStock.Parameters.AddWithValue("@id_producto", item.IdProducto);
+                        cmdUpdateStock.Parameters.AddWithValue("@cantidad", item.Cantidad);
 
                         cmdUpdateStock.ExecuteNonQuery();
                     }
@@ -105,6 +109,7 @@ namespace Datos
                 }
             }
         }
+
 
 
         // Método para obtener un producto por su ID
@@ -197,19 +202,17 @@ namespace Datos
         }
 
         //Metodo para el calculo del precio por kilometro
-        public decimal CalcularCostoEnvio(int idPedido)
+        public decimal CalcularCostoEnvio(int idPedido, out decimal costoTotal)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                decimal distancia;
                 SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Eliminar el parámetro @comand, ya que el procedimiento almacenado no lo necesita
                 cmd.Parameters.AddWithValue("@IdPedido", idPedido);
 
                 // Parámetro de salida
-                SqlParameter outputParam = new SqlParameter("@Distancia", SqlDbType.Decimal)
+                SqlParameter outputParam = new SqlParameter("@CostoTotal", SqlDbType.Decimal)
                 {
                     Direction = ParameterDirection.Output,
                     Precision = 10,
@@ -217,21 +220,15 @@ namespace Datos
                 };
                 cmd.Parameters.Add(outputParam);
 
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                conn.Open();
+                cmd.ExecuteNonQuery();
 
-                    distancia = (decimal)outputParam.Value;
-                    return distancia;
-
-                }
-                catch (SqlException ex)
-                {
-                    throw new Exception("Error al calcular la distancia del envío: " + ex.Message);
-                }
+                costoTotal = (decimal)outputParam.Value;
+                return costoTotal;
             }
         }
+
+
 
 
         public decimal CalcularDistancia(int idPedido)
@@ -271,6 +268,7 @@ namespace Datos
                 }
             }
         }
+
         public List<PedidoDatos> ObtenerPedidosPendientes(int idCliente)
         {
             List<PedidoDatos> listaPedidos = new List<PedidoDatos>();

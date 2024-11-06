@@ -14,6 +14,7 @@
                         <asp:BoundField DataField="IdPedido" HeaderText="Pedido" /> 
                         <asp:BoundField DataField="IdCliente" HeaderText="Cliente" />
                         <asp:BoundField DataField="FechaPedido" HeaderText="Fecha de Pedido" />
+                        <asp:BoundField DataField="CostoTotal" HeaderText="Costo total" />
                         <asp:BoundField DataField="Estado" HeaderText="Estado" />
                         <asp:TemplateField>
                             <ItemTemplate>

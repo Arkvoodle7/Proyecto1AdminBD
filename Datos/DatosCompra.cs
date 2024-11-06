@@ -195,17 +195,58 @@ namespace Datos
         }
 
         //Metodo para el calculo del precio por kilometro
-        public void CalcularCostoEnvio(int idPedido)
+        public decimal CalcularCostoEnvio(int idPedido)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
+                decimal distancia;
                 SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.Parameters.AddWithValue("@comand", 1);
                 cmd.Parameters.AddWithValue("@IdPedido", idPedido);
 
-                // Salida o respuesta
-                SqlParameter outputParam = new SqlParameter("@CostoTotal", SqlDbType.Decimal)
+                // Salida
+                SqlParameter outputParam = new SqlParameter("@Distancia", SqlDbType.Decimal)
+                {
+                    Direction = ParameterDirection.Output,
+                    Precision = 10,
+                    Scale = 2
+                };
+                cmd.Parameters.Add(outputParam);
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+
+                    distancia = (decimal)outputParam.Value;
+
+                    return distancia;
+
+
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Error al calcular la distancia del envio: " + ex.Message);
+                }
+            }
+        }
+
+        public decimal CalcularDistancia(int idPedido)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                decimal distancia;
+                SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@comand", 2);
+                cmd.Parameters.AddWithValue("@IdPedido", idPedido);
+
+                // Salida
+                SqlParameter outputParam = new SqlParameter("@Distancia", SqlDbType.Decimal)
                 {
                     Direction = ParameterDirection.Output,
                     Precision = 10,
@@ -219,14 +260,17 @@ namespace Datos
                     cmd.ExecuteNonQuery();
 
                     
-                    decimal costoTotal = (decimal)outputParam.Value;
+                    distancia = (decimal)outputParam.Value;
+                    
+                    return distancia;
+                    
+                    
                 }
                 catch (SqlException ex)
                 {
-                    throw new Exception("Error al calcular el costo del envio: " + ex.Message);
+                    throw new Exception("Error al calcular la distancia del envio: " + ex.Message);
                 }
             }
-
         }
         public List<PedidoDatos> ObtenerPedidosPendientes(int idCliente)
             {
@@ -298,4 +342,6 @@ namespace Datos
         public int TiempoEntrega { get; set; }
         public string ContactoTransportista { get; set; }
     }
+
+    
 }

@@ -113,11 +113,33 @@ namespace Negocios
             return resultado;
         }
 
-        public void CambiarEntregado(int idPedido)
+        public decimal CambiarEntregado(int idPedido)
         {
-            datosCompra.CalcularCostoEnvio(idPedido);
+            decimal res;
+            res = datosCompra.CalcularCostoEnvio(idPedido);
+            if (res >= 0 && res <= 12)
+            {
+                return res;
+            }
+            else
+            {
+                return -1;
+            }
         }
-        
+
+        public decimal CalcularDistancia(int idPedido)
+        {
+            decimal res;
+            res = datosCompra.CalcularDistancia(idPedido);
+            if (res >= 0 && res <= 12) {
+                return res;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public List<PedidoDet> ObtenerPendientes(int idCliente)
         {
             var listaPedidosDatos = datosCompra.ObtenerPedidosPendientes(idCliente);

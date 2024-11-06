@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [SistemaEnviosDB]    Script Date: 2/11/2024 03:16:36 p. m. ******/
+/****** Object:  Database [SistemaEnviosDB]    Script Date: 5/11/2024 06:38:11 p. m. ******/
 CREATE DATABASE [SistemaEnviosDB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,13 +84,13 @@ ALTER DATABASE [SistemaEnviosDB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, C
 GO
 USE [SistemaEnviosDB]
 GO
-/****** Object:  UserDefinedTableType [dbo].[CartItemType]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  UserDefinedTableType [dbo].[CartItemType]    Script Date: 5/11/2024 06:38:11 p. m. ******/
 CREATE TYPE [dbo].[CartItemType] AS TABLE(
 	[id_producto] [int] NULL,
 	[cantidad] [int] NULL
 )
 GO
-/****** Object:  Table [dbo].[Clientes]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[Clientes]    Script Date: 5/11/2024 06:38:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,7 +106,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Contactos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[Contactos]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -117,7 +117,7 @@ CREATE TABLE [dbo].[Contactos](
 	[Mensaje] [varchar](250) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DetallePedido]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[DetallePedido]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -134,7 +134,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Pedidos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[Pedidos]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -154,7 +154,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Productos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[Productos]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -173,7 +173,7 @@ CREATE TABLE [dbo].[Productos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Proveedores]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[Proveedores]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -191,7 +191,7 @@ CREATE TABLE [dbo].[Proveedores](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transportistas]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[Transportistas]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -206,7 +206,7 @@ CREATE TABLE [dbo].[Transportistas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,43 +225,9 @@ CREATE TABLE [dbo].[Usuarios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[Clientes] ([id_cliente], [direccion], [ubicacion_geografica], [telefono]) VALUES (20, NULL, 0xE6100000010CE63FA4DFBE6E3340F1F44A5986C858C0, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[DetallePedido] ON 
-
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (4, 18, 36, 1, CAST(25.50 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (5, 19, 36, 1, CAST(25.50 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (7, 20, 36, 1, CAST(25.50 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (9, 21, 36, 1, CAST(25.50 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (10, 22, 36, 2, CAST(25.50 AS Decimal(10, 2)))
-SET IDENTITY_INSERT [dbo].[DetallePedido] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Pedidos] ON 
-
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (18, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (19, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (20, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (21, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (22, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
-SET IDENTITY_INSERT [dbo].[Pedidos] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Productos] ON 
-
-INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (35, 1, N'No especificado', N'Ropa', CAST(0.00 AS Decimal(10, 2)), 0, NULL)
-INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (36, 1, N'Producto de Ejemplo', N'Comida', CAST(25.50 AS Decimal(10, 2)), 30, 94)
-INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (37, 2, N'Producto de Ejemplo 2', N'Comida', CAST(25.50 AS Decimal(10, 2)), 30, 100)
-SET IDENTITY_INSERT [dbo].[Productos] OFF
-GO
-INSERT [dbo].[Proveedores] ([id_proveedor], [nombre_empresa], [direccion], [contacto], [horario], [ubicacion_geografica]) VALUES (1, NULL, NULL, NULL, NULL, 0xE6100000010CE63FA4DFBE6E3340F1F44A5986C858C0)
-GO
-SET IDENTITY_INSERT [dbo].[Usuarios] ON 
-
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol], [fecha_nacimiento]) VALUES (20, N'ada', N'asdf', N'correo@2.com', N'123', N'cliente', CAST(N'1990-01-01' AS Date))
-SET IDENTITY_INSERT [dbo].[Usuarios] OFF
-GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_EmailRol]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Index [UQ_EmailRol]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 CREATE UNIQUE NONCLUSTERED INDEX [UQ_EmailRol] ON [dbo].[Usuarios]
 (
 	[email] ASC,
@@ -286,7 +252,22 @@ ALTER TABLE [dbo].[Usuarios]  WITH CHECK ADD  CONSTRAINT [CK__Usuarios__rol__5CD
 GO
 ALTER TABLE [dbo].[Usuarios] CHECK CONSTRAINT [CK__Usuarios__rol__5CD6CB2B]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ActualizarEstadoYAsignarTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerPedidosPorProveedor]    Script Date: 5/11/2024 06:38:12 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ObtenerPedidosPorProveedor]
+    @id_proveedor INT
+AS
+BEGIN
+    SELECT * FROM dbo.Pedidos p
+    INNER JOIN dbo.Productos pr ON p.id_producto = pr.id_producto
+    WHERE pr.id_proveedor = @id_proveedor;    
+END;
+
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ActualizarEstadoYAsignarTransportista]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -336,7 +317,7 @@ BEGIN
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_AgregarCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_AgregarCliente]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -389,7 +370,7 @@ BEGIN
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_AgregarProveedor]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_AgregarProveedor]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -443,7 +424,7 @@ BEGIN
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_AgregarTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_AgregarTransportista]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -494,7 +475,85 @@ BEGIN
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CalcularTotalesCarrito]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_CalcularCostoEnvio]    Script Date: 5/11/2024 06:38:12 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_CalcularCostoEnvio]
+    @IdPedido INT,
+    @CostoTotal DECIMAL(10, 2) OUTPUT
+AS
+BEGIN
+    BEGIN TRY
+        DECLARE @Distancia FLOAT; 
+        DECLARE @CostoEnvio DECIMAL(10, 2);
+        DECLARE @UbicacionCliente GEOGRAPHY;
+        DECLARE @UbicacionProveedor GEOGRAPHY;
+
+        -- Obtener la ubicacion del cliente
+        SELECT @UbicacionCliente = c.ubicacion_geografica
+        FROM Clientes c
+        INNER JOIN Pedidos p ON c.id_cliente = p.id_cliente
+        WHERE p.id_pedido = @IdPedido;
+
+        -- Verificar si se obtuvo la ubicacion del cliente
+        IF @UbicacionCliente IS NULL
+        BEGIN
+            RAISERROR('La ubicacion del cliente no se encontro para el pedido', 16, 1);
+            RETURN;
+        END
+
+        -- Obtener la ubicacion del proveedor
+        SELECT @UbicacionProveedor = pr.ubicacion_geografica
+        FROM Proveedores pr
+        INNER JOIN Productos prod ON pr.id_proveedor = prod.id_proveedor
+        INNER JOIN Pedidos p ON prod.id_producto = p.id_producto
+        WHERE p.id_pedido = @IdPedido;
+
+        -- Verificar si se obtuvo la ubicacion del proveedor
+        IF @UbicacionProveedor IS NULL
+        BEGIN
+            RAISERROR('La ubicacion del proveedor no se encontro para el pedido', 16, 1);
+            RETURN;
+        END
+
+        -- Calcular la distancia en kilometros
+        SET @Distancia = @UbicacionCliente.STDistance(@UbicacionProveedor) / 1000.0;
+
+        -- Determinar el costo del envio
+        IF @Distancia <= 1
+            SET @CostoEnvio = 800;
+        ELSE IF @Distancia <= 3
+            SET @CostoEnvio = 1400;
+        ELSE IF @Distancia <= 6
+            SET @CostoEnvio = 1800;
+        ELSE IF @Distancia < 12
+            SET @CostoEnvio = 2400;
+        ELSE
+        BEGIN
+            -- Distancia fuera de cobertura
+            RAISERROR('La distancia de km esta fuera de cobertura para el pedido', 16, 1);
+            RETURN;
+        END
+
+        -- Actualizar el costo total del pedido
+        UPDATE Pedidos
+        SET costo_total = ISNULL(costo_total, 0) + @CostoEnvio,
+            estado = 'Entregado'
+        WHERE id_pedido = @IdPedido;
+
+        -- Devolver el costo total actualizado
+        SELECT @CostoTotal = costo_total
+        FROM Pedidos
+        WHERE id_pedido = @IdPedido;
+    END TRY
+    BEGIN CATCH
+        RAISERROR('Ocurrio un error al calcular el precio del envio', 16, 1);
+    END CATCH
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_CalcularTotalesCarrito]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -516,7 +575,7 @@ BEGIN
         INNER JOIN Productos p ON ci.id_producto = p.id_producto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CrearOrdenDeCompra]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_CrearOrdenDeCompra]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -544,7 +603,7 @@ BEGIN
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_DeleteCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_DeleteCliente]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -558,7 +617,7 @@ BEGIN
     WHERE id_cliente = @id_cliente;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_DeleteProducto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_DeleteProducto]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -579,7 +638,7 @@ END;
 --------------Select Productos-------------------------------------
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_DeleteTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_DeleteTransportista]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -592,7 +651,7 @@ BEGIN
     WHERE id_transportista = @id_transportista;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_GetCategorias]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetCategorias]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -604,7 +663,7 @@ BEGIN
     FROM Productos;  -- O Servicios, dependiendo del nombre de tu tabla
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_GetProductoPorId]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetProductoPorId]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -618,7 +677,7 @@ BEGIN
     WHERE id_producto = @id_producto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_GetProductosPorCategoria]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetProductosPorCategoria]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -633,7 +692,7 @@ BEGIN
     WHERE categoria = @categoria;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_IniciarSesion]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_IniciarSesion]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -663,7 +722,7 @@ BEGIN
     END
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_InsertarContacto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_InsertarContacto]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -679,20 +738,24 @@ BEGIN
     VALUES (@Nombre, @Email, @Mensaje)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_InsertProducto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_InsertProducto]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[SP_InsertProducto] (@IdProvedor INT, @Nombre VARCHAR(100), @Categoria VARCHAR(20), @Precio DECIMAL(10, 2), @Tiempo_Entrega INT)
-AS
-BEGIN
-		INSERT INTO Productos(id_proveedor, nombre, categoria, precio, tiempo_entrega)
-		VALUES (@IdProvedor,@Nombre, @Categoria, @Precio, @Tiempo_Entrega);
-END;
+CREATE PROCEDURE [dbo].[SP_InsertProducto] (@IdProvedor INT, @Nombre VARCHAR(100), @Categoria VARCHAR(20), 
+@Precio DECIMAL(10, 2), @Tiempo_Entrega INT, @Stock Decimal(10, 2))
+AS 
+BEGIN 
+	INSERT INTO Productos(id_proveedor, nombre, categoria, precio, tiempo_entrega, StockDisponible) 
+	VALUES (@IdProvedor, @Nombre, @Categoria, @Precio, @Tiempo_Entrega, @Stock);
+END
+
+
+
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_InsertTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_InsertTransportista]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -707,7 +770,7 @@ BEGIN
     VALUES (@id_transportista, @tipo_transporte, @contacto);
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerClientePorID]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerClientePorID]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -721,7 +784,7 @@ BEGIN
     WHERE id_cliente = @id_cliente;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerHistorialComprasPorCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerHistorialComprasPorCliente]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -735,7 +798,7 @@ BEGIN
     WHERE id_cliente = @IdCliente;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosConDetalles]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosConDetalles]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -773,7 +836,7 @@ BEGIN
         p.fecha_pedido DESC;
 END 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosEntregadosPorCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosEntregadosPorCliente]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -800,7 +863,7 @@ BEGIN
         p.id_pedido, p.fecha_pedido, p.estado
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerTodosLosPedidos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerTodosLosPedidos]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -812,7 +875,7 @@ BEGIN
     FROM Pedidos where estado = 'pendiente';
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerTransPorID]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerTransPorID]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -832,7 +895,45 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProductoCategoria]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_PedidosPendientes]    Script Date: 5/11/2024 06:38:12 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_PedidosPendientes] (@id INT)
+AS
+BEGIN
+    SELECT 
+        p.id_pedido,
+        p.fecha_pedido,
+        p.estado,
+        subtotal = SUM(dp.precio_unitario * dp.cantidad),
+        impuestos = SUM(dp.precio_unitario * dp.cantidad) * 0.13,
+        total = SUM(dp.precio_unitario * dp.cantidad) * 1.13,
+        t.tipo_transporte,
+        t.contacto,
+        MAX(prod.tiempo_entrega)
+    FROM 
+        Pedidos p
+    INNER JOIN 
+        DetallePedido dp ON p.id_pedido = dp.id_pedido
+    INNER JOIN 
+        Productos prod ON dp.id_producto = prod.id_producto
+    LEFT JOIN 
+        Transportistas t ON p.id_transportista = t.id_transportista
+    WHERE 
+        p.id_cliente = @id
+        AND (p.estado = 'en camino')
+    GROUP BY 
+        p.id_pedido, p.fecha_pedido, p.estado, t.tipo_transporte, t.contacto
+    ORDER BY 
+        p.fecha_pedido DESC;
+END;
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_SelectProductoCategoria]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -849,7 +950,7 @@ BEGIN
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedor]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedor]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -869,7 +970,7 @@ END;
 --------------Historial-------------------------------------
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedores]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedores]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -890,7 +991,7 @@ END;
 --------------Select provedores-------------------------------------
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProvedo]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_SelectProvedo]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -901,7 +1002,7 @@ BEGIN
     SELECT * FROM Proveedores WHERE id_proveedor = @id;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_UpdateCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_UpdateCliente]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -918,7 +1019,34 @@ BEGIN
     WHERE id_cliente = @id_cliente;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_UpdateProveedor]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_UpdateProducto]    Script Date: 5/11/2024 06:38:12 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_UpdateProducto] 
+    @IdProducto INT,
+    @IdProveedor INT, 
+    @Nombre VARCHAR(100), 
+    @Categoria VARCHAR(20), 
+    @Precio DECIMAL(10, 2), 
+    @Tiempo_Entrega INT, 
+    @Stock DECIMAL(10, 2)
+AS
+BEGIN
+    UPDATE Productos
+    SET 
+        id_proveedor = @IdProveedor,
+        nombre = @Nombre,
+        categoria = @Categoria,
+        precio = @Precio,
+        tiempo_entrega = @Tiempo_Entrega,
+        StockDisponible = @Stock
+    WHERE id_producto = @IdProducto;
+END;
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_UpdateProveedor]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -941,7 +1069,7 @@ BEGIN
         id_proveedor = @IdProveedor;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_UpdateTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_UpdateTransportista]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -958,7 +1086,7 @@ BEGIN
     WHERE id_transportista = @id_transportista;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_UptadeProducto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_UptadeProducto]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -979,7 +1107,7 @@ BEGIN
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_VerificarStock]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_VerificarStock]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -995,7 +1123,7 @@ BEGIN
     WHERE id_Producto = @id_producto;
 END;
 GO
-/****** Object:  Trigger [dbo].[trg_ValidarDistanciaMaxima]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+/****** Object:  Trigger [dbo].[trg_ValidarDistanciaMaxima]    Script Date: 5/11/2024 06:38:12 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1062,7 +1190,7 @@ END;
 GO
 ALTER TABLE [dbo].[DetallePedido] ENABLE TRIGGER [trg_ValidarDistanciaMaxima]
 GO
-/****** Object:  Trigger [dbo].[trg_VerificarTransportistaActivo]    Script Date: 2/11/2024 03:16:38 p. m. ******/
+/****** Object:  Trigger [dbo].[trg_VerificarTransportistaActivo]    Script Date: 5/11/2024 06:38:13 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1089,7 +1217,7 @@ END;
 GO
 ALTER TABLE [dbo].[Pedidos] ENABLE TRIGGER [trg_VerificarTransportistaActivo]
 GO
-/****** Object:  Trigger [dbo].[trg_InsertProvedor]    Script Date: 2/11/2024 03:16:38 p. m. ******/
+/****** Object:  Trigger [dbo].[trg_InsertProvedor]    Script Date: 5/11/2024 06:38:14 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

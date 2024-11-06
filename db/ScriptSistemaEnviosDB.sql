@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [SistemaEnviosDB]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Database [SistemaEnviosDB]    Script Date: 2/11/2024 03:16:36 p. m. ******/
 CREATE DATABASE [SistemaEnviosDB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,13 +84,13 @@ ALTER DATABASE [SistemaEnviosDB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, C
 GO
 USE [SistemaEnviosDB]
 GO
-/****** Object:  UserDefinedTableType [dbo].[CartItemType]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  UserDefinedTableType [dbo].[CartItemType]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 CREATE TYPE [dbo].[CartItemType] AS TABLE(
 	[id_producto] [int] NULL,
 	[cantidad] [int] NULL
 )
 GO
-/****** Object:  Table [dbo].[Clientes]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[Clientes]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -98,14 +98,15 @@ GO
 CREATE TABLE [dbo].[Clientes](
 	[id_cliente] [int] NOT NULL,
 	[direccion] [varchar](255) NULL,
+	[ubicacion_geografica] [geography] NULL,
 	[telefono] [varchar](20) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[id_cliente] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Contactos]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[Contactos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +117,7 @@ CREATE TABLE [dbo].[Contactos](
 	[Mensaje] [varchar](250) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DetallePedido]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[DetallePedido]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -133,7 +134,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Pedidos]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[Pedidos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,7 +154,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Productos]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[Productos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -172,7 +173,7 @@ CREATE TABLE [dbo].[Productos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Proveedores]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[Proveedores]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -182,15 +183,15 @@ CREATE TABLE [dbo].[Proveedores](
 	[nombre_empresa] [varchar](100) NULL,
 	[direccion] [varchar](255) NULL,
 	[contacto] [varchar](50) NULL,
-	[horario] [varchar](50) NOT NULL,
-	[ubicacion] [varchar](50) NOT NULL,
+	[horario] [varchar](50) NULL,
+	[ubicacion_geografica] [geography] NULL,
  CONSTRAINT [PK__Proveedo__8D3DFE285C03191F] PRIMARY KEY CLUSTERED 
 (
 	[id_proveedor] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Transportistas]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[Transportistas]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -205,7 +206,7 @@ CREATE TABLE [dbo].[Transportistas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -217,102 +218,55 @@ CREATE TABLE [dbo].[Usuarios](
 	[email] [varchar](100) NULL,
 	[password] [varchar](255) NULL,
 	[rol] [varchar](20) NOT NULL,
-PRIMARY KEY CLUSTERED 
+	[fecha_nacimiento] [date] NULL,
+ CONSTRAINT [PK__Usuarios__4E3E04ADDFE7EA52] PRIMARY KEY CLUSTERED 
 (
 	[id_usuario] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[Clientes] ([id_cliente], [direccion], [telefono]) VALUES (1, N'Paraisofgh', N'88888887')
-INSERT [dbo].[Clientes] ([id_cliente], [direccion], [telefono]) VALUES (3, N'asd', N'2342')
+INSERT [dbo].[Clientes] ([id_cliente], [direccion], [ubicacion_geografica], [telefono]) VALUES (20, NULL, 0xE6100000010CE63FA4DFBE6E3340F1F44A5986C858C0, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[DetallePedido] ON 
 
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (1, 31, 3, 1, CAST(100.00 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (2, 31, 4, 1, CAST(100.00 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (3, 32, 3, 1, CAST(100.00 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (4, 32, 4, 1, CAST(100.00 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (5, 33, 3, 1, CAST(100.00 AS Decimal(10, 2)))
-INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (6, 33, 4, 1, CAST(100.00 AS Decimal(10, 2)))
+INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (4, 18, 36, 1, CAST(25.50 AS Decimal(10, 2)))
+INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (5, 19, 36, 1, CAST(25.50 AS Decimal(10, 2)))
+INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (7, 20, 36, 1, CAST(25.50 AS Decimal(10, 2)))
+INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (9, 21, 36, 1, CAST(25.50 AS Decimal(10, 2)))
+INSERT [dbo].[DetallePedido] ([id_detalle_pedido], [id_pedido], [id_producto], [cantidad], [precio_unitario]) VALUES (10, 22, 36, 2, CAST(25.50 AS Decimal(10, 2)))
 SET IDENTITY_INSERT [dbo].[DetallePedido] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Pedidos] ON 
 
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (3, 1, 1, 5, CAST(N'2024-10-15' AS Date), N'en camino', CAST(150.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (4, 1, 3, 4, CAST(N'2024-10-15' AS Date), N'en camino', CAST(1000.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (5, 1, 3, NULL, CAST(N'2024-10-15' AS Date), N'Entregado', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (6, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (7, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (8, 3, 4, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (9, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(200.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (10, 3, 4, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (11, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (12, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (13, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (14, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (15, 3, 4, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (16, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (17, 3, 4, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (18, 1, 2, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', NULL, 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (19, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (20, 3, 4, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (21, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (22, 3, 4, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (23, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (24, 3, 4, 8, CAST(N'2024-10-28' AS Date), N'Entregado', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (25, 3, 3, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (26, 3, 4, NULL, CAST(N'2024-10-28' AS Date), N'Pendiente', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (27, 3, 3, 13, CAST(N'2024-10-28' AS Date), N'en camino', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (28, 3, 4, 9, CAST(N'2024-10-28' AS Date), N'en camino', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (29, 3, 3, 12, CAST(N'2024-10-28' AS Date), N'en camino', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (30, 3, 4, 10, CAST(N'2024-10-28' AS Date), N'en camino', CAST(100.00 AS Decimal(10, 2)), 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (31, 3, NULL, 11, CAST(N'2024-10-28' AS Date), N'Entregado', NULL, 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (32, 3, NULL, 15, CAST(N'2024-10-28' AS Date), N'Entregado', NULL, 1)
-INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (33, 3, NULL, 14, CAST(N'2024-10-28' AS Date), N'Entregado', NULL, 1)
+INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (18, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
+INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (19, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
+INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (20, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
+INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (21, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
+INSERT [dbo].[Pedidos] ([id_pedido], [id_cliente], [id_producto], [id_transportista], [fecha_pedido], [estado], [costo_total], [cantidad]) VALUES (22, 20, NULL, NULL, CAST(N'2024-11-02' AS Date), N'Pendiente', NULL, 1)
 SET IDENTITY_INSERT [dbo].[Pedidos] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Productos] ON 
 
-INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (1, 2, N'No especificado', N'Ropa', CAST(0.00 AS Decimal(10, 2)), 0, NULL)
-INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (3, 1, N'Producto A', N'ropa', CAST(100.00 AS Decimal(10, 2)), 3, 21)
-INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (4, 1, N'Producto B', N'ropa', CAST(100.00 AS Decimal(10, 2)), 3, 37)
-INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (5, 6, N'No especificado', N'Ropa', CAST(0.00 AS Decimal(10, 2)), 0, NULL)
+INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (35, 1, N'No especificado', N'Ropa', CAST(0.00 AS Decimal(10, 2)), 0, NULL)
+INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (36, 1, N'Producto de Ejemplo', N'Comida', CAST(25.50 AS Decimal(10, 2)), 30, 94)
+INSERT [dbo].[Productos] ([id_producto], [id_proveedor], [nombre], [categoria], [precio], [tiempo_entrega], [StockDisponible]) VALUES (37, 2, N'Producto de Ejemplo 2', N'Comida', CAST(25.50 AS Decimal(10, 2)), 30, 100)
 SET IDENTITY_INSERT [dbo].[Productos] OFF
 GO
-INSERT [dbo].[Proveedores] ([id_proveedor], [nombre_empresa], [direccion], [contacto], [horario], [ubicacion]) VALUES (2, N'ASAS', N'ASAS', N'ASD', N'DAS', N'DAS')
-INSERT [dbo].[Proveedores] ([id_proveedor], [nombre_empresa], [direccion], [contacto], [horario], [ubicacion]) VALUES (6, N'ads', N'asd', N'asd', N'ads', N'asd')
-GO
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (2, N'Transporte Exprés', N'contacto@transporte.com')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (4, N'Moto', N'98989898')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (5, N'Moto', N'87878787')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (7, N'dgf', N'dgf')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (8, N'dfg', N'hdgf')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (9, N'sdf', N'fds')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (10, N'gfd', N'gfd')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (11, N'fhg', N'hjg')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (12, N'nfg', N'hgf')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (13, N'sd', N'fds')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (14, N'gfd', N'fgh')
-INSERT [dbo].[Transportistas] ([id_transportista], [tipo_transporte], [contacto]) VALUES (15, N'sdf', N'gfd')
+INSERT [dbo].[Proveedores] ([id_proveedor], [nombre_empresa], [direccion], [contacto], [horario], [ubicacion_geografica]) VALUES (1, NULL, NULL, NULL, NULL, 0xE6100000010CE63FA4DFBE6E3340F1F44A5986C858C0)
 GO
 SET IDENTITY_INSERT [dbo].[Usuarios] ON 
 
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (1, N'Daniel', N'Cordero', N'correo@algo.com', N'password12345', N'cliente')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (2, N'SDFSDF', N'SDSD', N'correo@algo3.com', N'password12345', N'proveedor')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (3, N'dfas', N'sdf', N'correo@algo1.com', N'password12345', N'cliente')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (4, N'alguien', N'sda', N'correo@algo5.com', N'password12345', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (5, N'adecio', N'recuero', N'correo@algo6.com', N'password12345', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (6, N'fsd', N'sdf', N'correo@algo7.com', N'password12345', N'proveedor')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (7, N'dgf', N'dgf', N'correo@algodgf1.com', N'password12345', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (8, N'kjkh', N'hj', N'correo@algoj1.com', N'123', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (9, N'sdf', N'sfd', N'correo@algoh1.com', N'123', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (10, N'dfg', N'dfg', N'correo@algol1.com', N'123', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (11, N'fgh', N'fgh', N'correo@algom1.com', N'123', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (12, N'gdf', N'jhg', N'correo@algon1.com', N'123', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (13, N'ghj', N'jgh', N'correo@algon2.com', N'123', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (14, N'asd', N'sfd', N'correo@algoq1.com', N'123', N'transportista')
-INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol]) VALUES (15, N'asd', N'fa', N'correo@algow1.com', N'123', N'transportista')
+INSERT [dbo].[Usuarios] ([id_usuario], [nombre], [apellido], [email], [password], [rol], [fecha_nacimiento]) VALUES (20, N'ada', N'asdf', N'correo@2.com', N'123', N'cliente', CAST(N'1990-01-01' AS Date))
 SET IDENTITY_INSERT [dbo].[Usuarios] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ_EmailRol]    Script Date: 2/11/2024 03:16:37 p. m. ******/
+CREATE UNIQUE NONCLUSTERED INDEX [UQ_EmailRol] ON [dbo].[Usuarios]
+(
+	[email] ASC,
+	[rol] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Pedidos] ADD  DEFAULT ((1)) FOR [cantidad]
 GO
@@ -322,24 +276,22 @@ GO
 ALTER TABLE [dbo].[DetallePedido]  WITH CHECK ADD FOREIGN KEY([id_producto])
 REFERENCES [dbo].[Productos] ([id_producto])
 GO
-ALTER TABLE [dbo].[Proveedores]  WITH CHECK ADD  CONSTRAINT [FK__Proveedor__id_pr__4F7CD00D] FOREIGN KEY([id_proveedor])
-REFERENCES [dbo].[Usuarios] ([id_usuario])
-GO
-ALTER TABLE [dbo].[Proveedores] CHECK CONSTRAINT [FK__Proveedor__id_pr__4F7CD00D]
-GO
 ALTER TABLE [dbo].[Pedidos]  WITH CHECK ADD CHECK  (([estado]='entregado' OR [estado]='en camino' OR [estado]='pendiente'))
 GO
 ALTER TABLE [dbo].[Productos]  WITH CHECK ADD  CONSTRAINT [CK__Productos__categ__52593CB8] CHECK  (([categoria]='zapatos' OR [categoria]='comida' OR [categoria]='ropa'))
 GO
 ALTER TABLE [dbo].[Productos] CHECK CONSTRAINT [CK__Productos__categ__52593CB8]
 GO
-ALTER TABLE [dbo].[Usuarios]  WITH CHECK ADD CHECK  (([rol]='proveedor' OR [rol]='transportista' OR [rol]='cliente'))
+ALTER TABLE [dbo].[Usuarios]  WITH CHECK ADD  CONSTRAINT [CK__Usuarios__rol__5CD6CB2B] CHECK  (([rol]='proveedor' OR [rol]='transportista' OR [rol]='cliente'))
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ActualizarEstadoYAsignarTransportista]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+ALTER TABLE [dbo].[Usuarios] CHECK CONSTRAINT [CK__Usuarios__rol__5CD6CB2B]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ActualizarEstadoYAsignarTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[sp_ActualizarEstadoYAsignarTransportista]
     @id_pedido INT,
     @id_transportista INT,
@@ -348,39 +300,86 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Actualizar el estado del pedido y asignar el transportista
-    UPDATE Pedidos
-    SET id_transportista = @id_transportista,
-        estado = @nuevoEstado
-    WHERE id_pedido = @id_pedido;
-END
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Obtener la fecha del pedido y el tiempo máximo de entrega
+        DECLARE @fecha_pedido DATETIME;
+        DECLARE @tiempo_entrega INT;
+
+        SELECT @fecha_pedido = p.fecha_pedido,
+               @tiempo_entrega = pr.tiempo_entrega
+        FROM Pedidos p
+        JOIN Productos pr ON p.id_producto = pr.id_producto
+        WHERE p.id_pedido = @id_pedido AND pr.categoria = 'comida';
+
+        -- Verificar si el tiempo transcurrido excede el tiempo de entrega permitido
+        IF DATEDIFF(MINUTE, @fecha_pedido, GETDATE()) > @tiempo_entrega
+        BEGIN
+            -- Lanzar error si el tiempo de entrega ha sido excedido
+            RAISERROR('El pedido excede el tiempo máximo de entrega y no puede ser tomado.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        -- Si la validación pasa, asignar el transportista y actualizar el estado
+        UPDATE Pedidos
+        SET id_transportista = @id_transportista,
+            estado = @nuevoEstado
+        WHERE id_pedido = @id_pedido;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_AgregarCliente]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_AgregarCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[SP_AgregarCliente]
     @Nombre VARCHAR(50),
     @Apellido VARCHAR(50),
     @Email VARCHAR(100),
     @Password VARCHAR(255),
     @Direccion VARCHAR(255),
-    @Telefono VARCHAR(20)
+    @Telefono VARCHAR(20),
+    @FechaNacimiento DATE,
+    @Ubicacion GEOGRAPHY -- Nuevo parámetro para almacenar las coordenadas
 AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
-            --insertar en la tabla Usuarios
-            INSERT INTO Usuarios (nombre, apellido, email, password, rol)
-            VALUES (@Nombre, @Apellido, @Email, @Password, 'cliente');
-            
-            --obtener el id del usuario insertado
-            DECLARE @IdUsuario INT = SCOPE_IDENTITY();
 
-            --insertar en la tabla Clientes
-            INSERT INTO Clientes (id_cliente, direccion, telefono)
-            VALUES (@IdUsuario, @Direccion, @Telefono);
+        -- Validar que el usuario tenga al menos 16 años
+        IF DATEDIFF(YEAR, @FechaNacimiento, GETDATE()) < 16
+        BEGIN
+            RAISERROR('Debes tener al menos 16 años para registrarte.', 16, 1);
+            RETURN; -- Detener la ejecución del procedimiento
+        END
+
+        -- Verificar si el correo ya está registrado
+        IF EXISTS (SELECT 1 FROM Usuarios WHERE email = @Email AND rol <> 'cliente')
+        BEGIN
+            RAISERROR('El correo electrónico ya está registrado para otro tipo de usuario.', 16, 1);
+            RETURN; -- Detener la ejecución del procedimiento
+        END
+
+        -- Insertar en la tabla Usuarios
+        INSERT INTO Usuarios (nombre, apellido, email, password, rol, fecha_nacimiento)
+        VALUES (@Nombre, @Apellido, @Email, @Password, 'cliente', @FechaNacimiento);
+
+        -- Obtener el id del usuario insertado
+        DECLARE @IdUsuario INT = SCOPE_IDENTITY();
+
+        -- Insertar en la tabla Clientes, incluyendo la ubicación geográfica
+        INSERT INTO Clientes (id_cliente, direccion, ubicacion_geografica, telefono)
+        VALUES (@IdUsuario, @Direccion, @Ubicacion, @Telefono);
 
         COMMIT TRANSACTION
     END TRY
@@ -388,9 +387,9 @@ BEGIN
         ROLLBACK TRANSACTION;
         THROW;
     END CATCH
-END
+END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_AgregarProveedor]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_AgregarProveedor]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -403,22 +402,38 @@ CREATE PROCEDURE [dbo].[SP_AgregarProveedor]
     @NombreEmpresa VARCHAR(100),
     @Direccion VARCHAR(255),
     @Contacto VARCHAR(50),
-	@Horario VARCHAR(50),
-	@UBICACION VARCHAR(50)
+    @Horario VARCHAR(50),
+    @Ubicacion GEOGRAPHY, -- Nuevo parámetro para almacenar las coordenadas
+    @FechaNacimiento DATE
 AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
-            --insertar en la tabla Usuarios
-            INSERT INTO Usuarios (nombre, apellido, email, password, rol)
-            VALUES (@Nombre, @Apellido, @Email, @Password, 'proveedor');
-            
-            --obtener el id del usuario insertado
-            DECLARE @IdUsuario INT = SCOPE_IDENTITY();
 
-            --insertar en la tabla Proveedores
-            INSERT INTO Proveedores (id_proveedor, nombre_empresa, direccion, contacto, horario, ubicacion)
-            VALUES (@IdUsuario, @NombreEmpresa, @Direccion, @Contacto, @Horario, @Ubicacion);
+        -- Validar que el proveedor tenga al menos 18 años
+        IF DATEDIFF(YEAR, @FechaNacimiento, GETDATE()) < 18
+        BEGIN
+            RAISERROR('Debes tener al menos 18 años para registrarte como proveedor.', 16, 1);
+            RETURN; -- Detener la ejecución del procedimiento
+        END
+
+        -- Verificar si el correo ya está registrado
+        IF EXISTS (SELECT 1 FROM Usuarios WHERE email = @Email AND rol <> 'proveedor')
+        BEGIN
+            RAISERROR('El correo electrónico ya está registrado para otro tipo de usuario.', 16, 1);
+            RETURN; -- Detener la ejecución del procedimiento
+        END
+
+        -- Insertar en la tabla Usuarios
+        INSERT INTO Usuarios (nombre, apellido, email, password, rol, fecha_nacimiento)
+        VALUES (@Nombre, @Apellido, @Email, @Password, 'proveedor', @FechaNacimiento);
+
+        -- Obtener el id del usuario insertado
+        DECLARE @IdUsuario INT = SCOPE_IDENTITY();
+
+        -- Insertar en la tabla Proveedores, incluyendo la ubicación geográfica
+        INSERT INTO Proveedores (id_proveedor, nombre_empresa, direccion, contacto, horario, ubicacion_geografica)
+        VALUES (@IdUsuario, @NombreEmpresa, @Direccion, @Contacto, @Horario, @Ubicacion);
 
         COMMIT TRANSACTION
     END TRY
@@ -426,35 +441,50 @@ BEGIN
         ROLLBACK TRANSACTION;
         THROW;
     END CATCH
-END
+END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_AgregarTransportista]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_AgregarTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE PROCEDURE [dbo].[SP_AgregarTransportista]
     @Nombre VARCHAR(50),
     @Apellido VARCHAR(50),
     @Email VARCHAR(100),
     @Password VARCHAR(255),
     @TipoTransporte VARCHAR(50),
-    @Contacto VARCHAR(50)
+    @Contacto VARCHAR(50),
+    @FechaNacimiento DATE
 AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
-            --insertar en la tabla Usuarios
-            INSERT INTO Usuarios (nombre, apellido, email, password, rol)
-            VALUES (@Nombre, @Apellido, @Email, @Password, 'transportista');
-            
-            --obtener el id del usuario insertado
-            DECLARE @IdUsuario INT = SCOPE_IDENTITY();
 
-            --insertar en la tabla Transportistas
-            INSERT INTO Transportistas (id_transportista, tipo_transporte, contacto)
-            VALUES (@IdUsuario, @TipoTransporte, @Contacto);
+        -- Validar que el transportista tenga al menos 16 años
+        IF DATEDIFF(YEAR, @FechaNacimiento, GETDATE()) < 16
+        BEGIN
+            RAISERROR('Debes tener al menos 16 años para registrarte como transportista.', 16, 1);
+            RETURN; -- Detener la ejecución del procedimiento
+        END
+
+        -- Verificar si el correo ya está registrado
+        IF EXISTS (SELECT 1 FROM Usuarios WHERE email = @Email AND rol <> 'transportista')
+        BEGIN
+            RAISERROR('El correo electrónico ya está registrado para otro tipo de usuario.', 16, 1);
+            RETURN; -- Detener la ejecución del procedimiento
+        END
+
+        -- Insertar en la tabla Usuarios
+        INSERT INTO Usuarios (nombre, apellido, email, password, rol, fecha_nacimiento)
+        VALUES (@Nombre, @Apellido, @Email, @Password, 'transportista', @FechaNacimiento);
+
+        -- Obtener el id del usuario insertado
+        DECLARE @IdUsuario INT = SCOPE_IDENTITY();
+
+        -- Insertar en la tabla Transportistas
+        INSERT INTO Transportistas (id_transportista, tipo_transporte, contacto)
+        VALUES (@IdUsuario, @TipoTransporte, @Contacto);
 
         COMMIT TRANSACTION
     END TRY
@@ -462,9 +492,9 @@ BEGIN
         ROLLBACK TRANSACTION;
         THROW;
     END CATCH
-END
+END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CalcularTotalesCarrito]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_CalcularTotalesCarrito]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -486,7 +516,7 @@ BEGIN
         INNER JOIN Productos p ON ci.id_producto = p.id_producto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CrearOrdenDeCompra]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_CrearOrdenDeCompra]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -514,7 +544,7 @@ BEGIN
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_DeleteCliente]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_DeleteCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -528,7 +558,7 @@ BEGIN
     WHERE id_cliente = @id_cliente;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_DeleteProducto]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_DeleteProducto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -549,7 +579,7 @@ END;
 --------------Select Productos-------------------------------------
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_DeleteTransportista]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_DeleteTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -562,7 +592,7 @@ BEGIN
     WHERE id_transportista = @id_transportista;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_GetCategorias]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetCategorias]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -574,7 +604,7 @@ BEGIN
     FROM Productos;  -- O Servicios, dependiendo del nombre de tu tabla
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_GetProductoPorId]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetProductoPorId]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -588,7 +618,7 @@ BEGIN
     WHERE id_producto = @id_producto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_GetProductosPorCategoria]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetProductosPorCategoria]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -603,7 +633,7 @@ BEGIN
     WHERE categoria = @categoria;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_IniciarSesion]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_IniciarSesion]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -633,7 +663,7 @@ BEGIN
     END
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_InsertarContacto]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_InsertarContacto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -649,7 +679,7 @@ BEGIN
     VALUES (@Nombre, @Email, @Mensaje)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_InsertProducto]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_InsertProducto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -662,7 +692,7 @@ BEGIN
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_InsertTransportista]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_InsertTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -677,7 +707,7 @@ BEGIN
     VALUES (@id_transportista, @tipo_transporte, @contacto);
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerClientePorID]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerClientePorID]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -691,7 +721,7 @@ BEGIN
     WHERE id_cliente = @id_cliente;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerHistorialComprasPorCliente]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerHistorialComprasPorCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -705,7 +735,7 @@ BEGIN
     WHERE id_cliente = @IdCliente;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosConDetalles]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosConDetalles]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -743,7 +773,7 @@ BEGIN
         p.fecha_pedido DESC;
 END 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosEntregadosPorCliente]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerPedidosEntregadosPorCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -770,7 +800,7 @@ BEGIN
         p.id_pedido, p.fecha_pedido, p.estado
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerTodosLosPedidos]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerTodosLosPedidos]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -782,7 +812,7 @@ BEGIN
     FROM Pedidos where estado = 'pendiente';
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ObtenerTransPorID]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerTransPorID]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -802,7 +832,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProductoCategoria]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_SelectProductoCategoria]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -819,7 +849,7 @@ BEGIN
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedor]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedor]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -839,7 +869,7 @@ END;
 --------------Historial-------------------------------------
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedores]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_SelectProductoProvedores]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -860,7 +890,7 @@ END;
 --------------Select provedores-------------------------------------
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_SelectProvedo]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_SelectProvedo]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -871,7 +901,7 @@ BEGIN
     SELECT * FROM Proveedores WHERE id_proveedor = @id;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_UpdateCliente]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_UpdateCliente]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -888,14 +918,14 @@ BEGIN
     WHERE id_cliente = @id_cliente;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_UpdateProveedor]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_UpdateProveedor]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[SP_UpdateProveedor] @IdProveedor INT,@NombreEmpresa VARCHAR(100),
 									 @Direccion VARCHAR(255),@Contacto VARCHAR(50),
-									  @Horario VARCHAR(50),@Ubicacion VARCHAR(50)
+									  @Horario VARCHAR(50)
 AS
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM Proveedores WHERE id_proveedor = @IdProveedor)
@@ -906,27 +936,29 @@ BEGIN
 
     UPDATE Proveedores SET
         nombre_empresa = @NombreEmpresa, direccion = @Direccion, contacto = @Contacto,
-        horario = @Horario, ubicacion = @Ubicacion
+        horario = @Horario
     WHERE
         id_proveedor = @IdProveedor;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[sp_UpdateTransportista]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_UpdateTransportista]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[sp_UpdateTransportista]
     @id_transportista INT,
-    @tipo_transporte NVARCHAR(50)
+    @tipo_transporte NVARCHAR(50),
+    @contacto NVARCHAR(50) -- Agregar contacto
 AS
 BEGIN
     UPDATE Transportistas
-    SET tipo_transporte = @tipo_transporte
+    SET tipo_transporte = @tipo_transporte,
+        contacto = @contacto -- Actualizar contacto
     WHERE id_transportista = @id_transportista;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SP_UptadeProducto]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_UptadeProducto]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -947,7 +979,7 @@ BEGIN
 END;
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_VerificarStock]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_VerificarStock]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -963,36 +995,101 @@ BEGIN
     WHERE id_Producto = @id_producto;
 END;
 GO
-/****** Object:  Trigger [dbo].[trg_Transportista_Unico]    Script Date: 28/10/2024 11:57:17 p. m. ******/
+/****** Object:  Trigger [dbo].[trg_ValidarDistanciaMaxima]    Script Date: 2/11/2024 03:16:37 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[trg_Transportista_Unico]
+CREATE TRIGGER [dbo].[trg_ValidarDistanciaMaxima]
+ON [dbo].[DetallePedido]
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @idCliente INT, @idPedido INT, @idProducto INT, @idProveedor INT;
+    DECLARE @ubicacionCliente geography, @ubicacionProveedor geography, @distancia DECIMAL(10, 2);
+    DECLARE @error BIT = 0; -- Variable para determinar si existe un error de distancia
+
+    -- Obtener el id_pedido y el id_producto del detalle insertado
+    SELECT @idPedido = id_pedido, @idProducto = id_producto
+    FROM INSERTED;
+
+    -- Obtener el id_cliente asociado al pedido
+    SELECT @idCliente = id_cliente
+    FROM Pedidos
+    WHERE id_pedido = @idPedido;
+
+    -- Obtener la ubicación del cliente
+    SELECT @ubicacionCliente = ubicacion_geografica 
+    FROM Clientes 
+    WHERE id_cliente = @idCliente;
+
+    -- Asegurarse de que se obtuvo la ubicación del cliente
+    IF @ubicacionCliente IS NULL
+    BEGIN
+        RAISERROR ('No se pudo obtener la ubicación del cliente.', 16, 1);
+        ROLLBACK;
+        RETURN;
+    END
+
+    -- Obtener el id_proveedor asociado al producto
+    SELECT @idProveedor = id_proveedor
+    FROM Productos
+    WHERE id_producto = @idProducto;
+
+    -- Obtener la ubicación del proveedor
+    SELECT @ubicacionProveedor = ubicacion_geografica 
+    FROM Proveedores 
+    WHERE id_proveedor = @idProveedor;
+
+    -- Asegurarse de que se obtuvo la ubicación del proveedor
+    IF @ubicacionProveedor IS NULL
+    BEGIN
+        RAISERROR ('No se pudo obtener la ubicación del proveedor.', 16, 1);
+        ROLLBACK;
+        RETURN;
+    END
+
+    -- Calcular la distancia en kilómetros
+    SET @distancia = @ubicacionCliente.STDistance(@ubicacionProveedor) / 1000; -- convertir a kilómetros
+
+    -- Validar la distancia máxima permitida
+    IF @distancia > 50
+    BEGIN
+        RAISERROR ('La distancia entre el punto de venta y el punto de entrega excede los 50 km para el producto.', 16, 1);
+        ROLLBACK;
+    END
+END;
+GO
+ALTER TABLE [dbo].[DetallePedido] ENABLE TRIGGER [trg_ValidarDistanciaMaxima]
+GO
+/****** Object:  Trigger [dbo].[trg_VerificarTransportistaActivo]    Script Date: 2/11/2024 03:16:38 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create TRIGGER [dbo].[trg_VerificarTransportistaActivo]
 ON [dbo].[Pedidos]
 AFTER UPDATE
 AS
 BEGIN
-    DECLARE @id_transportista INT;
-    
-    SELECT @id_transportista = id_transportista FROM inserted;
-
+    -- Verificar que no haya conflictos en la asignación de transportistas
     IF EXISTS (
         SELECT 1
-        FROM Pedidos
-        WHERE id_transportista = @id_transportista
-        AND estado IN ('pendiente', 'en camino')
-        AND id_pedido <> (SELECT id_pedido FROM inserted)
+        FROM inserted i
+        JOIN Pedidos p ON i.id_transportista = p.id_transportista
+        WHERE p.estado IN ('pendiente', 'en camino')
+          AND i.id_pedido <> p.id_pedido
     )
     BEGIN
-        -- Lanza un error que puede ser capturado por la aplicación
-        THROW 50000, 'El transportista ya tiene un envío activo.', 1;
+        -- Lanzar un error si el transportista tiene un envío activo
+        RAISERROR('El transportista ya tiene un envío activo.', 16, 1);
+        ROLLBACK;
     END
 END;
 GO
-ALTER TABLE [dbo].[Pedidos] ENABLE TRIGGER [trg_Transportista_Unico]
+ALTER TABLE [dbo].[Pedidos] ENABLE TRIGGER [trg_VerificarTransportistaActivo]
 GO
-/****** Object:  Trigger [dbo].[trg_InsertProvedor]    Script Date: 28/10/2024 11:57:18 p. m. ******/
+/****** Object:  Trigger [dbo].[trg_InsertProvedor]    Script Date: 2/11/2024 03:16:38 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

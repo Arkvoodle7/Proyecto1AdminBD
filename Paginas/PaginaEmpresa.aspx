@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Empresas" Language="C#" MasterPageFile="~/Paginas/Pagina.Master" AutoEventWireup="true" CodeBehind="PaginaEmpresa.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaEmpresa" %>
+﻿<%@ Page Title="Empresas" Language="C#" AutoEventWireup="true" CodeBehind="PaginaEmpresa.aspx.cs" Inherits="Proyecto1AdminBD.Paginas.PaginaEmpresa" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Empresas
@@ -25,17 +25,38 @@
                         <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" Placeholder="Ingrese la dirección:"></asp:TextBox>
                     </div>
                 </div>
+                <div class="card-body">
+                    <!-- Primera fila con Nombre Empresa y Dirección -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                             <label for="lblEmpresa" class="form-label">Empresa:</label>
+                            <asp:TextBox ID="txtEmpresa" runat="server" CssClass="form-control" Placeholder="Ingrese la empresa:"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lblDireccion" class="form-label">Dirección:</label>
+                            <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" Placeholder="Ingrese la dirección:"></asp:TextBox>
+                        </div>
+                    </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="lblContacto" class="form-label">Contacto:</label>
                         <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control" Placeholder="Ingrese el contacto:"></asp:TextBox>
                     </div>
-                    <div class="col-md-6">
-                        <label for="lblHorario" class="form-label">Horario:</label>
-                        <asp:TextBox ID="txtHorario" runat="server" CssClass="form-control" Placeholder="Ingrese el horario:"></asp:TextBox>
+
+                    <!-- Tercera fila con Ubicación y botón -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="lblUbicacion" class="form-label">Ubicación:</label>
+                            <asp:TextBox ID="txtUbicacion" runat="server" CssClass="form-control" Placeholder="Ingrese la ubicación:"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <asp:Button ID="btnActualizaV" runat="server" OnClick="btnActualizaV_Click" Text="Actualizar datos" Width="172px" />
+                        </div>
+                        
                     </div>
                 </div>
+            </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -64,7 +85,6 @@
                         <label for="lblNombre" class="form-label">Nombre Producto:</label>
                         <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" Placeholder="Ingrese nombre del producto"></asp:TextBox>
                     </div>
-                </div>
 
                 <div class="row mb-3">
                     <div class="col-md-4">
@@ -75,9 +95,12 @@
                             <asp:ListItem Value="zapatos">Zapatos</asp:ListItem>
                         </asp:DropDownList>
                     </div>
-                    <div class="col-md-4">
-                        <label for="lblPrecio" class="form-label">Precio:</label>
-                        <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" Placeholder="Ingrese el precio"></asp:TextBox>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="lblTiempo" class="form-label">Tiempo de Entrega:</label>
+                            <asp:TextBox ID="txtTiempo" runat="server" CssClass="form-control" Placeholder="Ingrese tiempo en días"></asp:TextBox>
+                        </div>
                     </div>
                 </div>
 
@@ -91,6 +114,7 @@
                         <asp:TextBox ID="txtstock" runat="server" CssClass="form-control" Placeholder="Ingrese el stock"></asp:TextBox>
                     </div>
                 </div>
+            </div>
 
                 <div class="mb-3">
                     <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
@@ -99,6 +123,7 @@
                 </div>
             </div>
         </div>
+    </form>
 
         <div class="card mb-4">
             <div class="card-header">

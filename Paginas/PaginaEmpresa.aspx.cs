@@ -69,7 +69,6 @@ namespace Proyecto1AdminBD.Paginas
             string nombre = row.Cells[2].Text; 
             string categoria = row.Cells[3].Text;
 
-
             decimal precio = Convert.ToDecimal(row.Cells[4].Text);
 
 

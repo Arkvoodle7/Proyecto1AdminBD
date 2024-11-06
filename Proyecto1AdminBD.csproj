@@ -80,7 +80,6 @@
     <Content Include="Paginas\PaginaEnvios.aspx" />
     <Content Include="Paginas\PaginaCliente.aspx" />
     <Content Include="Paginas\PaginaEmpresa.aspx" />
-    <Content Include="Paginas\PaginaEstado.aspx" />
     <Content Include="Paginas\PaginaLogin.aspx" />
     <Content Include="Paginas\PaginaPrincipal.aspx" />
     <Content Include="Paginas\PaginaRegistro.aspx" />
@@ -144,13 +143,6 @@
     </Compile>
     <Compile Include="Paginas\PaginaEmpresa.aspx.designer.cs">
       <DependentUpon>PaginaEmpresa.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Paginas\PaginaEstado.aspx.cs">
-      <DependentUpon>PaginaEstado.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Paginas\PaginaEstado.aspx.designer.cs">
-      <DependentUpon>PaginaEstado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Paginas\PaginaLogin.aspx.cs">
       <DependentUpon>PaginaLogin.aspx</DependentUpon>

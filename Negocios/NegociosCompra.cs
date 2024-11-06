@@ -113,72 +113,8 @@ namespace Negocios
             return resultado;
         }
 
-        public decimal CambiarEntregado(int idPedido)
-        {
-            decimal res;
-            res = datosCompra.CalcularCostoEnvio(idPedido);
-            if (res >= 0 && res <= 12)
-            {
-                return res;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        public decimal CalcularDistancia(int idPedido)
-        {
-            decimal res;
-            res = datosCompra.CalcularDistancia(idPedido);
-            if (res >= 0 && res <= 12) {
-                return res;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        public List<PedidoDet> ObtenerPendientes(int idCliente)
-        {
-            var listaPedidosDatos = datosCompra.ObtenerPedidosPendientes(idCliente);
-
-            List<PedidoDet> listaPedidosNegocios = new List<PedidoDet>();
-
-            foreach (var pedido in listaPedidosDatos)
-            {
-                listaPedidosNegocios.Add(new PedidoDet
-                {
-                    IdPedido = pedido.IdPedido,
-                    FechaPedido = pedido.FechaPedido,
-                    Estado = pedido.Estado,
-                    Subtotal = pedido.Subtotal,
-                    Impuestos = pedido.Impuestos,
-                    Total = pedido.Total,
-                    Transportista = pedido.Transportista,
-                    TiempoEntrega = pedido.TiempoEntrega,
-                    ContactoTransportista = pedido.ContactoTransportista
-                });
-            }
-
-            return listaPedidosNegocios;
-        }
-        
     }
-    //Detalles en negocios
-    public class PedidoDet
-    {
-        public int IdPedido { get; set; }
-        public DateTime FechaPedido { get; set; }
-        public string Estado { get; set; }
-        public decimal Subtotal { get; set; }
-        public decimal Impuestos { get; set; }
-        public decimal Total { get; set; }
-        public string Transportista { get; set; }
-        public int TiempoEntrega { get; set; }
-        public string ContactoTransportista { get; set; }
-    }
+
     // Clase Producto en la capa de Negocios
     public class Producto
     {

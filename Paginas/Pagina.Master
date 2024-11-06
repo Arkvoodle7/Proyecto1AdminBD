@@ -69,10 +69,6 @@
                                     <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                                     Empresas
                                 </a>
-                                <a class="nav-link" href="PaginaRegistrosEmpresa.aspx">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
-                                    Registro pedidos
-                                </a>
                             </asp:PlaceHolder>
 
                             <asp:PlaceHolder ID="OpcionesTransportistas" runat="server" Visible="false">
@@ -84,10 +80,6 @@
                                  <a class="nav-link" href="PaginaEnvios.aspx">
                                     <div class="sb-nav-link-icon"><i class="fas fa-shipping-fast"></i></div>
                                     Envíos
-                                </a>
-                                <a class="nav-link" href="PaginaEstado.aspx">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
-                                    Finalizar entrega
                                 </a>
                             </asp:PlaceHolder>
 

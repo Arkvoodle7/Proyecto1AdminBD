@@ -11,7 +11,6 @@ namespace Proyecto1AdminBD.Paginas
     public partial class Envios : System.Web.UI.Page
     {
         NegociosTransportista negocioPedidos = new NegociosTransportista();
-        NegociosCompra negociosCompra = new NegociosCompra();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -37,22 +36,12 @@ namespace Proyecto1AdminBD.Paginas
 
                     try
                     {
-                        decimal resp = negociosCompra.CalcularDistancia(idTransportista);
-                        if (resp >= 0)
-                        {
-                            // Asignar el transportista al pedido
-                            negocioPedidos.AsignarTransportista(idPedido, idTransportista);
+                        // Asignar el transportista al pedido
+                        negocioPedidos.AsignarTransportista(idPedido, idTransportista);
 
-                            // Mostrar un mensaje de éxito
-                            lblMensaje.Text = "Transportista asignado con éxito.";
-                            lblMensaje.ForeColor = System.Drawing.Color.Green; // Cambia el color del mensaje
-                        }
-                        else
-                        {
-                            lblMensaje.Text = "La distancia no puede ser mayor a 12 km";
-                            lblMensaje.ForeColor = System.Drawing.Color.Red; // Cambia el color del mensaje
-                        }
-
+                        // Mostrar un mensaje de éxito
+                        lblMensaje.Text = "Transportista asignado con éxito.";
+                        lblMensaje.ForeColor = System.Drawing.Color.Green; // Cambia el color del mensaje
                     }
                     catch (Exception ex)
                     {

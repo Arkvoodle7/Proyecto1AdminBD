@@ -1,10 +1,14 @@
 ﻿using Negocios;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static Negocios.NegociosEmpresa;
 
 namespace Proyecto1AdminBD.Paginas
 {
@@ -24,14 +28,16 @@ namespace Proyecto1AdminBD.Paginas
 
         private void Recarga()
         {
-            CargaEmpresa();
             CargarProductos(Convert.ToInt32(Session["IdUsuario"]));
         }
 
-        private void CargarProductos(int cedula)
+
+        private void CargarProductos(int idProveedor)
         {
-            List<List<string>> productos = empresa.ObtenerProductosProvedor(cedula);
-            LlenarTabla(productos);
+            List<ProductosNego> productos = empresa.ObtenerProductosProvedor(idProveedor);
+
+            ProductosGridView.DataSource = productos;
+            ProductosGridView.DataBind();
         }
 
         private void CargaEmpresa()
@@ -55,64 +61,38 @@ namespace Proyecto1AdminBD.Paginas
         }
 
 
-        private void LlenarTabla(List<List<string>> productos)
+        protected void ProductosGridView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (var producto in productos)
-            {
-                var row = new System.Web.UI.HtmlControls.HtmlTableRow();
-                for (int i = 0; i < producto.Count; i++)
-                {
-                    var fila = new System.Web.UI.HtmlControls.HtmlTableCell();
-                    fila.InnerText = producto[i];
-                    row.Cells.Add(fila);
-                }
 
-                var accion = new System.Web.UI.HtmlControls.HtmlTableCell();
+            GridViewRow row = ProductosGridView.SelectedRow;
+            int idProducto = Convert.ToInt32(row.Cells[1].Text); 
+            string nombre = row.Cells[2].Text; 
+            string categoria = row.Cells[3].Text;
+
+            decimal precio = Convert.ToDecimal(row.Cells[4].Text);
 
 
-                LinkButton btnAccion = new LinkButton
-                {
-                    Text = "Seleccionar",
-                    CommandArgument = producto[0] + ","+ producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5],
-                    CommandName = "SelecionarProducto"
-                };
-                accion.Controls.Add(btnAccion);
-                row.Cells.Add(accion);
 
-                ProductosTable.Rows.Add(row);
-            }
-        }
+            string tiempoEntregaTexto = row.Cells[5].Text.Trim();
+            tiempoEntregaTexto = tiempoEntregaTexto.Replace("d&#237;as", "").Trim();
+            int tiempoEntrega = Convert.ToInt32(tiempoEntregaTexto);
+
+            int stock = Convert.ToInt32(row.Cells[6].Text); 
 
 
-        protected void RowCommand(object sender, CommandEventArgs e)
-        {
-            if (e.CommandName == "SelecionarProducto")
-            {
-                string[] data = e.CommandArgument.ToString().Split(',');
-                if (data.Length == 6)
-                {
-                    string idProducto = data[0];
-                    string provedor = data[1];
-                    string producto = data[2];
-                    string categoria = data[3];
-                    string precio = data[4];
-                    string tiempo = data[5];
-
-                    txtCodigo.Text = idProducto;
-                    txtNombre.Text = producto;
-                    txtPrecio.Text = precio;
-                    txtTiempo.Text = tiempo;
-                    ddlCategoria.SelectedValue = categoria;
-
-                    btnEliminar.Visible = true;
-                    btnEliminar.Visible = true;
-                }
-            }
+            txtCodigo.Text = idProducto.ToString();
+            txtNombre.Text = nombre;
+            ddlCategoria.SelectedValue = categoria; 
+            txtPrecio.Text = precio.ToString();
+            txtTiempo.Text = tiempoEntrega.ToString();
+            txtstock.Text = stock.ToString();
+            btnActualizar.Visible = true;
+            btnEliminar.Visible = true;
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtstock.Text));
             txtCodigo.Text = string.Empty;
             txtNombre.Text = string.Empty;
             txtPrecio.Text = string.Empty;
@@ -122,9 +102,14 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
-            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text),Convert.ToDecimal(txtstock.Text));
             btnEliminar.Visible = false;
-            btnEliminar.Visible = false;
+            btnActualizar.Visible = false;
+            txtCodigo.Text = string.Empty;
+            txtNombre.Text = string.Empty;
+            txtPrecio.Text = string.Empty;
+            txtTiempo.Text = string.Empty;
+            txtstock.Text = string.Empty;
             Recarga();
         }
 
@@ -132,7 +117,7 @@ namespace Proyecto1AdminBD.Paginas
         {
             empresa.DeleteProducto(Convert.ToInt32(txtCodigo.Text));
             btnEliminar.Visible = false;
-            btnEliminar.Visible = false;
+            btnActualizar.Visible = false;
             Recarga();
         }
 
@@ -144,6 +129,7 @@ namespace Proyecto1AdminBD.Paginas
             string conta = txtContacto.Text;
             string horar = txtHorario.Text;
             string ubi = txtUbicacion.Text;
+
 
             empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi);
             Recarga();

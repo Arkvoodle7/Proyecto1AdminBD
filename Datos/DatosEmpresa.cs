@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Runtime.ConstrainedExecution;
 using System.Diagnostics.Contracts;
+using static Datos.DatosCliente;
 
 namespace Datos
 {
     public class DatosEmpresa
     {
+        
 
         string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
 
@@ -55,7 +57,7 @@ namespace Datos
         /// Productos 
         /// Insert
 
-        public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega)
+        public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -67,6 +69,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
                 cmd.Parameters.AddWithValue("@Precio", precio);
                 cmd.Parameters.AddWithValue("@Tiempo_Entrega", tiempoEntrega);
+                cmd.Parameters.AddWithValue("@Stock", stock);
 
                 try
                 {
@@ -83,7 +86,7 @@ namespace Datos
 
         /// Update
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -96,6 +99,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
                 cmd.Parameters.AddWithValue("@Precio", precio);
                 cmd.Parameters.AddWithValue("@Tiempo_Entrega", tiempoEntrega);
+                cmd.Parameters.AddWithValue("@Stock", stock);
 
                 try
                 {
@@ -204,16 +208,15 @@ namespace Datos
         }
 
 
-        public List<List<string>> ObtenerProductosProvedor(int provedor)
+        public List<Productos> ObtenerProductosProvedor(int provedor)
         {
-            List<List<string>> productosProvedor = new List<List<string>>();
+            List<Productos> productosProvedor = new List<Productos>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Provedor", provedor);
-
 
                 try
                 {
@@ -223,16 +226,18 @@ namespace Datos
                     {
                         while (reader.Read())
                         {
-                            List<string> pr = new List<string>();
+                            Productos producto = new Productos
+                            {
+                                IdProducto = Convert.ToInt32(reader["id_producto"]),
+                                IdProveedor = Convert.ToInt32(reader["id_proveedor"]),
+                                Nombre = reader["nombre"].ToString(),
+                                Categoria = reader["categoria"].ToString(),
+                                Precio = Convert.ToDecimal(reader["precio"]),
+                                TiempoEntrega = reader.IsDBNull(reader.GetOrdinal("tiempo_entrega")) ? 0 : Convert.ToInt32(reader["tiempo_entrega"]),
+                                StockDisponible = reader.IsDBNull(reader.GetOrdinal("StockDisponible")) ? 0 : Convert.ToInt32(reader["StockDisponible"])
+                            };
 
-                            pr.Add(reader["id_producto"].ToString());
-                            pr.Add(reader["id_proveedor"].ToString());
-                            pr.Add(reader["nombre"].ToString());
-                            pr.Add(reader["categoria"].ToString());
-                            pr.Add(reader["precio"].ToString());
-                            pr.Add(reader["tiempo_entrega"].ToString());
-
-                            productosProvedor.Add(pr);
+                            productosProvedor.Add(producto);
                         }
                     }
 
@@ -377,5 +382,74 @@ namespace Datos
             }
         }
 
+
+        public List<PedidosClase> ObtenerPedidosPorProveedor(int proveedorId)
+        {
+            List<PedidosClase> pedidosProveedor = new List<PedidosClase>();
+
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerPedidosPorProveedor", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_proveedor", proveedorId);
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            PedidosClase pedido = new PedidosClase
+                            {
+                                IdPedido = Convert.ToInt32(reader["id_pedido"]),
+                                IdCliente = reader.IsDBNull(reader.GetOrdinal("id_cliente")) ? (int?)null : Convert.ToInt32(reader["id_cliente"]),
+                                IdProducto = reader.IsDBNull(reader.GetOrdinal("id_producto")) ? (int?)null : Convert.ToInt32(reader["id_producto"]),
+                                IdTransportista = reader.IsDBNull(reader.GetOrdinal("id_transportista")) ? (int?)null : Convert.ToInt32(reader["id_transportista"]),
+                                FechaPedido = reader.IsDBNull(reader.GetOrdinal("fecha_pedido")) ? (DateTime?)null : Convert.ToDateTime(reader["fecha_pedido"]),
+                                Estado = reader["estado"].ToString(),
+                                CostoTotal = reader.IsDBNull(reader.GetOrdinal("costo_total")) ? (decimal?)null : Convert.ToDecimal(reader["costo_total"]),
+                                Cantidad = Convert.ToInt32(reader["cantidad"])
+                            };
+
+                            pedidosProveedor.Add(pedido);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al obtener los pedidos: " + ex.Message);
+                }
+            }
+
+            return pedidosProveedor;
+        }
+
+        public class Productos
+        {
+            public int IdProducto { get; set; }
+            public int IdProveedor { get; set; }
+            public string Nombre { get; set; }
+            public string Categoria { get; set; }
+            public decimal Precio { get; set; }
+            public int TiempoEntrega { get; set; }
+            public int? StockDisponible { get; set; }
+
+
+        }
+
+        public class PedidosClase
+        {
+            public int IdPedido { get; set; }
+            public int? IdCliente { get; set; }
+            public int? IdProducto { get; set; }
+            public int? IdTransportista { get; set; }
+            public DateTime? FechaPedido { get; set; }
+            public string Estado { get; set; }
+            public decimal? CostoTotal { get; set; }
+            public int Cantidad { get; set; }
+        }
     }
 }

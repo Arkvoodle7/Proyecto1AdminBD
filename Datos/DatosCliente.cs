@@ -93,6 +93,7 @@ namespace Datos
                         Estado = reader["estado"].ToString(),
                         Subtotal = (decimal)reader["Subtotal"],
                         Impuestos = (decimal)reader["Impuestos"],
+                        Entrega = (decimal)reader["costo_total"],
                         Total = (decimal)reader["Total"]
                     };
 
@@ -129,7 +130,8 @@ namespace Datos
                             Total = reader.GetDecimal(reader.GetOrdinal("Total")),
                             Transportista = reader.IsDBNull(reader.GetOrdinal("Transportista")) ? null : reader.GetString(reader.GetOrdinal("Transportista")),
                             ContactoTransportista = reader.IsDBNull(reader.GetOrdinal("ContactoTransportista")) ? null : reader.GetString(reader.GetOrdinal("ContactoTransportista")),
-                            TiempoEntrega = reader.GetInt32(reader.GetOrdinal("TiempoEntrega"))
+                            TiempoEntrega = reader.GetInt32(reader.GetOrdinal("TiempoEntrega")),
+                            CostoEntrega = reader.IsDBNull(reader.GetOrdinal("CostoEntrega")) ? "0" : reader.GetDecimal(reader.GetOrdinal("CostoEntrega")) == 1050 ? "0" : reader.GetDecimal(reader.GetOrdinal("CostoEntrega")).ToString("F2")
                         });
                     }
                 }
@@ -147,6 +149,7 @@ namespace Datos
             public decimal Subtotal { get; set; }
             public decimal Impuestos { get; set; }
             public decimal Total { get; set; }
+            public decimal Entrega { get; set; }
         }
 
         public class PedidoConDetallesDto
@@ -160,6 +163,7 @@ namespace Datos
             public string Transportista { get; set; }
             public int TiempoEntrega { get; set; }
             public string ContactoTransportista { get; set; }
+            public string CostoEntrega { get; set; }
         }
 
     }

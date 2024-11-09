@@ -10,10 +10,12 @@
             <div class="card-body">
                <asp:GridView ID="gvPedidos" runat="server" AutoGenerateColumns="False" CssClass="table table-striped" OnRowCommand="gvPedidos_RowCommand">
                     <Columns>
-                        <asp:BoundField DataField="IdPedido" HeaderText="Pedido" /> 
-                        <asp:BoundField DataField="IdCliente" HeaderText="Cliente" />
-                        <asp:BoundField DataField="FechaPedido" HeaderText="Fecha de Pedido" />
-                        <asp:BoundField DataField="Estado" HeaderText="Estado" />
+                        <asp:BoundField DataField="IdPedido" HeaderText="Pedido" SortExpression="IdPedido" />
+                        <asp:BoundField DataField="FechaPedido" HeaderText="Fecha de Pedido" SortExpression="FechaPedido" DataFormatString="{0:d}" />
+                        <asp:BoundField DataField="Estado" HeaderText="Estado" SortExpression="Estado" />
+                        <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" DataFormatString="{0:C2}" HtmlEncode="false" />
+                        <asp:BoundField DataField="IdCliente" HeaderText="Cliente" SortExpression="IdCliente" />
+                        <asp:BoundField DataField="Telefono" HeaderText="Teléfono" SortExpression="Telefono" />
                         <asp:CommandField ShowSelectButton="true" SelectText="Cancelar" />
                     </Columns>
               </asp:GridView>

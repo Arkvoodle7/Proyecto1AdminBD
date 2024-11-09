@@ -26,19 +26,11 @@ namespace Proyecto1AdminBD.Paginas
                 int index = Convert.ToInt32(e.CommandArgument);
 
 
-                int idPedido = Convert.ToInt32(gvPedidos.DataKeys[index].Value);
+                //int idPedido = Convert.ToInt32(gvPedidos.DataKeys[index].Value);
+                int idTranspor = Convert.ToInt32(Session["IdUsuario"]);
                 try
                 {
-                    decimal resp = negociosCompra.CambiarEntregado(idPedido);
-                    if (resp > -1)
-                    {
-                        negociosCompra.CambiarEntregado(idPedido);
-                    }
-                    else
-                    {
-                        lblMensaje.Text = "La cantidad de kilometros no debe de superar los 12 km";
-                        lblMensaje.Visible = true;
-                    }
+                    negociosCompra.CambiarEntregado(idTranspor);
                 }
                 catch (Exception ex)
                 {

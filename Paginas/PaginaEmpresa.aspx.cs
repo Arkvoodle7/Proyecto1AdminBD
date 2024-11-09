@@ -112,7 +112,7 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            empresa.InsertProducto(Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text));
             txtCodigo.Text = string.Empty;
             txtNombre.Text = string.Empty;
             txtPrecio.Text = string.Empty;
@@ -122,7 +122,7 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
-            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text));
+            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text));
             btnEliminar.Visible = false;
             btnEliminar.Visible = false;
             Recarga();

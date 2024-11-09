@@ -1,5 +1,6 @@
 ﻿using Datos;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace Negocios
             return Empresa.ObtenerProductosProvedor(Provedor);
         }
 
-        public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega)
+        public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
             if (idProvedor <= 0 || tiempoEntrega < 0 || precio <= 0)
             {
@@ -54,10 +55,10 @@ namespace Negocios
                 throw new ArgumentException("El nombre y la categoría del producto no puede ir vacios.");
             }
 
-            Empresa.InsertProducto(idProvedor, nombre, categoria, precio, tiempoEntrega);
+            Empresa.InsertProducto(idProvedor, nombre, categoria, precio, tiempoEntrega, stock);
         }
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
             if (idProducto <= 0 || idProvedor <= 0 || precio <= 0 || tiempoEntrega < 0)
             {
@@ -68,7 +69,7 @@ namespace Negocios
             {
                 throw new ArgumentException("El id del proveedor no puede estar vacío o ser menor que cero.");
             }
-            Empresa.UpdateProducto(idProducto, idProvedor, nombre, categoria, precio, tiempoEntrega);
+            Empresa.UpdateProducto(idProducto, idProvedor, nombre, categoria, precio, tiempoEntrega, stock);
         }
 
         public void DeleteProducto(int idProducto)

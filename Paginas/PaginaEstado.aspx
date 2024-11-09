@@ -16,7 +16,7 @@
                         <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" DataFormatString="{0:C2}" HtmlEncode="false" />
                         <asp:BoundField DataField="IdCliente" HeaderText="Cliente" SortExpression="IdCliente" />
                         <asp:BoundField DataField="Telefono" HeaderText="Teléfono" SortExpression="Telefono" />
-                        <asp:CommandField ShowSelectButton="true" SelectText="Cancelar" />
+                        <asp:CommandField ShowSelectButton="true" SelectText="Entregar" />
                     </Columns>
               </asp:GridView>
             </div>

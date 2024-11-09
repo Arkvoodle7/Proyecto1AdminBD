@@ -81,6 +81,10 @@
                                     <div class="sb-nav-link-icon"><i class="fas fa-shipping-fast"></i></div>
                                     Envíos
                                 </a>
+                                <a class="nav-link" href="PaginaEstado.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-shipping-fast"></i></div>
+                                    Entregar compra
+                                </a>
                             </asp:PlaceHolder>
 
                             <!-- Opciones cuando no ha iniciado sesión -->

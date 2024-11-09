@@ -55,7 +55,7 @@ namespace Datos
         /// Productos 
         /// Insert
 
-        public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega)
+        public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -67,6 +67,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
                 cmd.Parameters.AddWithValue("@Precio", precio);
                 cmd.Parameters.AddWithValue("@Tiempo_Entrega", tiempoEntrega);
+                cmd.Parameters.AddWithValue("@Stock", stock);
 
                 try
                 {
@@ -83,7 +84,7 @@ namespace Datos
 
         /// Update
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -96,6 +97,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
                 cmd.Parameters.AddWithValue("@Precio", precio);
                 cmd.Parameters.AddWithValue("@Tiempo_Entrega", tiempoEntrega);
+                cmd.Parameters.AddWithValue("@Stock", stock);
 
                 try
                 {

@@ -75,6 +75,7 @@ namespace Negocios
                     Estado = pedido.Estado,
                     Subtotal = pedido.Subtotal,
                     Impuestos = pedido.Impuestos,
+                    Entrega = pedido.Entrega,
                     Total = pedido.Total
                 });
             }
@@ -100,7 +101,8 @@ namespace Negocios
                     Total = pedido.Total,
                     Transportista = pedido.Transportista,
                     TiempoEntrega = pedido.TiempoEntrega,
-                    ContactoTransportista = pedido.ContactoTransportista
+                    ContactoTransportista = pedido.ContactoTransportista,
+                    CostoEntrega = pedido.CostoEntrega
                 });
             }
 
@@ -115,6 +117,7 @@ namespace Negocios
             public decimal Subtotal { get; set; }
             public decimal Impuestos { get; set; }
             public decimal Total { get; set; }
+            public decimal Entrega { get; set; }
         }
 
         public class PedidoConDetallesDto
@@ -128,6 +131,7 @@ namespace Negocios
             public string Transportista { get; set; }
             public int TiempoEntrega { get; set; }
             public string ContactoTransportista { get; set; }
+            public string CostoEntrega { get; set; }
         }
     }
 

@@ -228,8 +228,63 @@ namespace Datos
             }
         }
 
+        //Actualiza el estado del pedido a entregado usando el id del cliente y el transportista
+        public void ActualizarEstadoPedido(int idTransportista)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_ActualizarEstadoPedido", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Parámetros de entrada
+                //cmd.Parameters.AddWithValue("@IdPedido", idPedido);
+                cmd.Parameters.AddWithValue("@IdTransportista", idTransportista);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
 
 
+        // Metodo para el calculo del precio por kilometro y costo total
+        public (decimal distancia, decimal costoTotal) CalcularKilometros(int idPedido)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_CalcularDistancia", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdPedido", idPedido);
+
+                // Parámetro de salida para la distancia
+                SqlParameter outputDistancia = new SqlParameter("@DistanciaKm", SqlDbType.Decimal)
+                {
+                    Direction = ParameterDirection.Output,
+                    Precision = 10,
+                    Scale = 2
+                };
+                cmd.Parameters.Add(outputDistancia);
+
+                // Parámetro de salida para el costo total
+                SqlParameter outputCostoTotal = new SqlParameter("@CostoTotal", SqlDbType.Decimal)
+                {
+                    Direction = ParameterDirection.Output,
+                    Precision = 10,
+                    Scale = 2
+                };
+                cmd.Parameters.Add(outputCostoTotal);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+
+                
+                decimal distancia = (decimal)outputDistancia.Value;
+                decimal costoTotal = (decimal)outputCostoTotal.Value;
+
+                
+                return (distancia, costoTotal);
+            }
+        }
 
         public decimal CalcularDistancia(int idPedido)
         {
@@ -275,7 +330,7 @@ namespace Datos
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SP_PedidosPendientes", conn);
+                SqlCommand cmd = new SqlCommand("SP_PendientesTransportista", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", idCliente);
 
@@ -289,9 +344,10 @@ namespace Datos
                         IdPedido = (int)reader["id_pedido"],
                         FechaPedido = (DateTime)reader["fecha_pedido"],
                         Estado = reader["estado"].ToString(),
-                        Subtotal = (decimal)reader["Subtotal"],
-                        Impuestos = (decimal)reader["Impuestos"],
-                        Total = (decimal)reader["Total"]
+                        Total = (decimal)reader["total"],
+                        //TiempoEntrega = reader.IsDBNull(reader.GetOrdinal("tiempo_entrega")) ? 0 : (int)reader["tiempo_entrega"],
+                        IdCliente = (int)reader["id_cliente"],
+                        Telefono = reader["telefono"].ToString()
                     };
 
                     listaPedidos.Add(pedido);
@@ -332,12 +388,10 @@ namespace Datos
         public int IdPedido { get; set; }
         public DateTime FechaPedido { get; set; }
         public string Estado { get; set; }
-        public decimal Subtotal { get; set; }
-        public decimal Impuestos { get; set; }
         public decimal Total { get; set; }
-        public string Transportista { get; set; }
-        public int TiempoEntrega { get; set; }
-        public string ContactoTransportista { get; set; }
+        //public int TiempoEntrega { get; set; }
+        public int IdCliente { get; set; }
+        public string Telefono { get; set; }
     }
 
 

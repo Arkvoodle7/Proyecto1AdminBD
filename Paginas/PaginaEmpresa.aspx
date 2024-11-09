@@ -98,6 +98,10 @@
                             <label for="lblTiempo" class="form-label">Tiempo de Entrega:</label>
                             <asp:TextBox ID="txtTiempo" runat="server" CssClass="form-control" Placeholder="Ingrese tiempo en días"></asp:TextBox>
                         </div>
+                        <div class="col-md-4">
+                            <label for="lblStock" class="form-label">Stock actual:</label>
+                            <asp:TextBox ID="txtStock" runat="server" CssClass="form-control" Placeholder="Ingrese el stock"></asp:TextBox>
+                        </div>
                     </div>
 
                     <!-- Botones -->

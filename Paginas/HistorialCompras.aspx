@@ -16,6 +16,7 @@
                         <asp:BoundField DataField="Estado" HeaderText="Estado" />
                         <asp:BoundField DataField="Subtotal" HeaderText="Subtotal" DataFormatString="{0:C2}" />
                         <asp:BoundField DataField="Impuestos" HeaderText="Impuestos" DataFormatString="{0:C2}" />
+                        <asp:BoundField DataField="Entrega" HeaderText="Entrega" DataFormatString="{0:C2}" />
                         <asp:BoundField DataField="Total" HeaderText="Total" DataFormatString="{0:C2}" />
                     </Columns>
                 </asp:GridView>

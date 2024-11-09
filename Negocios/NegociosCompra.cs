@@ -96,39 +96,31 @@ namespace Negocios
             }).ToList();
         }
 
-        public decimal CambiarEntregado(int idPedido)
+        public void CambiarEntregado(int idTrans)
         {
-            decimal costoTotal;
-            decimal resultado = datosCompra.CalcularCostoEnvio(idPedido, out costoTotal);
-
-            if (costoTotal >= 0 && costoTotal <= 12)
-            {
-                return resultado;
-            }
-            else
-            {
-                return -1;
-            }
+            datosCompra.ActualizarEstadoPedido(idTrans);
         }
 
 
 
         public decimal CalcularDistancia(int idPedido)
         {
-            decimal costoTotal;
             try
             {
-                costoTotal = datosCompra.CalcularCostoEnvio(idPedido, out decimal distancia);
+                // Llamar al método que devuelve como   (distancia, costoTotal)
+                var resultado = datosCompra.CalcularKilometros(idPedido);
 
-                // Si la distancia está fuera del rango permitido, devolvemos un costo de envío de -1
+                decimal distancia = resultado.distancia;
+                decimal costoTotal = resultado.costoTotal;
+
+                //Distancia invalida
                 if (distancia > 12)
                 {
-                    return -1; // Indicando que está fuera de cobertura
+                    return -1; 
                 }
 
-                // Si la distancia es válida, devolvemos el costo total
+                //Dsitancia valida
                 return costoTotal;
-
             }
             catch (Exception ex)
             {
@@ -147,12 +139,10 @@ namespace Negocios
                 IdPedido = pedido.IdPedido,
                 FechaPedido = pedido.FechaPedido,
                 Estado = pedido.Estado,
-                Subtotal = pedido.Subtotal,
-                Impuestos = pedido.Impuestos,
-                Total = pedido.Total,
-                Transportista = pedido.Transportista,
-                TiempoEntrega = pedido.TiempoEntrega,
-                ContactoTransportista = pedido.ContactoTransportista
+                Total = pedido.Total, 
+                //TiempoEntrega = pedido.TiempoEntrega,
+                IdCliente = pedido.IdCliente,
+                Telefono = pedido.Telefono,
             }).ToList();
         }
     }
@@ -162,12 +152,10 @@ namespace Negocios
         public int IdPedido { get; set; }
         public DateTime FechaPedido { get; set; }
         public string Estado { get; set; }
-        public decimal Subtotal { get; set; }
-        public decimal Impuestos { get; set; }
         public decimal Total { get; set; }
-        public string Transportista { get; set; }
-        public int TiempoEntrega { get; set; }
-        public string ContactoTransportista { get; set; }
+        //public int TiempoEntrega { get; set; }
+        public int IdCliente { get; set; }
+        public string Telefono { get; set; }
     }
 
     public class Producto

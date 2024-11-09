@@ -20,6 +20,7 @@
                         <asp:BoundField DataField="Transportista" HeaderText="Transportista" />
                         <asp:BoundField DataField="TiempoEntrega" HeaderText="Tiempo de Entrega (días)" />
                         <asp:BoundField DataField="ContactoTransportista" HeaderText="Contacto Transportista" />
+                        <asp:BoundField DataField="CostoEntrega" HeaderText="Costo de entrega" />
                     </Columns>
                 </asp:GridView>
             </div>

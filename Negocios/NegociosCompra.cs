@@ -28,40 +28,57 @@ namespace Negocios
 
         public string RealizarCompra(int idCliente, List<CarritoItem> carritoItems)
         {
-            if (carritoItems == null || !carritoItems.Any())
+            try
             {
-                return "El carrito está vacío.";
-            }
-
-            foreach (var item in carritoItems)
-            {
-                var stockDisponible = datosCompra.VerificarStock(item.IdProducto);
-                if (stockDisponible < item.Cantidad)
+                if (carritoItems == null || !carritoItems.Any())
                 {
-                    return $"No hay suficiente stock disponible para el producto {item.Nombre}.";
+                    return "El carrito está vacío.";
                 }
+
+                foreach (var item in carritoItems)
+                {
+                    var stockDisponible = datosCompra.VerificarStock(item.IdProducto);
+                    if (stockDisponible < item.Cantidad)
+                    {
+                        return $"No hay suficiente stock disponible para el producto {item.Nombre}.";
+                    }
+                }
+
+                decimal costoTotal = carritoItems.Sum(item => item.Precio * item.Cantidad);
+                DateTime fechaPedido = DateTime.Now;
+                int idProductoPrincipal = carritoItems.First().IdProducto;
+                int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido, idProductoPrincipal, costoTotal);
+
+                List<DatosCompra.CarritoItem> carritoItemsDatos = carritoItems.Select(item => new DatosCompra.CarritoItem
+                {
+                    IdProducto = item.IdProducto,
+                    Nombre = item.Nombre,
+                    Precio = item.Precio,
+                    Cantidad = item.Cantidad,
+                    Subtotal = item.Subtotal,
+                    Impuestos = item.Impuestos,
+                    Total = item.Total
+                }).ToList();
+
+                datosCompra.CrearDetallePedido(idPedido, carritoItemsDatos);
+
+                return "Compra realizada con éxito.";
             }
-
-            decimal costoTotal = carritoItems.Sum(item => item.Precio * item.Cantidad);
-            DateTime fechaPedido = DateTime.Now;
-            int idProductoPrincipal = carritoItems.First().IdProducto;
-            int idPedido = datosCompra.CrearOrdenDeCompra(idCliente, fechaPedido, idProductoPrincipal, costoTotal);
-
-            List<DatosCompra.CarritoItem> carritoItemsDatos = carritoItems.Select(item => new DatosCompra.CarritoItem
+            catch (Exception ex)
             {
-                IdProducto = item.IdProducto,
-                Nombre = item.Nombre,
-                Precio = item.Precio,
-                Cantidad = item.Cantidad,
-                Subtotal = item.Subtotal,
-                Impuestos = item.Impuestos,
-                Total = item.Total
-            }).ToList();
+                string errorMessage = ex.Message;
 
-            datosCompra.CrearDetallePedido(idPedido, carritoItemsDatos);
+                // Filtrar el texto específico de la excepción
+                string triggerError = "The transaction ended in the trigger. The batch has been aborted.";
+                if (errorMessage.Contains(triggerError))
+                {
+                    errorMessage = errorMessage.Replace(triggerError, "").Trim();
+                }
 
-            return "Compra realizada con éxito.";
+                return "Error al realizar la compra: " + errorMessage;
+            }
         }
+
 
         private Producto MapearProducto(Datos.Producto productoDatos)
         {

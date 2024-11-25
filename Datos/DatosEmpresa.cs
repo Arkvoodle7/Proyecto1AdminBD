@@ -14,7 +14,7 @@ namespace Datos
     public class DatosEmpresa
     {
 
-        string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioOferente"].ConnectionString;
 
         public List<string> ObtenerProvedor(int id)
         {

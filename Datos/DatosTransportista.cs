@@ -11,7 +11,7 @@ namespace Datos
 {
     public class DatosTransportista
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioTransportista"].ConnectionString;
 
 
         public Transportista ObtenerTransportistaPorId(int id)

@@ -31,6 +31,12 @@ namespace Proyecto1AdminBD.Paginas
                     {
                         OpcionesTransportistas.Visible = true;
                     }
+                    else if (rol == "funcionario") // Caso para el funcionario
+                    {
+                        OpcionesClientes.Visible = true;
+                        OpcionesProveedores.Visible = true;
+                        OpcionesTransportistas.Visible = true;
+                    }
 
                     // Mostrar el ícono de usuario si hay sesión
                     IconoUsuario.Visible = true;

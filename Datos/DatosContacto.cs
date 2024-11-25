@@ -11,7 +11,7 @@ namespace Datos
 {
     public class DatosContacto
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+        private string connectionString = ConfigurationManager.ConnectionStrings["UsuarioGenerico"].ConnectionString;
         public void InsertarContacto(string nombre, string email, string mensaje)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

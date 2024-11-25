@@ -11,14 +11,15 @@ namespace Datos
 {
     public class DatosCompra
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+        private string connectionStringUsuario = ConfigurationManager.ConnectionStrings["UsuarioCliente"].ConnectionString;
+        private string connectionStringTransportista = ConfigurationManager.ConnectionStrings["UsuarioTransportista"].ConnectionString;
 
         // Método para verificar el stock de un producto
         public int VerificarStock(int idProducto)
         {
             int stock = 0;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringUsuario))
             {
                 try
                 {
@@ -44,7 +45,7 @@ namespace Datos
         {
             int idPedido = 0;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringUsuario))
             {
                 try
                 {
@@ -77,7 +78,7 @@ namespace Datos
         // Método para crear los detalles del pedido
         public void CrearDetallePedido(int idPedido, List<CarritoItem> carritoItems)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringUsuario))
             {
                 try
                 {
@@ -117,7 +118,7 @@ namespace Datos
         {
             Producto producto = null;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringUsuario))
             {
                 try
                 {
@@ -154,7 +155,7 @@ namespace Datos
         {
             List<CarritoItem> resultado = new List<CarritoItem>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringUsuario))
             {
                 try
                 {
@@ -201,10 +202,12 @@ namespace Datos
             return resultado;
         }
 
+        //a partir de aqui es para transportistas, arriba es para clientes
+
         //Metodo para el calculo del precio por kilometro
         public decimal CalcularCostoEnvio(int idPedido, out decimal costoTotal)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -231,7 +234,7 @@ namespace Datos
         //Actualiza el estado del pedido a entregado usando el id del cliente y el transportista
         public void ActualizarEstadoPedido(int idTransportista)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("SP_ActualizarEstadoPedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -249,7 +252,7 @@ namespace Datos
         // Metodo para el calculo del precio por kilometro y costo total
         public (decimal distancia, decimal costoTotal) CalcularKilometros(int idPedido)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("SP_CalcularDistancia", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -288,7 +291,7 @@ namespace Datos
 
         public decimal CalcularDistancia(int idPedido)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 decimal distancia;
                 SqlCommand cmd = new SqlCommand("SP_CalcularCostoEnvio", conn);
@@ -328,7 +331,7 @@ namespace Datos
         {
             List<PedidoDatos> listaPedidos = new List<PedidoDatos>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("SP_PendientesTransportista", conn);
                 cmd.CommandType = CommandType.StoredProcedure;

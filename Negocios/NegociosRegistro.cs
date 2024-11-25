@@ -49,7 +49,7 @@ namespace Negocios
             }
         }
 
-        // Método para validar campos del cliente
+        //Método para validar campos del cliente
         public void ValidarCamposCliente(string nombre, string apellido, string email, string password, string direccion, string telefono)
         {
             if (string.IsNullOrWhiteSpace(nombre)) throw new ArgumentException("El nombre no puede estar vacío.");

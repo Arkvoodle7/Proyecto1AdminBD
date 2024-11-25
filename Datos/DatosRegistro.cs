@@ -12,7 +12,7 @@ namespace Datos
 {
     public class DatosRegistro
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioGenerico"].ConnectionString;
 
         public void AgregarCliente(string nombre, string apellido, string email, string password, string direccion, string telefono, string fechanac, SqlGeography ubicacion)
         {

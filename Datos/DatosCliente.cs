@@ -11,7 +11,7 @@ namespace Datos
 {
     public class DatosCliente
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioCliente"].ConnectionString;
 
         // Obtener Cliente por Id
         public Cliente ObtenerClientePorId(int id)

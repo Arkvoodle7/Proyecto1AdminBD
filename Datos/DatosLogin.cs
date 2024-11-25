@@ -10,7 +10,7 @@ namespace Datos
         public static (string, int) VerificarCredenciales(string email, string password)
         {
             // Obtener la cadena de conexión del archivo Web.config
-            string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["UsuarioGenerico"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {

@@ -12,7 +12,7 @@ namespace Proyecto1AdminBD.Paginas
 {
     public partial class PaginaPrincipal : System.Web.UI.Page
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["SistemaEnviosDB"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioGenerico"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {

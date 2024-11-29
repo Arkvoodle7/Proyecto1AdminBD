@@ -11,13 +11,13 @@ namespace Datos
 {
     public class DatosTransportista
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioTransportista"].ConnectionString;
-
+        string connectionStringTransportista = ConfigurationManager.ConnectionStrings["UsuarioTransportista"].ConnectionString;
+        string connectionStringFuncionario = ConfigurationManager.ConnectionStrings["UsuarioFuncionario"].ConnectionString;
 
         public Transportista ObtenerTransportistaPorId(int id)
         {
             Transportista transportista = null;
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("sp_ObtenerTransPorID", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -44,7 +44,7 @@ namespace Datos
         // Método para actualizar el tipo de transporte de un transportista usando id_transportista
         public void ActualizarTransportista(int id, string tipoTransporte, string contacto)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("sp_UpdateTransportista", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -61,7 +61,7 @@ namespace Datos
         // Eliminar transportista
         public void EliminarTransportista(int id)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("sp_DeleteTransportista", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -75,7 +75,7 @@ namespace Datos
         }
         public void AsignarTransportistaAPedido(int idPedido, int idTransportista)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("sp_ActualizarEstadoYAsignarTransportista", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -102,7 +102,7 @@ namespace Datos
         public List<Pedido> ObtenerTodosLosPedidos()
         {
             List<Pedido> pedidos = new List<Pedido>();
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
                 SqlCommand cmd = new SqlCommand("sp_ObtenerTodosLosPedidos", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -127,6 +127,50 @@ namespace Datos
                 }
             }
             return pedidos;
+        }
+
+        public List<TransportistaCompleto> ObtenerTodosLosTransportistasCompletos()
+        {
+            List<TransportistaCompleto> listaTransportistasCompletos = new List<TransportistaCompleto>();
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerTodosLosTransportistasCompletos", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaTransportistasCompletos.Add(new TransportistaCompleto
+                        {
+                            IdUsuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            Password = reader.GetString(reader.GetOrdinal("password")),
+                            Rol = reader.GetString(reader.GetOrdinal("rol")),
+                            FechaNacimiento = reader.GetDateTime(reader.GetOrdinal("fecha_nacimiento")),
+                            TipoTransporte = reader.GetString(reader.GetOrdinal("tipo_transporte")),
+                            Contacto = reader.GetString(reader.GetOrdinal("contacto"))
+                        });
+                    }
+                }
+            }
+            return listaTransportistasCompletos;
+        }
+
+        public class TransportistaCompleto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string TipoTransporte { get; set; }
+            public string Contacto { get; set; }
         }
 
 

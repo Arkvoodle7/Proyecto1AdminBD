@@ -87,6 +87,26 @@
                                 </a>
                             </asp:PlaceHolder>
 
+                            <asp:PlaceHolder ID="OpcionesFuncionario" runat="server" Visible="false">
+                                <div class="sb-sidenav-menu-heading">Mantenimiento</div>
+                                <a class="nav-link" href="PaginaMantenimientoClientes.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
+                                    Mantenimiento de Clientes
+                                </a>
+                                <a class="nav-link" href="PaginaMantenimientoTransportistas.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-truck-moving"></i></div>
+                                    Mantenimiento de Transportistas
+                                </a>
+                                <a class="nav-link" href="PaginaMantenimientoOferentes.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
+                                    Mantenimiento de Oferentes
+                                </a>
+                                <a class="nav-link" href="PaginaMantenimientoProductos.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
+                                    Mantenimiento de Productos
+                                </a>
+                            </asp:PlaceHolder>
+
                             <!-- Opciones cuando no ha iniciado sesión -->
                             <asp:PlaceHolder ID="OpcionesGenerales" runat="server" Visible="false">
                                 <div class="sb-sidenav-menu-heading">Configuración</div>

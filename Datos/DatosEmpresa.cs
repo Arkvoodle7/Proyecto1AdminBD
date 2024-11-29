@@ -14,13 +14,14 @@ namespace Datos
     public class DatosEmpresa
     {
 
-        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioOferente"].ConnectionString;
+        string connectionStringOferente = ConfigurationManager.ConnectionStrings["UsuarioOferente"].ConnectionString;
+        string connectionStringFuncionario = ConfigurationManager.ConnectionStrings["UsuarioFuncionario"].ConnectionString;
 
         public List<string> ObtenerProvedor(int id)
         {
             List<string> Provedor = new List<string>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProvedo", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -57,7 +58,7 @@ namespace Datos
 
         public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_InsertProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -86,7 +87,7 @@ namespace Datos
 
         public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_UptadeProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -115,7 +116,7 @@ namespace Datos
 
         public void DeleteProducto(int idProducto)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_DeleteProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -138,7 +139,7 @@ namespace Datos
         {
             List<string> pr = new List<string>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -171,7 +172,7 @@ namespace Datos
         {
             List<List<string>> productosLista = new List<List<string>>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProductoCategoria", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -210,7 +211,7 @@ namespace Datos
         {
             List<List<string>> productosProvedor = new List<List<string>>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -250,7 +251,7 @@ namespace Datos
 
         public void InsertPedido(int idCliente, int idProducto, int idTransportista, DateTime fechaPedido, string estado)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_CreatePedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -274,7 +275,7 @@ namespace Datos
 
         public void UpdatePedido(int IdPedido, string NuevoEstado)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_UpdateEstadoPedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -298,7 +299,7 @@ namespace Datos
         {
             int resultado;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_ObtenerIdPedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -356,7 +357,7 @@ namespace Datos
 
         public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_UpdateProveedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -377,6 +378,129 @@ namespace Datos
                     throw new Exception("Error al actualizar el provedor" + ex.Message);
                 }
             }
+        }
+
+        // Método para eliminar un producto
+        public void EliminarProducto(int idProducto)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("SP_EliminarProducto", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        // Método para eliminar un oferente
+        public void EliminarOferente(int idOferente)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("SP_EliminarOferente", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdOferente", idOferente);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public List<OferenteCompleto> ObtenerTodosLosOferentesCompletos()
+        {
+            List<OferenteCompleto> listaOferentesCompletos = new List<OferenteCompleto>();
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerTodosLosOferentesCompletos", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaOferentesCompletos.Add(new OferenteCompleto
+                        {
+                            IdUsuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            Password = reader.GetString(reader.GetOrdinal("password")),
+                            Rol = reader.GetString(reader.GetOrdinal("rol")),
+                            FechaNacimiento = reader.GetDateTime(reader.GetOrdinal("fecha_nacimiento")),
+                            NombreEmpresa = reader.GetString(reader.GetOrdinal("nombre_empresa")),
+                            Direccion = reader.GetString(reader.GetOrdinal("direccion")),
+                            Contacto = reader.GetString(reader.GetOrdinal("contacto")),
+                            Horario = reader.GetString(reader.GetOrdinal("horario"))
+                        });
+                    }
+                }
+            }
+            return listaOferentesCompletos;
+        }
+
+        public class OferenteCompleto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string NombreEmpresa { get; set; }
+            public string Direccion { get; set; }
+            public string Contacto { get; set; }
+            public string Horario { get; set; }
+        }
+
+        // Obtener todos los productos
+        public List<Producto> ObtenerTodosLosProductos()
+        {
+            List<Producto> productos = new List<Producto>();
+
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerTodosLosProductos", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Producto producto = new Producto
+                        {
+                            IdProducto = reader.IsDBNull(reader.GetOrdinal("id_producto")) ? 0 : reader.GetInt32(reader.GetOrdinal("id_producto")),
+                            IdProveedor = reader.IsDBNull(reader.GetOrdinal("id_proveedor")) ? 0 : reader.GetInt32(reader.GetOrdinal("id_proveedor")),
+                            Nombre = reader.IsDBNull(reader.GetOrdinal("nombre")) ? string.Empty : reader.GetString(reader.GetOrdinal("nombre")),
+                            Categoria = reader.IsDBNull(reader.GetOrdinal("categoria")) ? string.Empty : reader.GetString(reader.GetOrdinal("categoria")),
+                            Precio = reader.IsDBNull(reader.GetOrdinal("precio")) ? 0m : reader.GetDecimal(reader.GetOrdinal("precio")),
+                            TiempoEntrega = reader.IsDBNull(reader.GetOrdinal("tiempo_entrega")) ? 0 : reader.GetInt32(reader.GetOrdinal("tiempo_entrega")),
+                            StockDisponible = reader.IsDBNull(reader.GetOrdinal("StockDisponible")) ? 0 : reader.GetInt32(reader.GetOrdinal("StockDisponible"))
+                        };
+
+                        productos.Add(producto);
+                    }
+                }
+            }
+
+            return productos;
+        }
+
+        public class Producto
+        {
+            public int IdProducto { get; set; }
+            public int IdProveedor { get; set; }
+            public string Nombre { get; set; }
+            public string Categoria { get; set; }
+            public decimal Precio { get; set; }
+            public int TiempoEntrega { get; set; }
+            public int StockDisponible { get; set; }
         }
 
     }

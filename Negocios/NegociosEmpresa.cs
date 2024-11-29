@@ -135,6 +135,86 @@ namespace Negocios
             Empresa.UpdateProvedor(idProveedor, nombreEmpresa, direccion, contacto, horario, ubicacion);
         }
 
+        // Método para eliminar un producto
+        public void EliminarProducto(int idProducto)
+        {
+            if (idProducto <= 0)
+            {
+                throw new ArgumentException("El ID del producto debe ser mayor a 0");
+            }
+            Empresa.EliminarProducto(idProducto);
+        }
+
+        // Método para eliminar un oferente
+        public void EliminarOferente(int idOferente)
+        {
+            if (idOferente <= 0)
+            {
+                throw new ArgumentException("El ID del oferente debe ser mayor a 0");
+            }
+            Empresa.EliminarOferente(idOferente);
+        }
+
+        // Obtener todos los oferentes con sus detalles completos
+        public List<OferenteCompletoDto> ObtenerTodosLosOferentes()
+        {
+            var listaOferentesDatos = Empresa.ObtenerTodosLosOferentesCompletos();
+            return listaOferentesDatos.Select(oferente => new OferenteCompletoDto
+            {
+                IdUsuario = oferente.IdUsuario,
+                Nombre = oferente.Nombre,
+                Apellido = oferente.Apellido,
+                Email = oferente.Email,
+                Password = oferente.Password,
+                Rol = oferente.Rol,
+                FechaNacimiento = oferente.FechaNacimiento,
+                NombreEmpresa = oferente.NombreEmpresa,
+                Direccion = oferente.Direccion,
+                Contacto = oferente.Contacto,
+                Horario = oferente.Horario
+            }).ToList();
+        }
+
+        public class OferenteCompletoDto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string NombreEmpresa { get; set; }
+            public string Direccion { get; set; }
+            public string Contacto { get; set; }
+            public string Horario { get; set; }
+        }
+
+        // Obtener todos los productos
+        public List<ProductoDto> ObtenerTodosLosProductos()
+        {
+            return Empresa.ObtenerTodosLosProductos().Select(producto => new ProductoDto
+            {
+                IdProducto = producto.IdProducto,
+                IdProveedor = producto.IdProveedor,
+                Nombre = producto.Nombre,
+                Categoria = producto.Categoria,
+                Precio = producto.Precio,
+                TiempoEntrega = producto.TiempoEntrega,
+                StockDisponible = producto.StockDisponible
+            }).ToList();
+        }
+
+        public class ProductoDto
+        {
+            public int IdProducto { get; set; }
+            public int IdProveedor { get; set; }
+            public string Nombre { get; set; }
+            public string Categoria { get; set; }
+            public decimal Precio { get; set; }
+            public int TiempoEntrega { get; set; }
+            public int StockDisponible { get; set; }
+        }
     }
 
 }

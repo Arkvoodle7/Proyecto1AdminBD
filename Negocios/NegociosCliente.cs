@@ -109,6 +109,37 @@ namespace Negocios
             return listaPedidosNegocios;
         }
 
+        // Obtener todos los clientes con sus detalles completos
+        public List<ClienteCompletoDto> ObtenerTodosLosClientes()
+        {
+            var listaClientesDatos = datos.ObtenerTodosLosClientesCompletos();
+            return listaClientesDatos.Select(cliente => new ClienteCompletoDto
+            {
+                IdUsuario = cliente.IdUsuario,
+                Nombre = cliente.Nombre,
+                Apellido = cliente.Apellido,
+                Email = cliente.Email,
+                Password = cliente.Password,
+                Rol = cliente.Rol,
+                FechaNacimiento = cliente.FechaNacimiento,
+                Direccion = cliente.Direccion,
+                Telefono = cliente.Telefono
+            }).ToList();
+        }
+
+        public class ClienteCompletoDto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string Direccion { get; set; }
+            public string Telefono { get; set; }
+        }
+
         public class PedidoDto
         {
             public int IdPedido { get; set; }

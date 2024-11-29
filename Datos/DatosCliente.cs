@@ -11,13 +11,14 @@ namespace Datos
 {
     public class DatosCliente
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioCliente"].ConnectionString;
+        string connectionStringCliente = ConfigurationManager.ConnectionStrings["UsuarioCliente"].ConnectionString;
+        string connectionStringFuncionario = ConfigurationManager.ConnectionStrings["UsuarioFuncionario"].ConnectionString;
 
         // Obtener Cliente por Id
         public Cliente ObtenerClientePorId(int id)
         {
             Cliente cliente = null;
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringCliente))
             {
                 SqlCommand cmd = new SqlCommand("sp_ObtenerClientePorID", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -43,7 +44,7 @@ namespace Datos
         // Actualizar Cliente
         public void ActualizarCliente(int id, string telefono, string direccion)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringCliente))
             {
                 SqlCommand cmd = new SqlCommand("sp_UpdateCliente", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -60,7 +61,7 @@ namespace Datos
         // Eliminar Cliente
         public void EliminarCliente(int id)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringCliente))
             {
                 SqlCommand cmd = new SqlCommand("sp_DeleteCliente", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -75,7 +76,7 @@ namespace Datos
         {
             List<Pedido> listaPedidos = new List<Pedido>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringCliente))
             {
                 SqlCommand cmd = new SqlCommand("sp_ObtenerPedidosEntregadosPorCliente", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -108,7 +109,7 @@ namespace Datos
         {
             List<PedidoConDetallesDto> listaPedidos = new List<PedidoConDetallesDto>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringCliente))
             {
                 SqlCommand cmd = new SqlCommand("sp_ObtenerPedidosConDetalles", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -139,6 +140,51 @@ namespace Datos
 
             return listaPedidos;
         }
+
+        public List<ClienteCompleto> ObtenerTodosLosClientesCompletos()
+        {
+            List<ClienteCompleto> listaClientesCompletos = new List<ClienteCompleto>();
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerTodosLosClientesCompletos", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaClientesCompletos.Add(new ClienteCompleto
+                        {
+                            IdUsuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            Password = reader.GetString(reader.GetOrdinal("password")),
+                            Rol = reader.GetString(reader.GetOrdinal("rol")),
+                            FechaNacimiento = reader.GetDateTime(reader.GetOrdinal("fecha_nacimiento")),
+                            Direccion = reader.GetString(reader.GetOrdinal("direccion")),
+                            Telefono = reader.GetString(reader.GetOrdinal("telefono"))
+                        });
+                    }
+                }
+            }
+            return listaClientesCompletos;
+        }
+
+        public class ClienteCompleto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string Direccion { get; set; }
+            public string Telefono { get; set; }
+        }
+
 
 
         public class Pedido

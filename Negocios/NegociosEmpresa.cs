@@ -58,7 +58,7 @@ namespace Negocios
             Empresa.InsertProducto(idProvedor, nombre, categoria, precio, tiempoEntrega, stock);
         }
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock, byte[] timestamp)
         {
             if (idProducto <= 0 || idProvedor <= 0 || precio <= 0 || tiempoEntrega < 0)
             {
@@ -69,7 +69,7 @@ namespace Negocios
             {
                 throw new ArgumentException("El id del proveedor no puede estar vacío o ser menor que cero.");
             }
-            Empresa.UpdateProducto(idProducto, idProvedor, nombre, categoria, precio, tiempoEntrega, stock);
+            Empresa.UpdateProducto(idProducto, idProvedor, nombre, categoria, precio, tiempoEntrega, stock, timestamp);
         }
 
         public void DeleteProducto(int idProducto)
@@ -124,7 +124,7 @@ namespace Negocios
         }
 
 
-        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion, byte[] timestamp)
         {
             if (idProveedor <= 0)
             {
@@ -132,7 +132,7 @@ namespace Negocios
             }
 
 
-            Empresa.UpdateProvedor(idProveedor, nombreEmpresa, direccion, contacto, horario, ubicacion);
+            Empresa.UpdateProvedor(idProveedor, nombreEmpresa, direccion, contacto, horario, ubicacion, timestamp);
         }
 
         // Método para eliminar un producto

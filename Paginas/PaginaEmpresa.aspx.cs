@@ -43,6 +43,7 @@ namespace Proyecto1AdminBD.Paginas
                 txtDireccion.Text = provedor[2];
                 txtHorario.Text = provedor[3];
                 txtEmpresa.Text = provedor[4];
+                txtTimeStampProvedor.Text = provedor[5];
             }
             else
             {
@@ -73,7 +74,7 @@ namespace Proyecto1AdminBD.Paginas
                 LinkButton btnAccion = new LinkButton
                 {
                     Text = "Seleccionar",
-                    CommandArgument = producto[0] + ","+ producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5],
+                    CommandArgument = producto[0] + "," + producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5] + "," + producto[7],
                     CommandName = "SelecionarProducto"
                 };
                 accion.Controls.Add(btnAccion);
@@ -97,12 +98,15 @@ namespace Proyecto1AdminBD.Paginas
                     string categoria = data[3];
                     string precio = data[4];
                     string tiempo = data[5];
+                    string stock = data[6];
+                    string stamp = data[7];
 
                     txtCodigo.Text = idProducto;
                     txtNombre.Text = producto;
                     txtPrecio.Text = precio;
                     txtTiempo.Text = tiempo;
                     ddlCategoria.SelectedValue = categoria;
+                    txtTimeStampProducto.Text = stamp;
 
                     btnEliminar.Visible = true;
                     btnEliminar.Visible = true;
@@ -122,7 +126,8 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
-            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text));
+            byte[] timestamp = System.Text.Encoding.UTF8.GetBytes(txtTimeStampProducto.Text);
+            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text), timestamp);
             btnEliminar.Visible = false;
             btnEliminar.Visible = false;
             Recarga();
@@ -144,8 +149,9 @@ namespace Proyecto1AdminBD.Paginas
             string conta = txtContacto.Text;
             string horar = txtHorario.Text;
             string ubi = txtUbicacion.Text;
+            byte[] timestamp = System.Text.Encoding.UTF8.GetBytes(txtTimeStampProvedor.Text);
 
-            empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi);
+            empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi, timestamp);
             Recarga();
         }
     }

@@ -32,7 +32,8 @@ namespace Datos
                         {
                             Id = reader.GetInt32(0), // id_transportista
                             TipoTransporte = reader.GetString(1), // tipo_transporte
-                            Contacto = reader.GetString(2) // contacto
+                            Contacto = reader.GetString(2), // contacto
+                            Stamp = reader.GetString(3)
                         };
                     }
                 }
@@ -42,7 +43,7 @@ namespace Datos
 
 
         // Método para actualizar el tipo de transporte de un transportista usando id_transportista
-        public void ActualizarTransportista(int id, string tipoTransporte, string contacto)
+        public void ActualizarTransportista(int id, string tipoTransporte, string contacto, byte[] timestamp)
         {
             using (SqlConnection conn = new SqlConnection(connectionStringTransportista))
             {
@@ -52,6 +53,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@id_transportista", id);
                 cmd.Parameters.AddWithValue("@tipo_transporte", tipoTransporte);
                 cmd.Parameters.AddWithValue("@contacto", contacto);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -192,5 +194,6 @@ namespace Datos
         public int Id { get; set; }
         public string TipoTransporte { get; set; }
         public string Contacto { get; set; }
+        public string Stamp { get; set; }
     }
 }

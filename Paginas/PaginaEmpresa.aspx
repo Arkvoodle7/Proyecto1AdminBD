@@ -128,6 +128,7 @@
                                 <th>Categoría</th>
                                 <th>Precio</th>
                                 <th>Tiempo de entrega</th>
+                                <th style="display: none;">Stamp</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -136,6 +137,8 @@
                     </table>
                 </div>
             </div>
+        <asp:TextBox ID="txtTimeStampProducto" runat="server" Visible="false"></asp:TextBox>
+        <asp:TextBox ID="txtTimeStampProvedor" runat="server" Visible="false"></asp:TextBox>
         </div>
     </form>
 

@@ -26,12 +26,13 @@ namespace Negocios
             {
                 Id = datosCliente.Id,
                 Telefono = datosCliente.Telefono,
-                Direccion = datosCliente.Direccion
+                Direccion = datosCliente.Direccion,
+                Stamp = datosCliente.Stamp,
             };
         }
 
         // Actualizar Cliente
-        public void ActualizarCliente(int id, string telefono, string direccion)
+        public void ActualizarCliente(int id, string telefono, string direccion, byte[] timestamp)
         {
             if (id <= 0)
             {
@@ -48,7 +49,7 @@ namespace Negocios
             }
 
             // Solo actualizamos los otros campos, no el ID
-            datos.ActualizarCliente(id, telefono, direccion);
+            datos.ActualizarCliente(id, telefono, direccion, timestamp);
         }
 
         // Eliminar Cliente
@@ -173,6 +174,7 @@ namespace Negocios
         public int Id { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
+        public string Stamp { get; set; }
     }
 }
 

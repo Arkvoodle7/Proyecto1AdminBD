@@ -39,6 +39,7 @@ namespace Datos
                             Provedor.Add(reader["direccion"].ToString());
                             Provedor.Add(reader["horario"].ToString());
                             Provedor.Add(reader["nombre_empresa"].ToString());
+                            Provedor.Add(reader["tiempo"].ToString());
                         }
                     }
                 }
@@ -85,7 +86,7 @@ namespace Datos
 
         /// Update
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock, byte[] timestamp)
         {
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
@@ -99,6 +100,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Precio", precio);
                 cmd.Parameters.AddWithValue("@Tiempo_Entrega", tiempoEntrega);
                 cmd.Parameters.AddWithValue("@Stock", stock);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 try
                 {
@@ -157,6 +159,7 @@ namespace Datos
                         pr.Add(reader["categoria"].ToString());
                         pr.Add(reader["precio"].ToString());
                         pr.Add(reader["tiempo_entrega"].ToString());
+                        pr.Add(reader["tiempo"].ToString());
                     }
                 }
                 catch (Exception ex)
@@ -193,6 +196,7 @@ namespace Datos
                         pr.Add(reader["categoria"].ToString());
                         pr.Add(reader["precio"].ToString());
                         pr.Add(reader["tiempo_entrega"].ToString());
+                        pr.Add(reader["tiempo"].ToString());
 
 
                         productosLista.Add(pr);
@@ -234,6 +238,7 @@ namespace Datos
                             pr.Add(reader["categoria"].ToString());
                             pr.Add(reader["precio"].ToString());
                             pr.Add(reader["tiempo_entrega"].ToString());
+                            pr.Add(reader["tiempo"].ToString());
 
                             productosProvedor.Add(pr);
                         }
@@ -355,7 +360,7 @@ namespace Datos
             return resultado;
         }
 
-        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion, byte[] timestamp)
         {
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
@@ -367,6 +372,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Direccion", direccion);
                 cmd.Parameters.AddWithValue("@Contacto", contacto);
                 cmd.Parameters.AddWithValue("@Horario", horario);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 try
                 {

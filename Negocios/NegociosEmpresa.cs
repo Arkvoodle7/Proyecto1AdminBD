@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Datos.DatosEmpresa;
 
 namespace Negocios
 {
@@ -42,6 +43,37 @@ namespace Negocios
 
             return Empresa.ObtenerProductosProvedor(Provedor);
         }
+
+        public List<ProductoEmpresaDTO> ObtenerProductosProveedorNegocio(int proveedor)
+        {
+            try
+            {
+                if (proveedor < 0)
+                {
+                    throw new ArgumentException("El id de la empresa no puede ser negativo o nullo.");
+                }
+
+                List<ProductoEmpresa> productos = Empresa.ObtenerProductosProveedor(proveedor);
+
+                
+                return productos.Select(producto => new ProductoEmpresaDTO
+                {
+                    IdProducto = producto.IdProducto,
+                    IdProveedor = producto.IdProveedor,
+                    Nombre = producto.Nombre,
+                    Categoria = producto.Categoria,
+                    Precio = producto.Precio,
+                    TiempoEntrega = producto.TiempoEntrega,
+                    TiempoBase64 = producto.TiempoBase64
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception("Error al obtener productos en la capa de negocio: " + ex.Message);
+            }
+        }
+
 
         public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
@@ -217,4 +249,14 @@ namespace Negocios
         }
     }
 
+    public class ProductoEmpresaDTO
+    {
+        public int IdProducto { get; set; }
+        public int IdProveedor { get; set; }
+        public string Nombre { get; set; }
+        public string Categoria { get; set; }
+        public decimal Precio { get; set; }
+        public string TiempoEntrega { get; set; }
+        public string TiempoBase64 { get; set; }
+    }
 }

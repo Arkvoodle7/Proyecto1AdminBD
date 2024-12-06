@@ -216,52 +216,45 @@ namespace Datos
             }
         }
 
-
-        public List<List<string>> ObtenerProductosProvedor(int provedor)
+        public List<ProductoEmpresa> ObtenerProductosProveedor(int proveedor)
         {
-            List<List<string>> productosProvedor = new List<List<string>>();
+            List<ProductoEmpresa> productosProveedor = new List<ProductoEmpresa>();
 
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
-                SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
+                SqlCommand cmd = new SqlCommand("SP_SelectProductoProveedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Provedor", provedor);
-
+                cmd.Parameters.AddWithValue("@Proveedor", proveedor);
 
                 try
                 {
                     conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.HasRows)
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            List<string> pr = new List<string>();
+                            ProductoEmpresa producto = new ProductoEmpresa
+                            {
+                                IdProducto = reader.GetInt32(reader.GetOrdinal("id_producto")),
+                                IdProveedor = reader.GetInt32(reader.GetOrdinal("id_proveedor")),
+                                Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                                Categoria = reader.GetString(reader.GetOrdinal("categoria")),
+                                Precio = reader.GetDecimal(reader.GetOrdinal("precio")),
+                                TiempoEntrega = reader.GetString(reader.GetOrdinal("tiempo_entrega")),
+                                TiempoBase64 = Convert.ToBase64String((byte[])reader["tiempo"])
+                            };
 
-                            pr.Add(reader["id_producto"].ToString());
-                            pr.Add(reader["id_proveedor"].ToString());
-                            pr.Add(reader["nombre"].ToString());
-                            pr.Add(reader["categoria"].ToString());
-                            pr.Add(reader["precio"].ToString());
-                            pr.Add(reader["tiempo_entrega"].ToString());
-                            
-                            byte[] tiempoBytes = (byte[])reader["tiempo"];
-
-                            //De bytes a Base64
-                            string tiempoBase64 = Convert.ToBase64String(tiempoBytes);
-                            pr.Add(tiempoBase64);
-
-                            productosProvedor.Add(pr);
+                            productosProveedor.Add(producto);
                         }
                     }
-
-                    return productosProvedor;
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error al encontrar productos: " + ex.Message);
+                    throw new Exception("Error al obtener productos: " + ex.Message);
                 }
             }
+
+            return productosProveedor;
         }
 
 
@@ -520,5 +513,16 @@ namespace Datos
             public int StockDisponible { get; set; }
         }
 
+
+        public class ProductoEmpresa
+        {
+            public int IdProducto { get; set; }
+            public int IdProveedor { get; set; }
+            public string Nombre { get; set; }
+            public string Categoria { get; set; }
+            public decimal Precio { get; set; }
+            public string TiempoEntrega { get; set; }
+            public string TiempoBase64 { get; set; }
+        }
     }
 }

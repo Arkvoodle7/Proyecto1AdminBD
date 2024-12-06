@@ -133,7 +133,7 @@ namespace Datos
             }
         }
 
-        public void ModificarCliente(int idUsuario, string nombre, string apellido, string email, string password, string direccion, string telefono, string fechaNacimiento, SqlGeography ubicacion)
+        public void ModificarCliente(int idUsuario, string nombre, string apellido, string email, string password, string direccion, string telefono, string fechaNacimiento, SqlGeography ubicacion, byte[] tiempo, byte[] tiempo2)
         {
             using (SqlConnection connection = new SqlConnection(connectionStringFuncionario))
             {
@@ -154,6 +154,9 @@ namespace Datos
                     var geographyParam = new SqlParameter("@Ubicacion", ubicacion);
                     geographyParam.UdtTypeName = "geography";
                     command.Parameters.Add(geographyParam);
+                    //TimeStamp
+                    command.Parameters.Add("@times", SqlDbType.Binary, 8).Value = tiempo;
+                    command.Parameters.Add("@times2", SqlDbType.Binary, 8).Value = tiempo2;
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -161,7 +164,7 @@ namespace Datos
             }
         }
 
-        public void ModificarTransportista(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string tipoTransporte, string contacto)
+        public void ModificarTransportista(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string tipoTransporte, string contacto, byte[] tiempo, byte[] tiempo2)
         {
             using (SqlConnection connection = new SqlConnection(connectionStringFuncionario))
             {
@@ -178,13 +181,17 @@ namespace Datos
                     command.Parameters.AddWithValue("@TipoTransporte", tipoTransporte);
                     command.Parameters.AddWithValue("@Contacto", contacto);
 
+                    //TimeStamp
+                    command.Parameters.Add("@times", SqlDbType.Binary, 8).Value = tiempo;
+                    command.Parameters.Add("@times2", SqlDbType.Binary, 8).Value = tiempo2;
+
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-        public void ModificarOferente(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string nombreEmpresa, string direccion, string contacto, string horario, SqlGeography ubicacion)
+        public void ModificarOferente(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string nombreEmpresa, string direccion, string contacto, string horario, SqlGeography ubicacion, byte[] tiempo, byte[] tiempo2)
         {
             using (SqlConnection connection = new SqlConnection(connectionStringFuncionario))
             {
@@ -208,13 +215,17 @@ namespace Datos
                     geographyParam.UdtTypeName = "geography";
                     command.Parameters.Add(geographyParam);
 
+                    //TimeStamp
+                    command.Parameters.Add("@times", SqlDbType.Binary, 8).Value = tiempo;
+                    command.Parameters.Add("@times2", SqlDbType.Binary, 8).Value = tiempo2;
+
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-        public void ModificarProducto(int idProducto, int idProveedor, string nombre, string categoria, decimal precio, int tiempoEntrega, int stockDisponible)
+        public void ModificarProducto(int idProducto, int idProveedor, string nombre, string categoria, decimal precio, int tiempoEntrega, int stockDisponible, byte[] tiempo)
         {
             using (SqlConnection connection = new SqlConnection(connectionStringFuncionario))
             {
@@ -229,6 +240,9 @@ namespace Datos
                     command.Parameters.AddWithValue("@Precio", precio);
                     command.Parameters.AddWithValue("@TiempoEntrega", tiempoEntrega);
                     command.Parameters.AddWithValue("@StockDisponible", stockDisponible);
+
+                    //TimeStamp
+                    command.Parameters.Add("@times", SqlDbType.Binary, 8).Value = tiempo;
 
                     connection.Open();
                     command.ExecuteNonQuery();

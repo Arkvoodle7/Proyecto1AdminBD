@@ -45,6 +45,9 @@
                     </div>
                     <asp:Button ID="btnModificar" runat="server" Text="Modificar Producto" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
                     <asp:Label ID="lblMensaje" runat="server" Visible="False" CssClass="mt-3"></asp:Label>
+
+                    <!-- txt invisibles para los timestamp-->
+                    <asp:TextBox ID="txtTimestamp1" runat="server" Visible="False" style="display:none;"></asp:TextBox>
                 </asp:Panel>
             </div>
         </div>

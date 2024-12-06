@@ -34,5 +34,6 @@
                 </asp:Panel>
             </div>
         </div>
+        <asp:TextBox ID="txtTimeStamp" runat="server" Visible="false"></asp:TextBox>
     </div>
 </asp:Content>

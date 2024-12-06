@@ -60,6 +60,9 @@ namespace Proyecto1AdminBD.Paginas
                                 txtContacto.Text = reader["contacto"].ToString();
                                 txtHorario.Text = reader["horario"].ToString();
 
+                                txtTimestamp1.Text = Convert.ToBase64String((byte[])reader["tiempo"]);
+                                txtTimestamp2.Text = Convert.ToBase64String((byte[])reader["tiempo2"]);
+
                                 // Verificar si ubicacion_geografica no es nulo
                                 if (!reader.IsDBNull(reader.GetOrdinal("ubicacion_geografica")))
                                 {
@@ -117,6 +120,9 @@ namespace Proyecto1AdminBD.Paginas
                 string contacto = txtContacto.Text.Trim();
                 string horario = txtHorario.Text.Trim();
 
+                byte[] tiempo = System.Text.Encoding.UTF8.GetBytes(txtTimestamp1.Text);
+                byte[] tiempo2 = System.Text.Encoding.UTF8.GetBytes(txtTimestamp2.Text);
+
                 // Validar campos
                 negocioRegistro.ValidarCamposProveedor(nombre, apellido, email, password, nombreEmpresa, direccion, contacto, horario);
 
@@ -142,7 +148,7 @@ namespace Proyecto1AdminBD.Paginas
                 SqlGeography ubicacion = SqlGeography.Point(latitud, longitud, 4326);
 
                 // Llamar a la capa de negocios para modificar el oferente
-                negocioRegistro.ModificarOferente(idOferente, nombre, apellido, email, password, fechaNacimiento, nombreEmpresa, direccion, contacto, horario, ubicacion);
+                negocioRegistro.ModificarOferente(idOferente, nombre, apellido, email, password, fechaNacimiento, nombreEmpresa, direccion, contacto, horario, ubicacion, tiempo, tiempo2);
 
                 lblMensaje.Text = "Oferente modificado con éxito.";
                 lblMensaje.ForeColor = System.Drawing.Color.Green;

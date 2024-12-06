@@ -30,6 +30,7 @@ namespace Proyecto1AdminBD.Paginas
                 lblIdCliente.Text = cliente.Id.ToString(); // Muestra el ID del cliente
                 telefono.Text = cliente.Telefono; 
                 direccion.Text = cliente.Direccion; // Muestra la dirección
+                txtTimeStamp.Text = cliente.Stamp;
             }
             else
             {
@@ -48,8 +49,9 @@ namespace Proyecto1AdminBD.Paginas
                 string telefonolValue = telefono.Text;
                 string direccionValue = direccion.Text;
 
+                byte[] timestamp = Convert.FromBase64String(txtTimeStamp.Text);
                 // Llamada a la capa de negocio para actualizar un cliente (sin modificar el ID)
-                Cliente.ActualizarCliente(idCliente,telefonolValue, direccionValue);
+                Cliente.ActualizarCliente(idCliente, telefonolValue, direccionValue, timestamp);
 
                 // Mostrar un mensaje de éxito
                 lblMensaje.Text = "Información actualizada correctamente.";

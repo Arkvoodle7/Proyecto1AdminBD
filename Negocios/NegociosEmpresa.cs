@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Datos.DatosEmpresa;
 
 namespace Negocios
 {
@@ -32,7 +33,7 @@ namespace Negocios
             return Empresa.ObtenerProductosLista(categoria);
         }
 
-
+        /*
         public List<List<string>> ObtenerProductosProvedor(int Provedor)
         {
             if (Provedor < 0)
@@ -42,6 +43,39 @@ namespace Negocios
 
             return Empresa.ObtenerProductosProvedor(Provedor);
         }
+        */
+
+        public List<ProductoEmpresaDTO> ObtenerProductosProveedorNegocio(int proveedor)
+        {
+            try
+            {
+                if (proveedor < 0)
+                {
+                    throw new ArgumentException("El id de la empresa no puede ser negativo o nullo.");
+                }
+
+                List<ProductoEmpresa> productos = Empresa.ObtenerProductosProveedor(proveedor);
+
+                
+                return productos.Select(producto => new ProductoEmpresaDTO
+                {
+                    IdProducto = producto.IdProducto,
+                    IdProveedor = producto.IdProveedor,
+                    Nombre = producto.Nombre,
+                    Categoria = producto.Categoria,
+                    Precio = producto.Precio,
+                    TiempoEntrega = producto.TiempoEntrega,
+                    Stock = producto.Stock,
+                    TiempoBase64 = producto.TiempoBase64
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception("Error al obtener productos en la capa de negocio: " + ex.Message);
+            }
+        }
+
 
         public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
@@ -58,7 +92,7 @@ namespace Negocios
             Empresa.InsertProducto(idProvedor, nombre, categoria, precio, tiempoEntrega, stock);
         }
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock, byte[] timestamp)
         {
             if (idProducto <= 0 || idProvedor <= 0 || precio <= 0 || tiempoEntrega < 0)
             {
@@ -69,7 +103,7 @@ namespace Negocios
             {
                 throw new ArgumentException("El id del proveedor no puede estar vacío o ser menor que cero.");
             }
-            Empresa.UpdateProducto(idProducto, idProvedor, nombre, categoria, precio, tiempoEntrega, stock);
+            Empresa.UpdateProducto(idProducto, idProvedor, nombre, categoria, precio, tiempoEntrega, stock, timestamp);
         }
 
         public void DeleteProducto(int idProducto)
@@ -124,7 +158,7 @@ namespace Negocios
         }
 
 
-        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion, byte[] timestamp)
         {
             if (idProveedor <= 0)
             {
@@ -132,7 +166,7 @@ namespace Negocios
             }
 
 
-            Empresa.UpdateProvedor(idProveedor, nombreEmpresa, direccion, contacto, horario, ubicacion);
+            Empresa.UpdateProvedor(idProveedor, nombreEmpresa, direccion, contacto, horario, ubicacion, timestamp);
         }
 
         // Método para eliminar un producto
@@ -217,4 +251,15 @@ namespace Negocios
         }
     }
 
+    public class ProductoEmpresaDTO
+    {
+        public int IdProducto { get; set; }
+        public int IdProveedor { get; set; }
+        public string Nombre { get; set; }
+        public string Categoria { get; set; }
+        public decimal Precio { get; set; }
+        public int TiempoEntrega { get; set; }
+        public int Stock { get; set; }
+        public string TiempoBase64 { get; set; }
+    }
 }

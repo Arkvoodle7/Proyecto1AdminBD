@@ -33,7 +33,8 @@ namespace Datos
                         {
                             Id = reader.GetInt32(0),        // id_cliente
                             Telefono = reader.GetString(1),    // email
-                            Direccion = reader.GetString(2) // direccion
+                            Direccion = reader.GetString(2), // direccion
+                            Stamp = Convert.ToBase64String((byte[])reader["tiempo"])
                         };
                     }
                 }
@@ -42,7 +43,7 @@ namespace Datos
         }
 
         // Actualizar Cliente
-        public void ActualizarCliente(int id, string telefono, string direccion)
+        public void ActualizarCliente(int id, string telefono, string direccion, byte[] timestamp)
         {
             using (SqlConnection conn = new SqlConnection(connectionStringCliente))
             {
@@ -52,6 +53,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@id_cliente", id);
                 cmd.Parameters.AddWithValue("@telefono", telefono);
                 cmd.Parameters.AddWithValue("@direccion", direccion);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -219,5 +221,6 @@ namespace Datos
         public int Id { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
+        public string Stamp { get; set; }
     }
 }

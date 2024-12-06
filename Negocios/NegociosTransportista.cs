@@ -26,11 +26,12 @@ namespace Negocios
             {
                 Id = datosTransportista.Id,
                 Contacto = datosTransportista.Contacto,
-                TipoTransporte = datosTransportista.TipoTransporte
+                TipoTransporte = datosTransportista.TipoTransporte,
+                Stamp = datosTransportista.Stamp,
             };
         }
 
-        public void ActualizarTransportista(int id, string tipoTransporte, string contacto)
+        public void ActualizarTransportista(int id, string tipoTransporte, string contacto, byte[] timestamp)
         {
             if (id <= 0)
             {
@@ -48,7 +49,7 @@ namespace Negocios
             }
 
             // Solo actualizamos los otros campos, no el ID
-            datos.ActualizarTransportista(id, tipoTransporte, contacto);
+            datos.ActualizarTransportista(id, tipoTransporte, contacto, timestamp);
         }
 
         // Eliminar Transportista
@@ -146,6 +147,8 @@ namespace Negocios
         public int Id { get; set; }
         public string Contacto { get; set; }
         public string TipoTransporte { get; set; }
+        public string Stamp { get; set; }
+
     }
 
 }

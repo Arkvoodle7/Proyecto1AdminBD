@@ -51,6 +51,8 @@ namespace Proyecto1AdminBD.Paginas
                                 txtPrecio.Text = reader["precio"].ToString();
                                 txtTiempoEntrega.Text = reader["tiempo_entrega"].ToString();
                                 txtStockDisponible.Text = reader["StockDisponible"].ToString();
+                                txtTimestamp1.Text = Convert.ToBase64String((byte[])reader["tiempo"]);
+                                
                             }
                             else
                             {
@@ -91,7 +93,9 @@ namespace Proyecto1AdminBD.Paginas
                 int tiempoEntrega = int.Parse(txtTiempoEntrega.Text.Trim());
                 int stockDisponible = int.Parse(txtStockDisponible.Text.Trim());
 
-                negocioRegistro.ModificarProducto(idProducto, idProveedor, nombre, categoria, precio, tiempoEntrega, stockDisponible);
+                byte[] tiempo = Convert.FromBase64String(txtTimestamp1.Text);
+
+                negocioRegistro.ModificarProducto(idProducto, idProveedor, nombre, categoria, precio, tiempoEntrega, stockDisponible, tiempo);
 
                 lblMensaje.Text = "Producto modificado con éxito.";
                 lblMensaje.ForeColor = System.Drawing.Color.Green;

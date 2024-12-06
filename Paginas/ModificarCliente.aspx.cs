@@ -60,6 +60,9 @@ namespace Proyecto1AdminBD.Paginas
                                 txtDireccion.Text = reader["direccion"].ToString();
                                 txtTelefono.Text = reader["telefono"].ToString();
 
+                                txtTimestamp1.Text = Convert.ToBase64String((byte[])reader["tiempo"]);
+                                txtTimestamp2.Text = Convert.ToBase64String((byte[])reader["tiempo2"]);
+
                                 // Verificar si ubicacion_geografica no es nulo
                                 if (!reader.IsDBNull(reader.GetOrdinal("ubicacion_geografica")))
                                 {
@@ -114,6 +117,9 @@ namespace Proyecto1AdminBD.Paginas
                 string direccion = txtDireccion.Text.Trim();
                 string telefono = txtTelefono.Text.Trim();
                 string fechaNacimiento = txtFechaNacimiento.Text.Trim();
+                byte[] tiempo = Convert.FromBase64String(txtTimestamp1.Text);
+                byte[] tiempo2 = Convert.FromBase64String(txtTimestamp2.Text);
+
 
                 // Validar que geografía no esté vacía
                 string coordenadas = txtGeografia.Text.Trim();
@@ -137,7 +143,7 @@ namespace Proyecto1AdminBD.Paginas
                 SqlGeography ubicacion = SqlGeography.Point(latitud, longitud, 4326);
 
                 // Llamar a la capa de negocios para modificar el cliente
-                negocioRegistro.ModificarCliente(idCliente, nombre, apellido, email, password, direccion, telefono, fechaNacimiento, ubicacion);
+                negocioRegistro.ModificarCliente(idCliente, nombre, apellido, email, password, direccion, telefono, fechaNacimiento, ubicacion, tiempo, tiempo2);
 
                 lblMensaje.Text = "Cliente modificado con éxito.";
                 lblMensaje.ForeColor = System.Drawing.Color.Green;

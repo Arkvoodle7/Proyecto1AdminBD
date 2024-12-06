@@ -39,6 +39,13 @@ namespace Datos
                             Provedor.Add(reader["direccion"].ToString());
                             Provedor.Add(reader["horario"].ToString());
                             Provedor.Add(reader["nombre_empresa"].ToString());
+
+                            byte[] tiempoBytes = (byte[])reader["tiempo"];
+
+                            //De bytes a Base64
+                            string tiempoBase64 = Convert.ToBase64String(tiempoBytes);
+                            Provedor.Add(tiempoBase64);
+
                         }
                     }
                 }
@@ -85,20 +92,21 @@ namespace Datos
 
         /// Update
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock, byte[] timestamp)
         {
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
-                SqlCommand cmd = new SqlCommand("SP_UptadeProducto", conn);
+                SqlCommand cmd = new SqlCommand("SP_UpdateProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@IdProducto", idProducto);
-                cmd.Parameters.AddWithValue("@IdProvedor", idProvedor);
+                cmd.Parameters.AddWithValue("@IdProveedor", idProvedor);
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
                 cmd.Parameters.AddWithValue("@Precio", precio);
                 cmd.Parameters.AddWithValue("@Tiempo_Entrega", tiempoEntrega);
                 cmd.Parameters.AddWithValue("@Stock", stock);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 try
                 {
@@ -157,6 +165,7 @@ namespace Datos
                         pr.Add(reader["categoria"].ToString());
                         pr.Add(reader["precio"].ToString());
                         pr.Add(reader["tiempo_entrega"].ToString());
+                        pr.Add(reader["tiempo"].ToString());
                     }
                 }
                 catch (Exception ex)
@@ -193,6 +202,7 @@ namespace Datos
                         pr.Add(reader["categoria"].ToString());
                         pr.Add(reader["precio"].ToString());
                         pr.Add(reader["tiempo_entrega"].ToString());
+                        pr.Add(reader["tiempo"].ToString());
 
 
                         productosLista.Add(pr);
@@ -206,46 +216,46 @@ namespace Datos
             }
         }
 
-
-        public List<List<string>> ObtenerProductosProvedor(int provedor)
+        public List<ProductoEmpresa> ObtenerProductosProveedor(int proveedor)
         {
-            List<List<string>> productosProvedor = new List<List<string>>();
+            List<ProductoEmpresa> productosProveedor = new List<ProductoEmpresa>();
 
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Provedor", provedor);
-
+                cmd.Parameters.AddWithValue("@Provedor", proveedor);
 
                 try
                 {
                     conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.HasRows)
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            List<string> pr = new List<string>();
+                            ProductoEmpresa producto = new ProductoEmpresa
+                            {
+                                IdProducto = reader.GetInt32(reader.GetOrdinal("id_producto")),//0
+                                IdProveedor = reader.GetInt32(reader.GetOrdinal("id_proveedor")),//1
+                                Nombre = reader.GetString(reader.GetOrdinal("nombre")),//2
+                                Categoria = reader.GetString(reader.GetOrdinal("categoria")),//3
+                                Precio = reader.GetDecimal(reader.GetOrdinal("precio")),//4
+                                TiempoEntrega = reader.GetInt32(reader.GetOrdinal("tiempo_entrega")),//5
+                                Stock = reader.GetInt32(reader.GetOrdinal("StockDisponible")),//6
+                                TiempoBase64 = Convert.ToBase64String((byte[])reader["tiempo"])//7
+                            };
 
-                            pr.Add(reader["id_producto"].ToString());
-                            pr.Add(reader["id_proveedor"].ToString());
-                            pr.Add(reader["nombre"].ToString());
-                            pr.Add(reader["categoria"].ToString());
-                            pr.Add(reader["precio"].ToString());
-                            pr.Add(reader["tiempo_entrega"].ToString());
-
-                            productosProvedor.Add(pr);
+                            productosProveedor.Add(producto);
                         }
                     }
-
-                    return productosProvedor;
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error al encontrar productos: " + ex.Message);
+                    throw new Exception("Error al obtener productos: " + ex.Message);
                 }
             }
+
+            return productosProveedor;
         }
 
 
@@ -355,7 +365,7 @@ namespace Datos
             return resultado;
         }
 
-        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion, byte[] timestamp)
         {
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
@@ -367,6 +377,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Direccion", direccion);
                 cmd.Parameters.AddWithValue("@Contacto", contacto);
                 cmd.Parameters.AddWithValue("@Horario", horario);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 try
                 {
@@ -503,5 +514,17 @@ namespace Datos
             public int StockDisponible { get; set; }
         }
 
+
+        public class ProductoEmpresa
+        {
+            public int IdProducto { get; set; }
+            public int IdProveedor { get; set; }
+            public string Nombre { get; set; }
+            public string Categoria { get; set; }
+            public decimal Precio { get; set; }
+            public int TiempoEntrega { get; set; }
+            public int Stock { get; set; }
+            public string TiempoBase64 { get; set; }
+        }
     }
 }

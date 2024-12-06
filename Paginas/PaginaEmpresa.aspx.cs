@@ -30,8 +30,11 @@ namespace Proyecto1AdminBD.Paginas
 
         private void CargarProductos(int cedula)
         {
-            List<List<string>> productos = empresa.ObtenerProductosProvedor(cedula);
-            LlenarTabla(productos);
+            
+            var productos = empresa.ObtenerProductosProveedorNegocio(cedula);
+            
+            gvProductos.DataSource = productos;
+            gvProductos.DataBind();
         }
 
         private void CargaEmpresa()
@@ -43,6 +46,7 @@ namespace Proyecto1AdminBD.Paginas
                 txtDireccion.Text = provedor[2];
                 txtHorario.Text = provedor[3];
                 txtEmpresa.Text = provedor[4];
+                txtTimeStampProvedor.Text = provedor[5];
             }
             else
             {
@@ -54,7 +58,33 @@ namespace Proyecto1AdminBD.Paginas
 
         }
 
+        //Seleccionar un producto y cargarlo
+        protected void gvProductos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Seleccionar")
+            {
+                // Obtén el índice de la fila seleccionada
+                int index = Convert.ToInt32(e.CommandArgument);
 
+                // Obtén los datos de la fila seleccionada
+                GridViewRow row = gvProductos.Rows[index];
+
+                // Asigna los datos a los TextBox
+                txtCodigo.Text = row.Cells[0].Text;
+                txtNombre.Text = row.Cells[1].Text;
+                ddlCategoria.SelectedValue = row.Cells[3].Text; 
+                txtPrecio.Text = row.Cells[4].Text;
+                txtTiempo.Text = row.Cells[5].Text;
+                txtStock.Text = row.Cells[6].Text;
+                txtTimeStampProducto.Text = row.Cells[8].Text;
+
+                //Volver Visibles los botones
+                btnActualizar.Visible = true;
+                btnEliminar.Visible = true;
+            }
+        }
+
+        /*
         private void LlenarTabla(List<List<string>> productos)
         {
             foreach (var producto in productos)
@@ -73,7 +103,7 @@ namespace Proyecto1AdminBD.Paginas
                 LinkButton btnAccion = new LinkButton
                 {
                     Text = "Seleccionar",
-                    CommandArgument = producto[0] + ","+ producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5],
+                    CommandArgument = producto[0] + "," + producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5] + "," + producto[6],
                     CommandName = "SelecionarProducto"
                 };
                 accion.Controls.Add(btnAccion);
@@ -82,7 +112,7 @@ namespace Proyecto1AdminBD.Paginas
                 ProductosTable.Rows.Add(row);
             }
         }
-
+        */
 
         protected void RowCommand(object sender, CommandEventArgs e)
         {
@@ -97,12 +127,15 @@ namespace Proyecto1AdminBD.Paginas
                     string categoria = data[3];
                     string precio = data[4];
                     string tiempo = data[5];
+                    string stock = data[6];
+                    string stamp = data[7];
 
                     txtCodigo.Text = idProducto;
                     txtNombre.Text = producto;
                     txtPrecio.Text = precio;
                     txtTiempo.Text = tiempo;
                     ddlCategoria.SelectedValue = categoria;
+                    txtTimeStampProducto.Text = stamp;
 
                     btnEliminar.Visible = true;
                     btnEliminar.Visible = true;
@@ -122,9 +155,19 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
-            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text));
-            btnEliminar.Visible = false;
-            btnEliminar.Visible = false;
+            try
+            {
+                byte[] timestamp = Convert.FromBase64String(txtTimeStampProducto.Text);
+                empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text), timestamp);
+                btnActualizar.Visible = false;
+                btnEliminar.Visible = false;
+                Recarga();
+            }catch (Exception ex) 
+            {
+                // Mostrar mensaje de error
+                lblMensaje.Text = ("Error:" + ex.Message);
+                lblMensaje.Visible = true;
+            }
             Recarga();
         }
 
@@ -138,15 +181,28 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnActualizaV_Click(object sender, EventArgs e)
         {
-            int idP = Convert.ToInt32(Session["IdUsuario"]);
-            string nombreEmpresa = txtNombre.Text;
-            string dire = txtDireccion.Text;
-            string conta = txtContacto.Text;
-            string horar = txtHorario.Text;
-            string ubi = txtUbicacion.Text;
+            try
+            {
+                int idP = Convert.ToInt32(Session["IdUsuario"]);
+                string nombreEmpresa = txtNombre.Text;
+                string dire = txtDireccion.Text;
+                string conta = txtContacto.Text;
+                string horar = txtHorario.Text;
+                string ubi = txtUbicacion.Text;
 
-            empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi);
+                byte[] timestamp = Convert.FromBase64String(txtTimeStampProvedor.Text);
+
+                empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi, timestamp);
+                
+            }
+            catch (Exception ex)
+            {                
+                // Mostrar mensaje de error
+                lblMensaje.Text = ("Error:" + ex.Message);
+                lblMensaje.Visible = true;
+            }
             Recarga();
+
         }
     }
 }

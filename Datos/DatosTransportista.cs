@@ -33,7 +33,7 @@ namespace Datos
                             Id = reader.GetInt32(0), // id_transportista
                             TipoTransporte = reader.GetString(1), // tipo_transporte
                             Contacto = reader.GetString(2), // contacto
-                            Stamp = reader.GetString(3)
+                            Stamp = Convert.ToBase64String((byte[])reader["tiempo"])
                         };
                     }
                 }

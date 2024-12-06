@@ -74,7 +74,7 @@ namespace Proyecto1AdminBD.Paginas
                 LinkButton btnAccion = new LinkButton
                 {
                     Text = "Seleccionar",
-                    CommandArgument = producto[0] + "," + producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5] + "," + producto[7],
+                    CommandArgument = producto[0] + "," + producto[1] + "," + producto[3] + "," + producto[4] + "," + producto[5] + "," + producto[6],
                     CommandName = "SelecionarProducto"
                 };
                 accion.Controls.Add(btnAccion);
@@ -143,16 +143,28 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnActualizaV_Click(object sender, EventArgs e)
         {
-            int idP = Convert.ToInt32(Session["IdUsuario"]);
-            string nombreEmpresa = txtNombre.Text;
-            string dire = txtDireccion.Text;
-            string conta = txtContacto.Text;
-            string horar = txtHorario.Text;
-            string ubi = txtUbicacion.Text;
-            byte[] timestamp = System.Text.Encoding.UTF8.GetBytes(txtTimeStampProvedor.Text);
+            try
+            {
+                int idP = Convert.ToInt32(Session["IdUsuario"]);
+                string nombreEmpresa = txtNombre.Text;
+                string dire = txtDireccion.Text;
+                string conta = txtContacto.Text;
+                string horar = txtHorario.Text;
+                string ubi = txtUbicacion.Text;
 
-            empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi, timestamp);
+                byte[] timestamp = Convert.FromBase64String(txtTimeStampProvedor.Text);
+
+                empresa.UpdateProvedor(idP, nombreEmpresa, dire, conta, horar, ubi, timestamp);
+                
+            }
+            catch (Exception ex)
+            {                
+                // Mostrar mensaje de error
+                lblMensaje.Text = ("Error:" + ex.Message);
+                lblMensaje.Visible = true;
+            }
             Recarga();
+
         }
     }
 }

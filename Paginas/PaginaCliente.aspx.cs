@@ -49,7 +49,7 @@ namespace Proyecto1AdminBD.Paginas
                 string telefonolValue = telefono.Text;
                 string direccionValue = direccion.Text;
 
-                byte[] timestamp = System.Text.Encoding.UTF8.GetBytes(txtTimeStamp.Text);
+                byte[] timestamp = Convert.FromBase64String(txtTimeStamp.Text);
                 // Llamada a la capa de negocio para actualizar un cliente (sin modificar el ID)
                 Cliente.ActualizarCliente(idCliente, telefonolValue, direccionValue, timestamp);
 

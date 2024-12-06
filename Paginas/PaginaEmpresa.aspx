@@ -55,6 +55,7 @@
                         </div>
                         
                     </div>
+                    <asp:Label ID="lblMensaje" runat="server" ForeColor="Red" Visible="False" CssClass="mt-3"></asp:Label>  
                 </div>
             </div>
 

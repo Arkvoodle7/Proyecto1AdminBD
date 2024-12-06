@@ -39,7 +39,13 @@ namespace Datos
                             Provedor.Add(reader["direccion"].ToString());
                             Provedor.Add(reader["horario"].ToString());
                             Provedor.Add(reader["nombre_empresa"].ToString());
-                            Provedor.Add(reader["tiempo"].ToString());
+
+                            byte[] tiempoBytes = (byte[])reader["tiempo"];
+
+                            //De bytes a Base64
+                            string tiempoBase64 = Convert.ToBase64String(tiempoBytes);
+                            Provedor.Add(tiempoBase64);
+
                         }
                     }
                 }
@@ -238,7 +244,12 @@ namespace Datos
                             pr.Add(reader["categoria"].ToString());
                             pr.Add(reader["precio"].ToString());
                             pr.Add(reader["tiempo_entrega"].ToString());
-                            pr.Add(reader["tiempo"].ToString());
+                            
+                            byte[] tiempoBytes = (byte[])reader["tiempo"];
+
+                            //De bytes a Base64
+                            string tiempoBase64 = Convert.ToBase64String(tiempoBytes);
+                            pr.Add(tiempoBase64);
 
                             productosProvedor.Add(pr);
                         }

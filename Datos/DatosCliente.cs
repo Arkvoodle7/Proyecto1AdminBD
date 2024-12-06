@@ -34,7 +34,7 @@ namespace Datos
                             Id = reader.GetInt32(0),        // id_cliente
                             Telefono = reader.GetString(1),    // email
                             Direccion = reader.GetString(2), // direccion
-                            Stamp = reader.GetString(3)
+                            Stamp = Convert.ToBase64String((byte[])reader["tiempo"])
                         };
                     }
                 }

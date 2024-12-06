@@ -48,7 +48,7 @@ namespace Proyecto1AdminBD.Paginas
                 int idTransportista = int.Parse(lblIdTransportista.Text);
                 string tipoTransporteValue = tipoTransporte.Text;
                 string contactoValue = contacto.Text;
-                byte[] timestamp = System.Text.Encoding.UTF8.GetBytes(txtTimeStamp.Text);
+                byte[] timestamp = Convert.FromBase64String(txtTimeStamp.Text);
 
                 // Llamada a la capa de negocio para actualizar un transportista (sin modificar el ID)
                 negocio.ActualizarTransportista(idTransportista, tipoTransporteValue, contactoValue, timestamp);

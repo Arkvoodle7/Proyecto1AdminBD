@@ -51,7 +51,8 @@ namespace Proyecto1AdminBD.Paginas
                                 txtPrecio.Text = reader["precio"].ToString();
                                 txtTiempoEntrega.Text = reader["tiempo_entrega"].ToString();
                                 txtStockDisponible.Text = reader["StockDisponible"].ToString();
-                                txtTimestamp1.Text = reader["tiempo"].ToString();
+                                txtTimestamp1.Text = Convert.ToBase64String((byte[])reader["tiempo"]);
+                                
                             }
                             else
                             {
@@ -92,7 +93,7 @@ namespace Proyecto1AdminBD.Paginas
                 int tiempoEntrega = int.Parse(txtTiempoEntrega.Text.Trim());
                 int stockDisponible = int.Parse(txtStockDisponible.Text.Trim());
 
-                byte[] tiempo = System.Text.Encoding.UTF8.GetBytes(txtTimestamp1.Text);
+                byte[] tiempo = Convert.FromBase64String(txtTimestamp1.Text);
 
                 negocioRegistro.ModificarProducto(idProducto, idProveedor, nombre, categoria, precio, tiempoEntrega, stockDisponible, tiempo);
 

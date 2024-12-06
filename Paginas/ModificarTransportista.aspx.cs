@@ -56,8 +56,8 @@ namespace Proyecto1AdminBD.Paginas
                                 txtFechaNacimiento.Text = Convert.ToDateTime(reader["fecha_nacimiento"]).ToString("yyyy-MM-dd");
                                 txtTipoTransporte.Text = reader["tipo_transporte"].ToString();
                                 txtContacto.Text = reader["contacto"].ToString();
-                                txtTimestamp1.Text = reader["tiempo"].ToString();
-                                txtTimestamp2.Text = reader["tiempo2"].ToString();
+                                txtTimestamp1.Text = Convert.ToBase64String((byte[])reader["tiempo"]);
+                                txtTimestamp2.Text = Convert.ToBase64String((byte[])reader["tiempo2"]);
                             }
                             else
                             {
@@ -101,8 +101,8 @@ namespace Proyecto1AdminBD.Paginas
                 string tipoTransporte = txtTipoTransporte.Text.Trim();
                 string contacto = txtContacto.Text.Trim();
 
-                byte[] tiempo = System.Text.Encoding.UTF8.GetBytes(txtTimestamp1.Text);
-                byte[] tiempo2 = System.Text.Encoding.UTF8.GetBytes(txtTimestamp2.Text);
+                byte[] tiempo = Convert.FromBase64String(txtTimestamp1.Text);
+                byte[] tiempo2 = Convert.FromBase64String(txtTimestamp2.Text);
 
                 // Validar campos
                 negocioRegistro.ValidarCamposTransportista(nombre, apellido, email, password, tipoTransporte, contacto);

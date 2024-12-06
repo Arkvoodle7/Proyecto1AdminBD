@@ -59,8 +59,9 @@ namespace Proyecto1AdminBD.Paginas
                                 txtDireccion.Text = reader["direccion"].ToString();
                                 txtContacto.Text = reader["contacto"].ToString();
                                 txtHorario.Text = reader["horario"].ToString();
-                                txtTimestamp1.Text = reader["tiempo"].ToString();
-                                txtTimestamp2.Text = reader["tiempo2"].ToString();
+
+                                txtTimestamp1.Text = Convert.ToBase64String((byte[])reader["tiempo"]);
+                                txtTimestamp2.Text = Convert.ToBase64String((byte[])reader["tiempo2"]);
 
                                 // Verificar si ubicacion_geografica no es nulo
                                 if (!reader.IsDBNull(reader.GetOrdinal("ubicacion_geografica")))

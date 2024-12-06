@@ -159,13 +159,13 @@ namespace Proyecto1AdminBD.Paginas
         protected global::System.Web.UI.WebControls.Button btnEliminar;
 
         /// <summary>
-        /// Control ProductosTable.
+        /// Control gvProductos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable ProductosTable;
+        protected global::System.Web.UI.WebControls.GridView gvProductos;
 
         /// <summary>
         /// Control txtTimeStampProducto.

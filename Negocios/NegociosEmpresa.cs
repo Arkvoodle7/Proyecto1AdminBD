@@ -33,7 +33,7 @@ namespace Negocios
             return Empresa.ObtenerProductosLista(categoria);
         }
 
-
+        /*
         public List<List<string>> ObtenerProductosProvedor(int Provedor)
         {
             if (Provedor < 0)
@@ -43,6 +43,7 @@ namespace Negocios
 
             return Empresa.ObtenerProductosProvedor(Provedor);
         }
+        */
 
         public List<ProductoEmpresaDTO> ObtenerProductosProveedorNegocio(int proveedor)
         {
@@ -64,6 +65,7 @@ namespace Negocios
                     Categoria = producto.Categoria,
                     Precio = producto.Precio,
                     TiempoEntrega = producto.TiempoEntrega,
+                    Stock = producto.Stock,
                     TiempoBase64 = producto.TiempoBase64
                 }).ToList();
             }
@@ -256,7 +258,8 @@ namespace Negocios
         public string Nombre { get; set; }
         public string Categoria { get; set; }
         public decimal Precio { get; set; }
-        public string TiempoEntrega { get; set; }
+        public int TiempoEntrega { get; set; }
+        public int Stock { get; set; }
         public string TiempoBase64 { get; set; }
     }
 }

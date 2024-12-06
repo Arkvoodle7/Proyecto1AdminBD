@@ -120,22 +120,20 @@
                     Productos Registrados
                 </div>
                 <div class="card-body">
-                    <table id="ProductosTable" runat="server" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Proveedor</th>
-                                <th>Producto</th>
-                                <th>Categoría</th>
-                                <th>Precio</th>
-                                <th>Tiempo de entrega</th>
-                                <th style="display: none;">Stamp</th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Las filas se agregarán aquí -->
-                        </tbody>
-                    </table>
+                <asp:GridView ID="gvProductos" runat="server" AutoGenerateColumns="False" OnRowCommand="gvProductos_RowCommand">
+                    <Columns>
+                        <asp:BoundField DataField="IdProducto" HeaderText="ID Producto" />
+                        <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                        <asp:BoundField DataField="IdProveedor" HeaderText="ID Provedor" />
+                        <asp:BoundField DataField="Categoria" HeaderText="Categoría" />
+                        <asp:BoundField DataField="Precio" HeaderText="Precio" />
+                        <asp:BoundField DataField="Stock" HeaderText="Stock" />
+                        <asp:BoundField DataField="TiempoEntrega" HeaderText="Tiempo Entrega" />
+                        
+                        <asp:ButtonField Text="Seleccionar" CommandName="Seleccionar" ButtonType="Button" />
+                        <asp:BoundField DataField="TiempoBase64" HeaderText="N/A" />
+                    </Columns>
+                </asp:GridView>
                 </div>
             </div>
         <asp:TextBox ID="txtTimeStampProducto" runat="server" Visible="false"></asp:TextBox>

@@ -96,11 +96,11 @@ namespace Datos
         {
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
-                SqlCommand cmd = new SqlCommand("SP_UptadeProducto", conn);
+                SqlCommand cmd = new SqlCommand("SP_UpdateProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@IdProducto", idProducto);
-                cmd.Parameters.AddWithValue("@IdProvedor", idProvedor);
+                cmd.Parameters.AddWithValue("@IdProveedor", idProvedor);
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
                 cmd.Parameters.AddWithValue("@Precio", precio);
@@ -222,9 +222,9 @@ namespace Datos
 
             using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
-                SqlCommand cmd = new SqlCommand("SP_SelectProductoProveedor", conn);
+                SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Proveedor", proveedor);
+                cmd.Parameters.AddWithValue("@Provedor", proveedor);
 
                 try
                 {
@@ -235,13 +235,14 @@ namespace Datos
                         {
                             ProductoEmpresa producto = new ProductoEmpresa
                             {
-                                IdProducto = reader.GetInt32(reader.GetOrdinal("id_producto")),
-                                IdProveedor = reader.GetInt32(reader.GetOrdinal("id_proveedor")),
-                                Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                                Categoria = reader.GetString(reader.GetOrdinal("categoria")),
-                                Precio = reader.GetDecimal(reader.GetOrdinal("precio")),
-                                TiempoEntrega = reader.GetString(reader.GetOrdinal("tiempo_entrega")),
-                                TiempoBase64 = Convert.ToBase64String((byte[])reader["tiempo"])
+                                IdProducto = reader.GetInt32(reader.GetOrdinal("id_producto")),//0
+                                IdProveedor = reader.GetInt32(reader.GetOrdinal("id_proveedor")),//1
+                                Nombre = reader.GetString(reader.GetOrdinal("nombre")),//2
+                                Categoria = reader.GetString(reader.GetOrdinal("categoria")),//3
+                                Precio = reader.GetDecimal(reader.GetOrdinal("precio")),//4
+                                TiempoEntrega = reader.GetInt32(reader.GetOrdinal("tiempo_entrega")),//5
+                                Stock = reader.GetInt32(reader.GetOrdinal("StockDisponible")),//6
+                                TiempoBase64 = Convert.ToBase64String((byte[])reader["tiempo"])//7
                             };
 
                             productosProveedor.Add(producto);
@@ -521,7 +522,8 @@ namespace Datos
             public string Nombre { get; set; }
             public string Categoria { get; set; }
             public decimal Precio { get; set; }
-            public string TiempoEntrega { get; set; }
+            public int TiempoEntrega { get; set; }
+            public int Stock { get; set; }
             public string TiempoBase64 { get; set; }
         }
     }

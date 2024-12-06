@@ -30,8 +30,11 @@ namespace Proyecto1AdminBD.Paginas
 
         private void CargarProductos(int cedula)
         {
-            List<List<string>> productos = empresa.ObtenerProductosProvedor(cedula);
-            LlenarTabla(productos);
+            
+            var productos = empresa.ObtenerProductosProveedorNegocio(cedula);
+            
+            gvProductos.DataSource = productos;
+            gvProductos.DataBind();
         }
 
         private void CargaEmpresa()
@@ -55,7 +58,33 @@ namespace Proyecto1AdminBD.Paginas
 
         }
 
+        //Seleccionar un producto y cargarlo
+        protected void gvProductos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Seleccionar")
+            {
+                // Obtén el índice de la fila seleccionada
+                int index = Convert.ToInt32(e.CommandArgument);
 
+                // Obtén los datos de la fila seleccionada
+                GridViewRow row = gvProductos.Rows[index];
+
+                // Asigna los datos a los TextBox
+                txtCodigo.Text = row.Cells[0].Text;
+                txtNombre.Text = row.Cells[1].Text;
+                ddlCategoria.SelectedValue = row.Cells[3].Text; 
+                txtPrecio.Text = row.Cells[4].Text;
+                txtTiempo.Text = row.Cells[5].Text;
+                txtStock.Text = row.Cells[6].Text;
+                txtTimeStampProducto.Text = row.Cells[8].Text;
+
+                //Volver Visibles los botones
+                btnActualizar.Visible = true;
+                btnEliminar.Visible = true;
+            }
+        }
+
+        /*
         private void LlenarTabla(List<List<string>> productos)
         {
             foreach (var producto in productos)
@@ -83,7 +112,7 @@ namespace Proyecto1AdminBD.Paginas
                 ProductosTable.Rows.Add(row);
             }
         }
-
+        */
 
         protected void RowCommand(object sender, CommandEventArgs e)
         {
@@ -126,10 +155,19 @@ namespace Proyecto1AdminBD.Paginas
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
-            byte[] timestamp = System.Text.Encoding.UTF8.GetBytes(txtTimeStampProducto.Text);
-            empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text), timestamp);
-            btnEliminar.Visible = false;
-            btnEliminar.Visible = false;
+            try
+            {
+                byte[] timestamp = Convert.FromBase64String(txtTimeStampProducto.Text);
+                empresa.UpdateProducto(Convert.ToInt32(txtCodigo.Text), Convert.ToInt32(Session["IdUsuario"]), txtNombre.Text, ddlCategoria.SelectedValue, Convert.ToDecimal(txtPrecio.Text), Convert.ToInt32(txtTiempo.Text), Convert.ToDecimal(txtStock.Text), timestamp);
+                btnActualizar.Visible = false;
+                btnEliminar.Visible = false;
+                Recarga();
+            }catch (Exception ex) 
+            {
+                // Mostrar mensaje de error
+                lblMensaje.Text = ("Error:" + ex.Message);
+                lblMensaje.Visible = true;
+            }
             Recarga();
         }
 

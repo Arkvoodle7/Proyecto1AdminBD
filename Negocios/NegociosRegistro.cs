@@ -100,11 +100,11 @@ namespace Negocios
             }
         }
 
-        public void ModificarCliente(int idUsuario, string nombre, string apellido, string email, string password, string direccion, string telefono, string fechaNacimiento, SqlGeography ubicacion)
+        public void ModificarCliente(int idUsuario, string nombre, string apellido, string email, string password, string direccion, string telefono, string fechaNacimiento, SqlGeography ubicacion, byte[] tiempo, byte[] tiempo2)
         {
             try
             {
-                datosRegistro.ModificarCliente(idUsuario, nombre, apellido, email, password, direccion, telefono, fechaNacimiento, ubicacion);
+                datosRegistro.ModificarCliente(idUsuario, nombre, apellido, email, password, direccion, telefono, fechaNacimiento, ubicacion, tiempo, tiempo2);
             }
             catch (Exception ex)
             {
@@ -112,11 +112,11 @@ namespace Negocios
             }
         }
 
-        public void ModificarTransportista(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string tipoTransporte, string contacto)
+        public void ModificarTransportista(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string tipoTransporte, string contacto, byte[] tiempo, byte[] tiempo2)
         {
             try
             {
-                datosRegistro.ModificarTransportista(idUsuario, nombre, apellido, email, password, fechaNacimiento, tipoTransporte, contacto);
+                datosRegistro.ModificarTransportista(idUsuario, nombre, apellido, email, password, fechaNacimiento, tipoTransporte, contacto, tiempo, tiempo2);
             }
             catch (Exception ex)
             {
@@ -124,11 +124,11 @@ namespace Negocios
             }
         }
 
-        public void ModificarOferente(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string nombreEmpresa, string direccion, string contacto, string horario, SqlGeography ubicacion)
+        public void ModificarOferente(int idUsuario, string nombre, string apellido, string email, string password, string fechaNacimiento, string nombreEmpresa, string direccion, string contacto, string horario, SqlGeography ubicacion, byte[] tiempo, byte[] tiempo2)
         {
             try
             {
-                datosRegistro.ModificarOferente(idUsuario, nombre, apellido, email, password, fechaNacimiento, nombreEmpresa, direccion, contacto, horario, ubicacion);
+                datosRegistro.ModificarOferente(idUsuario, nombre, apellido, email, password, fechaNacimiento, nombreEmpresa, direccion, contacto, horario, ubicacion, tiempo, tiempo2);
             }
             catch (Exception ex)
             {
@@ -158,12 +158,12 @@ namespace Negocios
             if (stockDisponible < 0) throw new ArgumentException("El stock disponible no puede ser negativo.");
         }
 
-        public void ModificarProducto(int idProducto, int idProveedor, string nombre, string categoria, decimal precio, int tiempoEntrega, int stockDisponible)
+        public void ModificarProducto(int idProducto, int idProveedor, string nombre, string categoria, decimal precio, int tiempoEntrega, int stockDisponible, byte[] tiempo)
         {
             try
             {
                 ValidarCamposProducto(idProveedor, nombre, categoria, precio, tiempoEntrega, stockDisponible);
-                datosRegistro.ModificarProducto(idProducto, idProveedor, nombre, categoria, precio, tiempoEntrega, stockDisponible);
+                datosRegistro.ModificarProducto(idProducto, idProveedor, nombre, categoria, precio, tiempoEntrega, stockDisponible, tiempo);
             }
             catch (Exception ex)
             {

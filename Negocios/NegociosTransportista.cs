@@ -26,11 +26,12 @@ namespace Negocios
             {
                 Id = datosTransportista.Id,
                 Contacto = datosTransportista.Contacto,
-                TipoTransporte = datosTransportista.TipoTransporte
+                TipoTransporte = datosTransportista.TipoTransporte,
+                Stamp = datosTransportista.Stamp,
             };
         }
 
-        public void ActualizarTransportista(int id, string tipoTransporte, string contacto)
+        public void ActualizarTransportista(int id, string tipoTransporte, string contacto, byte[] timestamp)
         {
             if (id <= 0)
             {
@@ -48,7 +49,7 @@ namespace Negocios
             }
 
             // Solo actualizamos los otros campos, no el ID
-            datos.ActualizarTransportista(id, tipoTransporte, contacto);
+            datos.ActualizarTransportista(id, tipoTransporte, contacto, timestamp);
         }
 
         // Eliminar Transportista
@@ -97,7 +98,36 @@ namespace Negocios
             return listaPedidosNegocios;
         }
 
+        // Obtener todos los transportistas con sus detalles completos
+        public List<TransportistaCompletoDto> ObtenerTodosLosTransportistas()
+        {
+            var listaTransportistasDatos = datos.ObtenerTodosLosTransportistasCompletos();
+            return listaTransportistasDatos.Select(transportista => new TransportistaCompletoDto
+            {
+                IdUsuario = transportista.IdUsuario,
+                Nombre = transportista.Nombre,
+                Apellido = transportista.Apellido,
+                Email = transportista.Email,
+                Password = transportista.Password,
+                Rol = transportista.Rol,
+                FechaNacimiento = transportista.FechaNacimiento,
+                TipoTransporte = transportista.TipoTransporte,
+                Contacto = transportista.Contacto
+            }).ToList();
+        }
 
+        public class TransportistaCompletoDto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string TipoTransporte { get; set; }
+            public string Contacto { get; set; }
+        }
 
     }
     public class Pedido
@@ -117,6 +147,8 @@ namespace Negocios
         public int Id { get; set; }
         public string Contacto { get; set; }
         public string TipoTransporte { get; set; }
+        public string Stamp { get; set; }
+
     }
 
 }

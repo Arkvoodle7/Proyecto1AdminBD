@@ -35,6 +35,7 @@
                     <asp:Label ID="lblMensaje" runat="server" ForeColor="Red" Visible="False" CssClass="mt-3"></asp:Label>
                 </asp:Panel>
             </div>
+            <asp:TextBox ID="txtTimeStamp" runat="server" Visible="false"></asp:TextBox>
         </div>
     </div>
 </asp:Content>

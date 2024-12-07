@@ -26,12 +26,13 @@ namespace Negocios
             {
                 Id = datosCliente.Id,
                 Telefono = datosCliente.Telefono,
-                Direccion = datosCliente.Direccion
+                Direccion = datosCliente.Direccion,
+                Stamp = datosCliente.Stamp,
             };
         }
 
         // Actualizar Cliente
-        public void ActualizarCliente(int id, string telefono, string direccion)
+        public void ActualizarCliente(int id, string telefono, string direccion, byte[] timestamp)
         {
             if (id <= 0)
             {
@@ -48,7 +49,7 @@ namespace Negocios
             }
 
             // Solo actualizamos los otros campos, no el ID
-            datos.ActualizarCliente(id, telefono, direccion);
+            datos.ActualizarCliente(id, telefono, direccion, timestamp);
         }
 
         // Eliminar Cliente
@@ -109,6 +110,37 @@ namespace Negocios
             return listaPedidosNegocios;
         }
 
+        // Obtener todos los clientes con sus detalles completos
+        public List<ClienteCompletoDto> ObtenerTodosLosClientes()
+        {
+            var listaClientesDatos = datos.ObtenerTodosLosClientesCompletos();
+            return listaClientesDatos.Select(cliente => new ClienteCompletoDto
+            {
+                IdUsuario = cliente.IdUsuario,
+                Nombre = cliente.Nombre,
+                Apellido = cliente.Apellido,
+                Email = cliente.Email,
+                Password = cliente.Password,
+                Rol = cliente.Rol,
+                FechaNacimiento = cliente.FechaNacimiento,
+                Direccion = cliente.Direccion,
+                Telefono = cliente.Telefono
+            }).ToList();
+        }
+
+        public class ClienteCompletoDto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string Direccion { get; set; }
+            public string Telefono { get; set; }
+        }
+
         public class PedidoDto
         {
             public int IdPedido { get; set; }
@@ -142,6 +174,7 @@ namespace Negocios
         public int Id { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
+        public string Stamp { get; set; }
     }
 }
 

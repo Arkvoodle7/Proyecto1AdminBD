@@ -70,7 +70,15 @@
   <ItemGroup>
     <Content Include="css\styles.css" />
     <Content Include="js\scripts.js" />
+    <Content Include="Paginas\AgregarCliente.aspx" />
+    <Content Include="Paginas\AgregarOferente.aspx" />
+    <Content Include="Paginas\AgregarProducto.aspx" />
+    <Content Include="Paginas\AgregarTransportista.aspx" />
     <Content Include="Paginas\HistorialCompras.aspx" />
+    <Content Include="Paginas\ModificarCliente.aspx" />
+    <Content Include="Paginas\ModificarOferente.aspx" />
+    <Content Include="Paginas\ModificarProducto.aspx" />
+    <Content Include="Paginas\ModificarTransportista.aspx" />
     <Content Include="Paginas\PaginaCarrito.aspx" />
     <Content Include="Paginas\PaginaCompra.aspx" />
     <Content Include="Paginas\PaginaContacto.aspx" />
@@ -79,6 +87,10 @@
     <Content Include="Paginas\PaginaEmpresa.aspx" />
     <Content Include="Paginas\PaginaEstado.aspx" />
     <Content Include="Paginas\PaginaLogin.aspx" />
+    <Content Include="Paginas\PaginaMantenimientoClientes.aspx" />
+    <Content Include="Paginas\PaginaMantenimientoOferentes.aspx" />
+    <Content Include="Paginas\PaginaMantenimientoProductos.aspx" />
+    <Content Include="Paginas\PaginaMantenimientoTransportistas.aspx" />
     <Content Include="Paginas\PaginaPrincipal.aspx" />
     <Content Include="Paginas\PaginaRegistro.aspx" />
     <Content Include="Paginas\PaginaSeguimiento.aspx" />
@@ -86,12 +98,68 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Paginas\AgregarCliente.aspx.cs">
+      <DependentUpon>AgregarCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\AgregarCliente.aspx.designer.cs">
+      <DependentUpon>AgregarCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\AgregarOferente.aspx.cs">
+      <DependentUpon>AgregarOferente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\AgregarOferente.aspx.designer.cs">
+      <DependentUpon>AgregarOferente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\AgregarProducto.aspx.cs">
+      <DependentUpon>AgregarProducto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\AgregarProducto.aspx.designer.cs">
+      <DependentUpon>AgregarProducto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\AgregarTransportista.aspx.cs">
+      <DependentUpon>AgregarTransportista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\AgregarTransportista.aspx.designer.cs">
+      <DependentUpon>AgregarTransportista.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Paginas\HistorialCompras.aspx.cs">
       <DependentUpon>HistorialCompras.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Paginas\HistorialCompras.aspx.designer.cs">
       <DependentUpon>HistorialCompras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\ModificarCliente.aspx.cs">
+      <DependentUpon>ModificarCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\ModificarCliente.aspx.designer.cs">
+      <DependentUpon>ModificarCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\ModificarOferente.aspx.cs">
+      <DependentUpon>ModificarOferente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\ModificarOferente.aspx.designer.cs">
+      <DependentUpon>ModificarOferente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\ModificarProducto.aspx.cs">
+      <DependentUpon>ModificarProducto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\ModificarProducto.aspx.designer.cs">
+      <DependentUpon>ModificarProducto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\ModificarTransportista.aspx.cs">
+      <DependentUpon>ModificarTransportista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\ModificarTransportista.aspx.designer.cs">
+      <DependentUpon>ModificarTransportista.aspx</DependentUpon>
     </Compile>
     <Compile Include="Paginas\PaginaCarrito.aspx.cs">
       <DependentUpon>PaginaCarrito.aspx</DependentUpon>
@@ -155,6 +223,34 @@
     </Compile>
     <Compile Include="Paginas\PaginaLogin.aspx.designer.cs">
       <DependentUpon>PaginaLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoClientes.aspx.cs">
+      <DependentUpon>PaginaMantenimientoClientes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoClientes.aspx.designer.cs">
+      <DependentUpon>PaginaMantenimientoClientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoOferentes.aspx.cs">
+      <DependentUpon>PaginaMantenimientoOferentes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoOferentes.aspx.designer.cs">
+      <DependentUpon>PaginaMantenimientoOferentes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoProductos.aspx.cs">
+      <DependentUpon>PaginaMantenimientoProductos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoProductos.aspx.designer.cs">
+      <DependentUpon>PaginaMantenimientoProductos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoTransportistas.aspx.cs">
+      <DependentUpon>PaginaMantenimientoTransportistas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\PaginaMantenimientoTransportistas.aspx.designer.cs">
+      <DependentUpon>PaginaMantenimientoTransportistas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Paginas\PaginaPrincipal.aspx.cs">
       <DependentUpon>PaginaPrincipal.aspx</DependentUpon>

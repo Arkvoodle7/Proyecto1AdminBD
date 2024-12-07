@@ -14,13 +14,14 @@ namespace Datos
     public class DatosEmpresa
     {
 
-        string connectionString = ConfigurationManager.ConnectionStrings["UsuarioOferente"].ConnectionString;
+        string connectionStringOferente = ConfigurationManager.ConnectionStrings["UsuarioOferente"].ConnectionString;
+        string connectionStringFuncionario = ConfigurationManager.ConnectionStrings["UsuarioFuncionario"].ConnectionString;
 
         public List<string> ObtenerProvedor(int id)
         {
             List<string> Provedor = new List<string>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProvedo", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -38,6 +39,13 @@ namespace Datos
                             Provedor.Add(reader["direccion"].ToString());
                             Provedor.Add(reader["horario"].ToString());
                             Provedor.Add(reader["nombre_empresa"].ToString());
+
+                            byte[] tiempoBytes = (byte[])reader["tiempo"];
+
+                            //De bytes a Base64
+                            string tiempoBase64 = Convert.ToBase64String(tiempoBytes);
+                            Provedor.Add(tiempoBase64);
+
                         }
                     }
                 }
@@ -57,7 +65,7 @@ namespace Datos
 
         public void InsertProducto(int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_InsertProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -84,20 +92,21 @@ namespace Datos
 
         /// Update
 
-        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock)
+        public void UpdateProducto(int idProducto, int idProvedor, string nombre, string categoria, decimal precio, int tiempoEntrega, decimal stock, byte[] timestamp)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
-                SqlCommand cmd = new SqlCommand("SP_UptadeProducto", conn);
+                SqlCommand cmd = new SqlCommand("SP_UpdateProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@IdProducto", idProducto);
-                cmd.Parameters.AddWithValue("@IdProvedor", idProvedor);
+                cmd.Parameters.AddWithValue("@IdProveedor", idProvedor);
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@Categoria", categoria);
                 cmd.Parameters.AddWithValue("@Precio", precio);
                 cmd.Parameters.AddWithValue("@Tiempo_Entrega", tiempoEntrega);
                 cmd.Parameters.AddWithValue("@Stock", stock);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 try
                 {
@@ -115,7 +124,7 @@ namespace Datos
 
         public void DeleteProducto(int idProducto)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_DeleteProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -138,7 +147,7 @@ namespace Datos
         {
             List<string> pr = new List<string>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProducto", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -156,6 +165,7 @@ namespace Datos
                         pr.Add(reader["categoria"].ToString());
                         pr.Add(reader["precio"].ToString());
                         pr.Add(reader["tiempo_entrega"].ToString());
+                        pr.Add(reader["tiempo"].ToString());
                     }
                 }
                 catch (Exception ex)
@@ -171,7 +181,7 @@ namespace Datos
         {
             List<List<string>> productosLista = new List<List<string>>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProductoCategoria", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -192,6 +202,7 @@ namespace Datos
                         pr.Add(reader["categoria"].ToString());
                         pr.Add(reader["precio"].ToString());
                         pr.Add(reader["tiempo_entrega"].ToString());
+                        pr.Add(reader["tiempo"].ToString());
 
 
                         productosLista.Add(pr);
@@ -205,52 +216,52 @@ namespace Datos
             }
         }
 
-
-        public List<List<string>> ObtenerProductosProvedor(int provedor)
+        public List<ProductoEmpresa> ObtenerProductosProveedor(int proveedor)
         {
-            List<List<string>> productosProvedor = new List<List<string>>();
+            List<ProductoEmpresa> productosProveedor = new List<ProductoEmpresa>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_SelectProductoProvedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Provedor", provedor);
-
+                cmd.Parameters.AddWithValue("@Provedor", proveedor);
 
                 try
                 {
                     conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.HasRows)
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            List<string> pr = new List<string>();
+                            ProductoEmpresa producto = new ProductoEmpresa
+                            {
+                                IdProducto = reader.GetInt32(reader.GetOrdinal("id_producto")),//0
+                                IdProveedor = reader.GetInt32(reader.GetOrdinal("id_proveedor")),//1
+                                Nombre = reader.GetString(reader.GetOrdinal("nombre")),//2
+                                Categoria = reader.GetString(reader.GetOrdinal("categoria")),//3
+                                Precio = reader.GetDecimal(reader.GetOrdinal("precio")),//4
+                                TiempoEntrega = reader.GetInt32(reader.GetOrdinal("tiempo_entrega")),//5
+                                Stock = reader.GetInt32(reader.GetOrdinal("StockDisponible")),//6
+                                TiempoBase64 = Convert.ToBase64String((byte[])reader["tiempo"])//7
+                            };
 
-                            pr.Add(reader["id_producto"].ToString());
-                            pr.Add(reader["id_proveedor"].ToString());
-                            pr.Add(reader["nombre"].ToString());
-                            pr.Add(reader["categoria"].ToString());
-                            pr.Add(reader["precio"].ToString());
-                            pr.Add(reader["tiempo_entrega"].ToString());
-
-                            productosProvedor.Add(pr);
+                            productosProveedor.Add(producto);
                         }
                     }
-
-                    return productosProvedor;
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error al encontrar productos: " + ex.Message);
+                    throw new Exception("Error al obtener productos: " + ex.Message);
                 }
             }
+
+            return productosProveedor;
         }
 
 
         public void InsertPedido(int idCliente, int idProducto, int idTransportista, DateTime fechaPedido, string estado)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_CreatePedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -274,7 +285,7 @@ namespace Datos
 
         public void UpdatePedido(int IdPedido, string NuevoEstado)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_UpdateEstadoPedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -298,7 +309,7 @@ namespace Datos
         {
             int resultado;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_ObtenerIdPedido", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -354,9 +365,9 @@ namespace Datos
             return resultado;
         }
 
-        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion)
+        public void UpdateProvedor(int idProveedor, string nombreEmpresa, string direccion, string contacto, string horario, string ubicacion, byte[] timestamp)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new SqlConnection(connectionStringOferente))
             {
                 SqlCommand cmd = new SqlCommand("SP_UpdateProveedor", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -366,6 +377,7 @@ namespace Datos
                 cmd.Parameters.AddWithValue("@Direccion", direccion);
                 cmd.Parameters.AddWithValue("@Contacto", contacto);
                 cmd.Parameters.AddWithValue("@Horario", horario);
+                cmd.Parameters.Add("@times", SqlDbType.Binary, 8).Value = timestamp;
 
                 try
                 {
@@ -379,5 +391,140 @@ namespace Datos
             }
         }
 
+        // Método para eliminar un producto
+        public void EliminarProducto(int idProducto)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("SP_EliminarProducto", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        // Método para eliminar un oferente
+        public void EliminarOferente(int idOferente)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("SP_EliminarOferente", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IdOferente", idOferente);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public List<OferenteCompleto> ObtenerTodosLosOferentesCompletos()
+        {
+            List<OferenteCompleto> listaOferentesCompletos = new List<OferenteCompleto>();
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerTodosLosOferentesCompletos", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaOferentesCompletos.Add(new OferenteCompleto
+                        {
+                            IdUsuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
+                            Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                            Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                            Email = reader.GetString(reader.GetOrdinal("email")),
+                            Password = reader.GetString(reader.GetOrdinal("password")),
+                            Rol = reader.GetString(reader.GetOrdinal("rol")),
+                            FechaNacimiento = reader.GetDateTime(reader.GetOrdinal("fecha_nacimiento")),
+                            NombreEmpresa = reader.GetString(reader.GetOrdinal("nombre_empresa")),
+                            Direccion = reader.GetString(reader.GetOrdinal("direccion")),
+                            Contacto = reader.GetString(reader.GetOrdinal("contacto")),
+                            Horario = reader.GetString(reader.GetOrdinal("horario"))
+                        });
+                    }
+                }
+            }
+            return listaOferentesCompletos;
+        }
+
+        public class OferenteCompleto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; }
+            public string Apellido { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string Rol { get; set; }
+            public DateTime FechaNacimiento { get; set; }
+            public string NombreEmpresa { get; set; }
+            public string Direccion { get; set; }
+            public string Contacto { get; set; }
+            public string Horario { get; set; }
+        }
+
+        // Obtener todos los productos
+        public List<Producto> ObtenerTodosLosProductos()
+        {
+            List<Producto> productos = new List<Producto>();
+
+            using (SqlConnection conn = new SqlConnection(connectionStringFuncionario))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerTodosLosProductos", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Producto producto = new Producto
+                        {
+                            IdProducto = reader.IsDBNull(reader.GetOrdinal("id_producto")) ? 0 : reader.GetInt32(reader.GetOrdinal("id_producto")),
+                            IdProveedor = reader.IsDBNull(reader.GetOrdinal("id_proveedor")) ? 0 : reader.GetInt32(reader.GetOrdinal("id_proveedor")),
+                            Nombre = reader.IsDBNull(reader.GetOrdinal("nombre")) ? string.Empty : reader.GetString(reader.GetOrdinal("nombre")),
+                            Categoria = reader.IsDBNull(reader.GetOrdinal("categoria")) ? string.Empty : reader.GetString(reader.GetOrdinal("categoria")),
+                            Precio = reader.IsDBNull(reader.GetOrdinal("precio")) ? 0m : reader.GetDecimal(reader.GetOrdinal("precio")),
+                            TiempoEntrega = reader.IsDBNull(reader.GetOrdinal("tiempo_entrega")) ? 0 : reader.GetInt32(reader.GetOrdinal("tiempo_entrega")),
+                            StockDisponible = reader.IsDBNull(reader.GetOrdinal("StockDisponible")) ? 0 : reader.GetInt32(reader.GetOrdinal("StockDisponible"))
+                        };
+
+                        productos.Add(producto);
+                    }
+                }
+            }
+
+            return productos;
+        }
+
+        public class Producto
+        {
+            public int IdProducto { get; set; }
+            public int IdProveedor { get; set; }
+            public string Nombre { get; set; }
+            public string Categoria { get; set; }
+            public decimal Precio { get; set; }
+            public int TiempoEntrega { get; set; }
+            public int StockDisponible { get; set; }
+        }
+
+
+        public class ProductoEmpresa
+        {
+            public int IdProducto { get; set; }
+            public int IdProveedor { get; set; }
+            public string Nombre { get; set; }
+            public string Categoria { get; set; }
+            public decimal Precio { get; set; }
+            public int TiempoEntrega { get; set; }
+            public int Stock { get; set; }
+            public string TiempoBase64 { get; set; }
+        }
     }
 }
